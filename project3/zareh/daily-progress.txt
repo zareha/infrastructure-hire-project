@@ -86,7 +86,6 @@ Recieved AWS Management console from "Boyd Hemphill <boyd.hemphill@contrastsecur
 arn:aws:iam::601815243188:user/zareh.aratoon
 
 AKIAYYHX33G2HJZXO77P
-uadYfzBAA6BVc3ovQ2bBC4n7jK/FQMUVDB5RjXWH 
 
 {
     "Version": "2012-10-17",
