@@ -1647,7 +1647,7 @@ mysql> explain select lastName, firstName  from employees order by lastName, fir
 
 
 
-
+* Add index for query_2.sql
 mysql> explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
     -> from   customers    as c
     -> join   orders       as o  using (customerNumber)
@@ -1686,7 +1686,7 @@ mysql> explain select customerName, city, orderNumber, orderDate, productCode, q
 
 
 
-
+* Add index for query_5.sql
 mysql> explain select year(orderdate)                  as year,
     ->        sum(quantityordered * priceeach) as total
     -> from   orders
@@ -1726,7 +1726,7 @@ mysql> explain select year(orderdate)                  as year,        sum(quant
 
 
 
-
+* Add indexes for query_6.sql
 mysql> explain select customernumber, customername
     -> from   customers
     -> where  exists( select ordernumber, sum(priceeach * quantityordered)
@@ -1766,3 +1766,7 @@ mysql> explain select customernumber, customername
 |  2 | DEPENDENT SUBQUERY | orderdetails | NULL       | ref   | PRIMARY,productCode    | PRIMARY        | 4       | classicmodels.orders.orderNumber       |    9 |   100.00 | NULL                         |
 +----+--------------------+--------------+------------+-------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
 3 rows in set, 2 warnings (0.00 sec)
+
+* Commited and pushed updates to github https://github.com/zareha/infrastructure-hire-project/
+* Emailed "Boyd Hemphill <boyd.hemphill@contrastsecurity.com>"
+-------------------------------------------------------------------------------
