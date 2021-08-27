@@ -1,0 +1,1768 @@
+2021-08-23
+
+Recieved AWS Management console from "Boyd Hemphill <boyd.hemphill@contrastsecurity.com>"
+
+>> Hope you had a great weekend.  I was well way from my computer for most of it. 
+>> You'll find we work hard to have calm weekends on the team. Ironically this didn't 
+>> seem to serve us - or you - well in
+>> this case!  Sorry about that.
+>>
+>>    Below is the boiler plate email, creds at the bottom.
+>>    You are doing project 3
+>>        You are the first person to make it this far so we will expect​ criticism 
+>> during next phase
+>>
+>> I know both the team and I are looking forward to what you have to show off!
+>> Boyd
+>> ----
+>>
+>>
+>> Zareh
+>>
+>> We've put together an AWS coding project for you to demonstrate your thought 
+>> processes and skill set. We believe it should take 3 to 5 hours. Ultimately that is
+>> up to you. The goal is to create 
+>> infrastructure for an application running inside of AWS and communicate with us 
+>> about your code in the same way we would at work, in a code review.
+>>
+>> As part of this effort we have created an AWS account. This account will be open 
+>> for the duration of the interview process. Your code review and interview is 
+>> scheduled for {DATE BY KEVIN DUNN}. Life happens,
+>> so if you find you need to reschedule please let us know.
+>>
+>>
+>> The Project
+>>
+>> You can find the project on our GitHub, https://github.com/Contrast-Security-
+>> OSS/infrastructure-hire-project. We ask that you fork the project, and complete the 
+>> work within your own personal repository. If you have concerns around privacy, 
+>> please duplicate the repository (https://help.github.com/en/articles/duplicating-a-
+>> repository), and add behemphi and cbuto as a collaborator to your private copy.
+>>
+>> At Contrast, we like to break project into sizable chunks, such that we can
+>> maximize productivity across engineers. When working on this project, we recommend
+>> you do that the same! Whether this be through pull requests into your master 
+>> branch, or just broken down commits, we are looking to capture how you work.
+>>
+>> At any time, if you find that the project wording can be enhanced, or you discover 
+>> a bug, feel free to open and issue or a Pull Request as we are always looking to 
+>> better enhance the candidates experience.
+>>
+>>
+>> The Interview
+>>
+>> On the scheduled day you will meet the Director of Cloud Engineering (the hiring 
+>> manager) for a short orientation. You will have an hour with our team to review 
+>> your code and engage in a deep discussion about the project, your process and the 
+>> like. You will then have  45 minutes with the Director again where you will discuss 
+>> team fit, roadmap and your own questions.
+>>
+>> This is the last step in the process.  You will hear from us as soon as we are done 
+>> evaluating the candidate pool. 
+>>
+>> AWS Account
+>> Please use the following account in any way you see fit. With that said, we ask that
+>> you keep any work within the us-east-1 region, as it will make it easier for us to 
+>> clean up after you complete.
+>>
+>> Console sign-in link: https://601815243188.signin.aws.amazon.com/console
+>> username: zareh.aratoon
+>> password: yW@)rXi3@s&e_AJ (Note: replaced)
+>>
+>>If you have difficulty with your account or need clarification on the project, don’t 
+>>hesitate to reach out to ops@contrastsecuirty.com. We value the communication.
+>>
+>>Good luck, and we look forward to reviewing with you soon!
+>>
+>>
+>>Boyd Hemphill | Director of Cloud Engineering
+>>Contrast Security, Inc.
+>>+1-512-470-6146 (mobile)
+>>Welcome to the Era of Self-Protecting Software
+
+* Logged on to the AWS Console and changed password and attached an MFA using Google Auth
+* Generated AWS access key. Relevant account info below:
+
+arn:aws:iam::601815243188:user/zareh.aratoon
+
+AKIAYYHX33G2HJZXO77P
+uadYfzBAA6BVc3ovQ2bBC4n7jK/FQMUVDB5RjXWH 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAdminAccess",
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyIAMSAMLManagement",
+            "Effect": "Deny",
+            "Action": [
+                "iam:UpdateSAMLProvider",
+                "iam:DeleteSAMLProvider",
+                "iam:CreateSAMLProvider"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyOrgRoleChanges",
+            "Effect": "Deny",
+            "Action": [
+                "iam:UpdateRole",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:DeleteRole"
+            ],
+            "Resource": "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+        }
+    ]
+}
+
+
+-------------------------------------------------------------------------------
+
+* Forked https://github.com/Contrast-Security-OSS/infrastructure-hire-project to https://github.com/zareha/infrastructure-hire-project
+
+>> Project 3
+>>
+>> We use MySQL as one of our main data stores. Since MySQL generally needs to be tuned 
+>> from both a system and application perspective, Project 3 focuses on creating an RDS 
+>> instance, optimizing the database configuration via parameter changes, and tuning 
+>> some poorly performing queries.
+>>
+>> The idea behind this project is for candidates to showcase their knowledge of MySQL. 
+>> Just like project 1, we welcome candidates to think outside the box and show us what 
+>> they are passionate about.
+
+* Reviewed files and comments/histoty for repo to gain unfair advantage ;)
+
+-------------------------------------------------------------------------------
+Setup DEV env with AWS CLI
+* Installed vscode Insider using wsl2 to enable Remote Development features in vscode
+* Installed Debian wsl2
+* Installed AWS CLI v2 on Debian
+https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+
+sudo apt-get update --allow-releaseinfo-change
+sudo apt install -y zip
+sudo apt install -y curl
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+/usr/local/bin/aws --version
+aws-cli/2.2.31 Python/3.8.8 Linux/5.4.72-microsoft-standard-WSL2 exe/x86_64.debian.10 prompt/off
+
+aws configure
+AWS Access Key ID [None]: AKIAYYHX33G2HJZXO77P
+AWS Secret Access Key [None]: ********************************
+Default region name [None]: us-east-1
+Default output format [None]: json
+
+cat ~/.aws/credentials 
+[default]
+aws_access_key_id = AKIAYYHX33G2HJZXO77P
+aws_secret_access_key = ********************************
+
+cat ~/.aws/config 
+[default]
+region = us-east-1
+output = json
+
+* Verifiy aws access key
+aws iam list-access-keys
+{
+    "AccessKeyMetadata": [
+        {
+            "UserName": "zareh.aratoon",
+            "AccessKeyId": "AKIAYYHX33G2HJZXO77P",
+            "Status": "Active",
+            "CreateDate": "2021-08-23T14:44:47+00:00"
+        }
+    ]
+}
+
+* Verify rds access
+
+aws rds describe-db-instances
+{
+    "DBInstances": []
+}
+
+-------------------------------------------------------------------------------
+Clone forked git repo
+
+mkdir ~/dev/contrast-security
+cd ~/dev/contrast-security
+sudo apt-get install -y git
+git clone https://github.com/zareha/infrastructure-hire-project
+Cloning into 'infrastructure-hire-project'...
+remote: Enumerating objects: 251, done.
+remote: Counting objects: 100% (195/195), done.
+remote: Compressing objects: 100% (126/126), done.
+remote: Total 251 (delta 89), reused 162 (delta 65), pack-reused 56
+Receiving objects: 100% (251/251), 124.53 KiB | 1.27 MiB/s, done.
+Resolving deltas: 100% (104/104), done.
+cd infrastructure-hire-project/
+zareh@HP-Z:~/dev/contrast-security/infrastructure-hire-project$ ls
+project1  project2  project3  README.md
+zareh@HP-Z:~/dev/contrast-security/infrastructure-hire-project$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+-------------------------------------------------------------------------------
+* Add terraform support and review TF files
+
+sudo apt-get install -y software-properties-common
+sudo apt-get install -y lsb-release
+sudo apt-get install -y gnupg
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-get update
+sudo apt install -y terraform
+
+NOTES: infrastructure-hire-project/project3/terraform/variables.tf
+* Verify that your region matches correctly
+
+* TODO _AFTER_ initial db creation and SQL execution
+# Log queries not using indexes.
+-      name  = "log_queries_not_using_indexes"
+-      value = "0"
++      name  = "log_queries_not_using_indexes"
++      value = "1"      
+
+# log all queries for future use
+-      name  = "long_query_time"
+-      value = "3"
++      name  = "long_query_time"
++      value = "0"
+
+# enable the performance schema 
+-      name         = "performance_schema"
+-      value        = "0"
+-      apply_method = "pending-reboot"
+
++      name         = "performance_schema"
++      value        = "1"
++      apply_method = "pending-reboot"
+
+#disable name resolution
+-      name  = "skip_name_resolve"
+-      value = "OFF"
++      name  = "skip_name_resolve"
++      value = "ON"
+
+# enable RDS performance insight
+-  description = "Enable/Disable performance insights"
+-  type        = bool
+-  default     = false
++  description = "Enable/Disable performance insights"
++  type        = bool
++  default     = true
+
+
+cd ~/dev/contrast-security/infrastructure-hire-project/project3/terraform
+terraform init
+Initializing modules...
+- the_app_db in modules/rds-tfm
+Downloading terraform-aws-modules/rds/aws 2.24.0 for the_app_db.rds...
+- the_app_db.rds in .terraform/modules/the_app_db.rds
+- the_app_db.rds.db_instance in .terraform/modules/the_app_db.rds/modules/db_instance
+- the_app_db.rds.db_option_group in .terraform/modules/the_app_db.rds/modules/db_option_group
+- the_app_db.rds.db_parameter_group in .terraform/modules/the_app_db.rds/modules/db_parameter_group
+- the_app_db.rds.db_subnet_group in .terraform/modules/the_app_db.rds/modules/db_subnet_group
+- vpc in modules/aws_vpc-tfm
+╷
+│ Error: Unsupported Terraform Core version
+│ 
+│   on version.tf line 2, in terraform:
+│    2:   required_version = "~> 0.13.2"
+│ 
+│ This configuration does not support Terraform version 1.0.5. To proceed, either choose another supported Terraform version or update this version constraint. Version constraints are normally set for
+│ good reason, so updating the constraint may lead to other errors or unexpected behavior.
+
+* Grab correct version
+
+cd
+mkdir ~/dev/contrast-security/bin
+cd ~/dev/contrast-security/bin
+wget https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip
+unzip terraform_0.13.2_linux_amd64.zip
+cd ~/dev/contrast-security/infrastructure-hire-project/project3/terraform/
+~/dev/contrast-security/bin/terraform init
+Initializing modules...
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding hashicorp/aws versions matching ">= 2.49.*, >= 2.49.*, >= 2.49.*, >= 2.49.*, >= 2.49.*"...
+- Finding latest version of hashicorp/random...
+- Installing hashicorp/aws v3.55.0...
+- Installed hashicorp/aws v3.55.0 (self-signed, key ID 34365D9472D7468F)
+- Installing hashicorp/random v3.1.0...
+- Installed hashicorp/random v3.1.0 (self-signed, key ID 34365D9472D7468F)
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/plugins/signing.html
+
+The following providers do not have any version constraints in configuration,
+so the latest version was installed.
+
+To prevent automatic upgrades to new major versions that may contain breaking
+changes, we recommend adding version constraints in a required_providers block
+in your configuration, with the constraint strings suggested below.
+
+* hashicorp/random: version = "~> 3.1.0"
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+ ~/dev/contrast-security/bin/terraform plan
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to local or remote state storage.
+
+data.aws_availability_zones.available: Refreshing state...
+data.aws_caller_identity.current: Refreshing state...
+module.the_app_db.module.rds.module.db_instance.data.aws_iam_policy_document.enhanced_monitoring: Refreshing state...
+
+------------------------------------------------------------------------
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.the_app_db.aws_security_group.rds will be created
+  + resource "aws_security_group" "rds" {
+      + arn                    = (known after apply)
+      + description            = "RDS connectivity for production the-app-db"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = (known after apply)
+      + name                   = (known after apply)
+      + name_prefix            = "project3-production-the-app-db-rds-"
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+      + tags_all               = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+      + vpc_id                 = (known after apply)
+    }
+
+  # module.the_app_db.random_password.db_password will be created
+  + resource "random_password" "db_password" {
+      + id               = (known after apply)
+      + keepers          = {
+          + "rotator" = "1"
+        }
+      + length           = 16
+      + lower            = true
+      + min_lower        = 0
+      + min_numeric      = 0
+      + min_special      = 0
+      + min_upper        = 0
+      + number           = true
+      + override_special = "_%$"
+      + result           = (sensitive value)
+      + special          = true
+      + upper            = true
+    }
+
+  # module.vpc.aws_eip.nat[0] will be created
+  + resource "aws_eip" "nat" {
+      + allocation_id        = (known after apply)
+      + association_id       = (known after apply)
+      + carrier_ip           = (known after apply)
+      + customer_owned_ip    = (known after apply)
+      + domain               = (known after apply)
+      + id                   = (known after apply)
+      + instance             = (known after apply)
+      + network_border_group = (known after apply)
+      + network_interface    = (known after apply)
+      + private_dns          = (known after apply)
+      + private_ip           = (known after apply)
+      + public_dns           = (known after apply)
+      + public_ip            = (known after apply)
+      + public_ipv4_pool     = (known after apply)
+      + tags                 = {
+          + "Name"        = "project3-production-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + tags_all             = {
+          + "Name"        = "project3-production-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + vpc                  = true
+    }
+
+  # module.vpc.aws_internet_gateway.this[0] will be created
+  + resource "aws_internet_gateway" "this" {
+      + arn      = (known after apply)
+      + id       = (known after apply)
+      + owner_id = (known after apply)
+      + tags     = {
+          + "Name"        = "project3-production"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + tags_all = {
+          + "Name"        = "project3-production"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + vpc_id   = (known after apply)
+    }
+
+  # module.vpc.aws_nat_gateway.this[0] will be created
+  + resource "aws_nat_gateway" "this" {
+      + allocation_id        = (known after apply)
+      + connectivity_type    = "public"
+      + id                   = (known after apply)
+      + network_interface_id = (known after apply)
+      + private_ip           = (known after apply)
+      + public_ip            = (known after apply)
+      + subnet_id            = (known after apply)
+      + tags                 = {
+          + "Name"        = "project3-production-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + tags_all             = {
+          + "Name"        = "project3-production-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+    }
+
+  # module.vpc.aws_route.private_nat_gateway[0] will be created
+  + resource "aws_route" "private_nat_gateway" {
+      + destination_cidr_block = "0.0.0.0/0"
+      + id                     = (known after apply)
+      + instance_id            = (known after apply)
+      + instance_owner_id      = (known after apply)
+      + nat_gateway_id         = (known after apply)
+      + network_interface_id   = (known after apply)
+      + origin                 = (known after apply)
+      + route_table_id         = (known after apply)
+      + state                  = (known after apply)
+
+      + timeouts {
+          + create = "5m"
+        }
+    }
+
+  # module.vpc.aws_route.public_internet_gateway[0] will be created
+  + resource "aws_route" "public_internet_gateway" {
+      + destination_cidr_block = "0.0.0.0/0"
+      + gateway_id             = (known after apply)
+      + id                     = (known after apply)
+      + instance_id            = (known after apply)
+      + instance_owner_id      = (known after apply)
+      + network_interface_id   = (known after apply)
+      + origin                 = (known after apply)
+      + route_table_id         = (known after apply)
+      + state                  = (known after apply)
+
+      + timeouts {
+          + create = "5m"
+        }
+    }
+
+  # module.vpc.aws_route_table.database[0] will be created
+  + resource "aws_route_table" "database" {
+      + arn              = (known after apply)
+      + id               = (known after apply)
+      + owner_id         = (known after apply)
+      + propagating_vgws = (known after apply)
+      + route            = (known after apply)
+      + tags             = {
+          + "Name"        = "project3-production-db"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + tags_all         = {
+          + "Name"        = "project3-production-db"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + vpc_id           = (known after apply)
+    }
+
+  # module.vpc.aws_route_table.private[0] will be created
+  + resource "aws_route_table" "private" {
+      + arn              = (known after apply)
+      + id               = (known after apply)
+      + owner_id         = (known after apply)
+      + propagating_vgws = (known after apply)
+      + route            = (known after apply)
+      + tags             = {
+          + "Name"        = "project3-production-private"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + tags_all         = {
+          + "Name"        = "project3-production-private"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + vpc_id           = (known after apply)
+    }
+
+  # module.vpc.aws_route_table.public[0] will be created
+  + resource "aws_route_table" "public" {
+      + arn              = (known after apply)
+      + id               = (known after apply)
+      + owner_id         = (known after apply)
+      + propagating_vgws = (known after apply)
+      + route            = (known after apply)
+      + tags             = {
+          + "Name"        = "project3-production-public"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + tags_all         = {
+          + "Name"        = "project3-production-public"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + vpc_id           = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.database[0] will be created
+  + resource "aws_route_table_association" "database" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.database[1] will be created
+  + resource "aws_route_table_association" "database" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.database[2] will be created
+  + resource "aws_route_table_association" "database" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.private[0] will be created
+  + resource "aws_route_table_association" "private" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.private[1] will be created
+  + resource "aws_route_table_association" "private" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.private[2] will be created
+  + resource "aws_route_table_association" "private" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.public[0] will be created
+  + resource "aws_route_table_association" "public" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.public[1] will be created
+  + resource "aws_route_table_association" "public" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_route_table_association.public[2] will be created
+  + resource "aws_route_table_association" "public" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.database[0] will be created
+  + resource "aws_subnet" "database" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1a"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.251.0/24"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = false
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-db-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "database"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-db-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "database"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.database[1] will be created
+  + resource "aws_subnet" "database" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1b"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.252.0/24"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = false
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-db-us-east-1b"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "database"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-db-us-east-1b"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "database"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.database[2] will be created
+  + resource "aws_subnet" "database" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1c"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.253.0/24"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = false
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-db-us-east-1c"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "database"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-db-us-east-1c"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "database"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.private[0] will be created
+  + resource "aws_subnet" "private" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1a"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.0.0/20"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = false
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-private-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "private"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-private-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "private"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.private[1] will be created
+  + resource "aws_subnet" "private" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1b"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.16.0/20"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = false
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-private-us-east-1b"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "private"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-private-us-east-1b"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "private"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.private[2] will be created
+  + resource "aws_subnet" "private" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1c"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.32.0/20"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = false
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-private-us-east-1c"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "private"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-private-us-east-1c"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "private"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.public[0] will be created
+  + resource "aws_subnet" "public" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1a"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.96.0/20"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = true
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-public-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "public"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-public-us-east-1a"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "public"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.public[1] will be created
+  + resource "aws_subnet" "public" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1b"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.112.0/20"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = true
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-public-us-east-1b"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "public"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-public-us-east-1b"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "public"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.public[2] will be created
+  + resource "aws_subnet" "public" {
+      + arn                             = (known after apply)
+      + assign_ipv6_address_on_creation = false
+      + availability_zone               = "us-east-1c"
+      + availability_zone_id            = (known after apply)
+      + cidr_block                      = "10.94.128.0/20"
+      + id                              = (known after apply)
+      + ipv6_cidr_block_association_id  = (known after apply)
+      + map_public_ip_on_launch         = true
+      + owner_id                        = (known after apply)
+      + tags                            = {
+          + "Name"        = "project3-production-public-us-east-1c"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "public"
+        }
+      + tags_all                        = {
+          + "Name"        = "project3-production-public-us-east-1c"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "subnet"      = "public"
+        }
+      + vpc_id                          = (known after apply)
+    }
+
+  # module.vpc.aws_vpc.this[0] will be created
+  + resource "aws_vpc" "this" {
+      + arn                              = (known after apply)
+      + assign_generated_ipv6_cidr_block = false
+      + cidr_block                       = "10.94.0.0/16"
+      + default_network_acl_id           = (known after apply)
+      + default_route_table_id           = (known after apply)
+      + default_security_group_id        = (known after apply)
+      + dhcp_options_id                  = (known after apply)
+      + enable_classiclink               = (known after apply)
+      + enable_classiclink_dns_support   = (known after apply)
+      + enable_dns_hostnames             = false
+      + enable_dns_support               = true
+      + id                               = (known after apply)
+      + instance_tenancy                 = "default"
+      + ipv6_association_id              = (known after apply)
+      + ipv6_cidr_block                  = (known after apply)
+      + main_route_table_id              = (known after apply)
+      + owner_id                         = (known after apply)
+      + tags                             = {
+          + "Name"        = "project3-production"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+      + tags_all                         = {
+          + "Name"        = "project3-production"
+          + "application" = "project3"
+          + "environment" = "production"
+        }
+    }
+
+  # module.the_app_db.module.rds.module.db_instance.aws_db_instance.this[0] will be created
+  + resource "aws_db_instance" "this" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 25
+      + allow_major_version_upgrade           = false
+      + apply_immediately                     = false
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = 7
+      + backup_window                         = "05:37-06:07"
+      + ca_cert_identifier                    = "rds-ca-2019"
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + db_subnet_group_name                  = (known after apply)
+      + delete_automated_backups              = true
+      + deletion_protection                   = false
+      + endpoint                              = (known after apply)
+      + engine                                = "mysql"
+      + engine_version                        = "8.0.23"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + iam_database_authentication_enabled   = false
+      + id                                    = (known after apply)
+      + identifier                            = "project3-production-the-app-db-rds"
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t3.medium"
+      + iops                                  = 0
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + maintenance_window                    = "tue:07:00-tue:07:30"
+      + max_allocated_storage                 = 50
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = true
+      + name                                  = "the_app_db"
+      + nchar_character_set_name              = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + password                              = (sensitive value)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = 3306
+      + publicly_accessible                   = false
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_encrypted                     = true
+      + storage_type                          = "gp2"
+      + tags                                  = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+      + tags_all                              = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+      + timezone                              = (known after apply)
+      + username                              = "admin"
+      + vpc_security_group_ids                = (known after apply)
+
+      + timeouts {
+          + create = "40m"
+          + delete = "40m"
+          + update = "80m"
+        }
+    }
+
+  # module.the_app_db.module.rds.module.db_option_group.aws_db_option_group.this[0] will be created
+  + resource "aws_db_option_group" "this" {
+      + arn                      = (known after apply)
+      + engine_name              = "mysql"
+      + id                       = (known after apply)
+      + major_engine_version     = "8.0"
+      + name                     = (known after apply)
+      + name_prefix              = "project3-production-the-app-db-rds-"
+      + option_group_description = "Option group for project3-production-the-app-db-rds"
+      + tags                     = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+      + tags_all                 = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+
+      + timeouts {
+          + delete = "15m"
+        }
+    }
+
+  # module.the_app_db.module.rds.module.db_parameter_group.aws_db_parameter_group.this[0] will be created
+  + resource "aws_db_parameter_group" "this" {
+      + arn         = (known after apply)
+      + description = "Database parameter group for project3-production-the-app-db-rds"
+      + family      = "mysql8.0"
+      + id          = (known after apply)
+      + name        = (known after apply)
+      + name_prefix = "project3-production-the-app-db-rds-"
+      + tags        = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+      + tags_all    = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+
+      + parameter {
+          + apply_method = "immediate"
+          + name         = "innodb_buffer_pool_size"
+          + value        = "536870912"
+        }
+      + parameter {
+          + apply_method = "immediate"
+          + name         = "innodb_log_buffer_size"
+          + value        = "262144"
+        }
+      + parameter {
+          + apply_method = "immediate"
+          + name         = "innodb_log_file_size"
+          + value        = "2097152"
+        }
+      + parameter {
+          + apply_method = "immediate"
+          + name         = "log_queries_not_using_indexes"
+          + value        = "1"
+        }
+      + parameter {
+          + apply_method = "immediate"
+          + name         = "slow_query_log"
+          + value        = "0"
+        }
+    }
+
+  # module.the_app_db.module.rds.module.db_subnet_group.aws_db_subnet_group.this[0] will be created
+  + resource "aws_db_subnet_group" "this" {
+      + arn         = (known after apply)
+      + description = "Database subnet group for project3-production-the-app-db-rds"
+      + id          = (known after apply)
+      + name        = (known after apply)
+      + name_prefix = "project3-production-the-app-db-rds-"
+      + subnet_ids  = (known after apply)
+      + tags        = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+      + tags_all    = {
+          + "Name"        = "project3-production-the-app-db-rds"
+          + "application" = "project3"
+          + "environment" = "production"
+          + "role"        = "db"
+        }
+    }
+
+Plan: 33 to add, 0 to change, 0 to destroy.
+
+------------------------------------------------------------------------
+
+Note: You didn't specify an "-out" parameter to save this plan, so Terraform
+can't guarantee that exactly these actions will be performed if
+"terraform apply" is subsequently run.
+
+
+* ~/dev/contrast-security/bin/terraform apply
+module.the_app_db.module.rds.module.db_instance.data.aws_iam_policy_document.enhanced_monitoring: Refreshing state...
+data.aws_caller_identity.current: Refreshing state...
+data.aws_availability_zones.available: Refreshing state...
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+*  Enter a value: yes
+
+
+Error: Error modifying DB Parameter Group: InvalidParameterValue: Value: 2097152 is outside of range: 4194304-273804165120 for parameter: innodb_log_file_size
+        status code: 400, request id: f64a6204-07cb-45b5-ac69-e2e21ffe376d
+
+  on .terraform/modules/the_app_db.rds/modules/db_parameter_group/main.tf line 33, in resource "aws_db_parameter_group" "this":
+  33: resource "aws_db_parameter_group" "this" {
+  
+  
+* The value of innodb_log_file_size set to 134217728 in ~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+* Additional parameters added to terraform.tfvars
+
+  {
+    name  = "innodb_log_buffer_size"
+    value = "262144"
+    apply_method = "pending-reboot"
+  },
+  {
+    name  = "innodb_log_file_size"
+    value = "134217728"
+    apply_method = "pending-reboot"
+  }
+  
+* ~/dev/contrast-security/infrastructure-hire-project/project3/terraform/variables.tf
+    
+  {
+    name  = "innodb_sort_buffer_size"
+    value = "262144"
+    apply_method = "pending-reboot"
+  },
+  {
+    name  = "skip_name_resolve"
+    value = "OFF"
+    apply_method = "pending-reboot"
+  }
+    
+* After making the corrections I executed terraform plan && terraform apply (yes) 
+
+module.the_app_db.module.rds.module.db_instance.aws_db_instance.this[0]: Still creating... [20m20s elapsed]
+module.the_app_db.module.rds.module.db_instance.aws_db_instance.this[0]: Creation complete after 20m24s [id=project3-production-the-app-db-rds]
+
+Verified the results of terraform via AWS RDS Console
+
+-------------------------------------------------------------------------------
+
+2021-08-24 
+
+* Enabled publicly_accessible
+
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/modules/rds-tfm/rds.tf
+publicly_accessible = true
+
+https://registry.terraform.io/modules/terraform-aws-modules/rds/aws/latest#input_publicly_accessible
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#publicly_accessible
+
+* Enabled enable_dns_hostnames and enable_dns_support 
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/modules/aws_vpc-tfm/variables.tf
+variable "enable_dns_hostnames" {
+  description = "Should be true to enable DNS hostnames in the VPC"
+  type        = bool
+  default     = true
+}
+
+variable "enable_dns_support" {
+  description = "Should be true to enable DNS support in the VPC"
+  type        = bool
+  default     = true
+}
+
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc#enable_dns_support
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc#enable_dns_hostnames
+
+* Ran into connectivity issue from public to RDS instance, reviewed routing, SGs and was unable to pinpoint the problem 
+* Launched an EC2 instance 
+* Created instance keys
+* Connected via ssh as admin and added user zareh
+* Added user zareh to sudoers
+* Added ~/.ssh/id_rsa.pub to user zareh@18.209.245.173:/home/zareh/.ssh/authorized_keys
+* logged in as user zareh to 18.209.245.173
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html
+
+* added 18.209.245.173 to HP /etc/hosts as contrast-security
+
+zareh@HP-Z:~/.ssh$ ssh contrast-security
+The authenticity of host 'contrast-security (18.209.245.173)' can't be established.
+ECDSA key fingerprint is SHA256:1HD607uRo9/qGaYCOSIaRjS2AYIG0OhyOC0JfTzPtUg.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'contrast-security' (ECDSA) to the list of known hosts.
+Linux ip-10-94-129-250 4.19.0-14-cloud-amd64 #1 SMP Debian 4.19.171-2 (2021-01-30) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed Aug 25 06:54:50 2021 from 35.129.70.161
+zareh@ip-10-94-129-250:~$ 
+
+* Added support for mysql apt repo 
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.18-1_all.deb
+sudo update
+sudo apt-get install gnupg
+sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb 
+
+* Added mysql-client apt
+sudo apt update
+sudo apt-get install mysql-client
+
+* Added encryprted password to .mylogin.cnf
+mysql_config_editor set --login-path=client --host=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com --user=admin --port 3306 --password
+Enter password: 
+
+* Verifiying mysql client config
+mysql_config_editor print --all
+[local]
+user = "admin"
+password = *****
+host = "project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com"
+port = 3306
+
+https://dev.mysql.com/doc/refman/8.0/en/mysql-config-editor.html
+
+* Verifying client connection to RDS instance
+zareh@ip-10-94-129-250:~$ mysqlWelcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 397
+Server version: 8.0.23 Source distribution
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+
+* Done for today, tomorrow automated test... on schedule
+
+-------------------------------------------------------------------------------
+2021-08-25
+
+* Check character set after connecting using mysql client
+
+mysql> show variables like '%character%';
++--------------------------+-------------------------------------------+
+| Variable_name            | Value                                     |
++--------------------------+-------------------------------------------+
+| character_set_client     | utf8mb4                                   |
+| character_set_connection | utf8mb4                                   |
+| character_set_database   | utf8mb4                                   |
+| character_set_filesystem | binary                                    |
+| character_set_results    | utf8mb4                                   |
+| character_set_server     | utf8mb4                                   |
+| character_set_system     | utf8                                      |
+| character_sets_dir       | /rdsdbbin/mysql-8.0.23.R3/share/charsets/ |
++--------------------------+-------------------------------------------+
+
+* Check status of performance_schema, since our goal is to debug performnce we will enable it if off
+mysql> show variables like 'performance_schema';
++--------------------+-------+
+| Variable_name      | Value |
++--------------------+-------+
+| performance_schema | OFF   |
++--------------------+-------+
+
+* Added to terraform to enforce config
+  {
+    name = "character-set-client-handshake"
+    value = "0"
+    apply_method = "pending-reboot"
+  },
+  {
+    name = "skip-character-set-client-handshake"
+    value = "1"
+    apply_method = "pending-reboot"
+  }
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+
+* Checking collation
+mysql> show variables like '%collation%';
++-------------------------------+--------------------+
+| Variable_name                 | Value              |
++-------------------------------+--------------------+
+| collation_connection          | utf8mb4_0900_ai_ci |
+| collation_database            | utf8mb4_0900_ai_ci |
+| collation_server              | utf8mb4_0900_ai_ci |
+| default_collation_for_utf8mb4 | utf8mb4_0900_ai_ci |
++-------------------------------+--------------------+
+4 rows in set (0.00 sec)
+
+# Log queries not using indexes.
+    
+mysql> show variables like 'log_queries_not_using_indexes';
++-------------------------------+-------+
+| Variable_name                 | Value |
++-------------------------------+-------+
+| log_queries_not_using_indexes | ON    |
++-------------------------------+-------+
+
+  {
+    name  = "slow_query_log"
+    value = "1"
+  }
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+
+show variables like 'slow_query_log';
++----------------+-------+
+| Variable_name  | Value |
++----------------+-------+
+| slow_query_log | ON    |
++----------------+-------+
+
+  {
+    name = "long_query_time"
+    value = "0"
+  }
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+
+mysql> show variables like 'long_query_time';
++-----------------+----------+
+| Variable_name   | Value    |
++-----------------+----------+
+| long_query_time | 0.000000 |
++-----------------+----------+
+
+# enable the performance schema 
+  {
+    name = "performance_schema"
+    value = "1"
+    apply_method = "pending-reboot"
+  }
+
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+  
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| the_app_db         |
++--------------------+
+5 rows in set (0.01 sec)
+
+#disable name resolution
+  {
+    name = "skip_name_resolve"
+    value = "1"
+    apply_method = "pending-reboot"
+  }
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+
+* Enabled general log with output to file
+  {
+    name = "general_log"
+    value = "1"
+  },
+  {
+    name = "log_output"
+    value = "file"
+  }
+mysql> show variables like 'general_log';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| general_log   | ON    |
++---------------+-------+
+
+mysql> show variables like 'log_output';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| log_output    | FILE  |
++---------------+-------+
+
+* Import schema
+mysql < ./mysql/schema_and_data.sql
+
+* Checking character set and collation for tables reveals latin1 
+ALTER TABLE `classicmodels`.`customers` CHARACTER SET = utf8mb4 , COLLATE = utf8mb4_0900_ai_ci ;
+
+* Correcting the issue using pt-online-schema-change 
+pt-online-schema-change \
+D=classicmodels,t=customers,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+pt-online-schema-change \
+D=classicmodels,t=employees,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+pt-online-schema-change \
+D=classicmodels,t=offices,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+pt-online-schema-change \
+D=classicmodels,t=orderdetails,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+pt-online-schema-change \
+D=classicmodels,t=orders,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+pt-online-schema-change \
+D=classicmodels,t=payments,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+pt-online-schema-change \
+D=classicmodels,t=productlines,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+pt-online-schema-change \
+D=classicmodels,t=products,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="convert to character set utf8mb4 collate utf8mb4_0900_ai_ci" --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+* Executing SQLs doesn not log to slow query log even though all parameters are enabled, 
+* Solution: Set min_examined_row_limit to 1
+https://mariadb.com/kb/en/server-system-variables/#min_examined_row_limit
+
+  {
+    name="min_examined_row_limit"
+    value="1"
+  }
+~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+
+* Wrote python and bash version of sql runner
+
+#!/usr/bin/python3
+
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com",
+  user="admin",
+  password="****************"
+  database="classicmodels"
+)
+mycursor = mydb.cursor()
+sql = "SELECT SQL_NO_CACHE * FROM employees ORDER BY lastname,firstName"
+mycursor.execute(sql)
+mresult = mycursor.fetchall()
+for number in range(100):
+    for x in myresult:
+   print (number)
+
+#!/bin/bash
+for i in {1..100}; do
+        mysql classicmodels < ./mysql/query_1.sql
+done
+
+* Analyzing queries using pt-query-digest
+
+pt-query-digest mysql-slowquery_6.log
+ 
+# Query 2: 100 QPS, 0.02x concurrency, ID 0xBBD119AE5142C630000307F24477150A at byte 67532
+# Scores: V/M = 0.00
+# Time range: 2021-08-26T06:05:52 to 2021-08-26T06:05:53
+# Attribute    pct   total     min     max     avg     95%  stddev  median
+# ============ === ======= ======= ======= ======= ======= ======= =======
+# Count         28     100
+# Exec time     19    20ms   161us   410us   201us   247us    35us   185us
+# Lock time     63     7ms    53us   245us    68us    80us    21us    63us
+# Rows sent     94   2.25k      23      23      23      23       0      23
+# Rows examine  96   4.49k      46      46      46      46       0      46
+# Query size    45   6.35k      65      65      65      65       0      65
+# String:
+# Databases    classicmodels
+# Hosts        10.94.129.250
+# Users        admin
+# Query_time distribution
+#   1us
+#  10us
+# 100us  ################################################################
+#   1ms
+#  10ms
+# 100ms
+#    1s
+#  10s+
+# Tables
+#    SHOW TABLE STATUS FROM `classicmodels` LIKE 'employees'\G
+#    SHOW CREATE TABLE `classicmodels`.`employees`\G
+# EXPLAIN /*!50100 PARTITIONS*/
+SELECT SQL_NO_CACHE * FROM employees ORDER BY lastName, firstName\G
+
+# Query 8: 100 QPS, 0.02x concurrency, ID 0x3B0019F1B7EB8BC545E88BD005B5E05C at byte 134883
+# This item is included in the report because it matches --limit.
+# Scores: V/M = 0.00
+# Time range: 2021-08-26T06:11:15 to 2021-08-26T06:11:16
+# Attribute    pct   total     min     max     avg     95%  stddev  median
+# ============ === ======= ======= ======= ======= ======= ======= =======
+# Count         11     100
+# Exec time      3    19ms   160us   356us   193us   247us    33us   176us
+# Lock time     13     7ms    54us   157us    68us   103us    16us    60us
+# Rows sent     45   2.25k      23      23      23      23       0      23
+# Rows examine  47   4.49k      46      46      46      46       0      46
+# Query size    34  14.65k     150     150     150     150       0     150
+# String:
+# Databases    classicmodels
+# Hosts        10.94.129.250
+# Users        admin
+# Query_time distribution
+#   1us
+#  10us
+# 100us  ################################################################
+#   1ms
+#  10ms
+# 100ms
+#    1s
+#  10s+
+# Tables
+#    SHOW TABLE STATUS FROM `classicmodels` LIKE 'employees'\G
+#    SHOW CREATE TABLE `classicmodels`.`employees`\G
+# EXPLAIN /*!50100 PARTITIONS*/
+SELECT SQL_NO_CACHE employeeNumber, lastName, firstName, extension, email, officeCode, reportsTo, jobTitle FROM employees ORDER BY lastName, firstName\G
+
+
+* End of day, accomplished all tasks set - progress on track
+-------------------------------------------------------------------------------
+2021-08-26
+
+* Modified all queries to use SQL_NO_CACHE
+* Wrote another script to summarized execution time for all queries combined
+
+#!/bin/bash
+
+START_total=`date +%s`
+for num in {1..7};do
+  START=`date +%s` 
+  echo -n "query_${num}.sql"
+  ./run-sql${num}.sh &>/dev/null
+  END=`date +%s` 
+  echo $((END-START)) | awk '{print int($1/60)":"int($1%60)}'
+done
+END_total=`date +%s`
+echo -n "Total: "
+echo $((END_total-START_total)) | awk '{print int($1/60)":"int($1%60)}'
+
+./run-all.sh
+query_1.sql0:1
+query_2.sql0:2
+query_3.sql0:1
+query_4.sql0:8
+query_5.sql0:1
+query_6.sql0:3
+query_7.sql0:1
+Total: 0:17
+
+* After running the run-all.sh summary report I've identified query_4.sql and query_6.sql as slowest
+* Query 4 
+
+SELECT SQL_NO_CACHE employeeNumber, lastName, firstName, revenue
+FROM   employees AS e
+JOIN   (
+          SELECT SQL_NO_CACHE salesRepEmployeeNumber, c.customerNumber
+          FROM   customers AS c
+          JOIN   orders    AS o ON (c.customerNumber = o.customerNumber)
+          WHERE  c.creditlimit > 50000
+       ) AS cust_ord ON (e.employeeNumber = cust_ord.salesRepEmployeeNumber)
+JOIN   (
+          SELECT SQL_NO_CACHE o.ordernumber, customerNumber, od.productcode
+          FROM   orders       AS o
+          JOIN   orderdetails AS od USING (ordernumber)
+          WHERE  o.status     LIKE '%Shipped%'
+       ) AS ords ON (cust_ord.customerNumber = ords.customerNumber)
+JOIN   (
+          SELECT SQL_NO_CACHE p.productCode, sum( od.priceeach - p.buyPrice) AS revenue
+          FROM   products     AS p
+          JOIN   orderdetails AS od USING (productcode)
+          GROUP BY  1
+          HAVING revenue > 1500
+       ) AS rev ON (rev.productCode = ords.productCode)
+;
+
+* Segregate each join into its own query to identify slowest subselect
+
+1) Subselect 1 = customers
+SELECT SQL_NO_CACHE salesRepEmployeeNumber, c.customerNumber
+FROM   customers AS c
+JOIN   orders    AS o ON (c.customerNumber = o.customerNumber)
+WHERE  c.creditlimit > 50000
+  
+2) Subselect 2 = orders
+SELECT SQL_NO_CACHE o.ordernumber, customerNumber, od.productcode
+FROM   orders       as o
+JOIN   orderdetails as od using (ordernumber)
+WHERE  o.status     like '%Shipped%'
+
+3) Subselect 3 = products
+SELECT SQL_NO_CACHE p.productCode, sum( od.priceeach - p.buyPrice) as revenue
+FROM   products     as p
+JOIN   orderdetails as od using (productcode)
+GROUP BY  1
+HAVING revenue > 1500
+
+* Timing each subselect identifes subselect 2 products as the slowest
+subselect 1 = 291 rows 0.078 sec
+subselect 2 = 2771 rows 0.172 sec
+subselect 3 = 17 rows 0.094 
+
+ ALTER TABLE `classicmodels`.`orders` 
+ADD INDEX `index3` (`orderNumber` ASC, `status` ASC, `customerNumber` ASC) VISIBLE;
+ALTER TABLE `classicmodels`.`orders` ALTER INDEX `customerNumber` INVISIBLE;
+
+ALTER TABLE `classicmodels`.`orders` 
+DROP INDEX `index3` ;
+;
+
+* changed subselect 2 LIKE to = 'Shipped' based on data column status value
+
+./run-all.sh
+query_1.sql0:1
+query_2.sql0:1
+query_3.sql0:2
+query_4.sql0:7
+query_5.sql0:2
+query_6.sql0:2
+query_7.sql0:1
+Total: 0:16
+
+./run-all.sh
+query_1.sql0:1
+query_2.sql0:1
+query_3.sql0:2
+query_4.sql0:7
+query_5.sql0:1
+query_6.sql0:3
+query_7.sql0:1
+Total: 0:16
+
+./run-all.sh
+query_1.sql0:1
+query_2.sql0:2
+query_3.sql0:1
+query_4.sql0:7
+query_5.sql0:1
+query_6.sql0:3
+query_7.sql0:1
+Total: 0:16
+
+
+
+
+
+
+mysql> explain select * from employees order by lastName, firstName;
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
+| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra          |
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
+|  1 | SIMPLE      | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   23 |   100.00 | Using filesort |
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
+1 row in set, 1 warning (0.00 sec)
+
+ALTER TABLE `classicmodels`.`employees` 
+ADD INDEX `index4` (`lastName` ASC, `firstName` ASC) VISIBLE;
+ALTER TABLE `classicmodels`.`employees` ALTER INDEX `officeCode` INVISIBLE;
+
+mysql> explain select lastName, firstName  from employees order by lastName, firstName;
++----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+
+| id | select_type | table     | partitions | type  | possible_keys | key    | key_len | ref  | rows | filtered | Extra       |
++----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | employees | NULL       | index | NULL          | index4 | 404     | NULL |   23 |   100.00 | Using index |
++----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+;
+
+
+
+
+
+
+
+mysql> explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
+    -> from   customers    as c
+    -> join   orders       as o  using (customerNumber)
+    -> join   orderdetails as oe using (orderNumber)
+    -> where  country = 'Norway'
+    -> and    quantityOrdered between 20 and 30;
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys          | key            | key_len | ref                            | rows | filtered | Extra       |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+|  1 | SIMPLE      | c     | NULL       | ALL  | PRIMARY                | NULL           | NULL    | NULL                           |  122 |    10.00 | Using where |
+|  1 | SIMPLE      | o     | NULL       | ref  | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.c.customerNumber |    3 |   100.00 | NULL        |
+|  1 | SIMPLE      | oe    | NULL       | ref  | PRIMARY                | PRIMARY        | 4       | classicmodels.o.orderNumber    |    9 |    11.11 | Using where |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+3 rows in set, 1 warning (0.00 sec)
+
+ALTER TABLE `classicmodels`.`customers` 
+ADD INDEX `index3` (`country` ASC) VISIBLE;
+;
+
+mysql> explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
+    -> from   customers    as c
+    -> join   orders       as o  using (customerNumber)
+    -> join   orderdetails as oe using (orderNumber)
+    -> where  country = 'Norway'
+    -> and    quantityOrdered between 20 and 30;
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys          | key            | key_len | ref                            | rows | filtered | Extra       |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+|  1 | SIMPLE      | c     | NULL       | ref  | PRIMARY,index3         | index3         | 202     | const                          |    1 |   100.00 | NULL        |
+|  1 | SIMPLE      | o     | NULL       | ref  | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.c.customerNumber |    3 |   100.00 | NULL        |
+|  1 | SIMPLE      | oe    | NULL       | ref  | PRIMARY                | PRIMARY        | 4       | classicmodels.o.orderNumber    |    9 |    11.11 | Using where |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+3 rows in set, 2 warnings (0.00 sec)
+
+
+
+
+
+
+mysql> explain select year(orderdate)                  as year,
+    ->        sum(quantityordered * priceeach) as total
+    -> from   orders
+    -> inner  join orderdetails using (ordernumber)
+    -> where  status = 'Shipped'
+    -> group  by year
+    -> having year > 2003;
++----+-------------+--------------+------------+------+---------------+---------+---------+----------------------------------+------+----------+------------------------------+
+| id | select_type | table        | partitions | type | possible_keys | key     | key_len | ref                              | rows | filtered | Extra                        |
++----+-------------+--------------+------------+------+---------------+---------+---------+----------------------------------+------+----------+------------------------------+
+|  1 | SIMPLE      | orders       | NULL       | ALL  | PRIMARY       | NULL    | NULL    | NULL                             |  326 |    10.00 | Using where; Using temporary |
+|  1 | SIMPLE      | orderdetails | NULL       | ref  | PRIMARY       | PRIMARY | 4       | classicmodels.orders.orderNumber |    9 |   100.00 | NULL                         |
++----+-------------+--------------+------------+------+---------------+---------+---------+----------------------------------+------+----------+------------------------------+
+2 rows in set, 1 warning (0.00 sec)
+
+ALTER TABLE `classicmodels`.`orders` 
+ADD INDEX `index3` (`status` ASC) VISIBLE;
+;
+
+mysql> explain select year(orderdate)                  as year,
+    ->        sum(quantityordered * priceeach) as total
+    -> from   orders
+    -> inner  join orderdetails using (ordernumber)
+    -> where  status = 'Shipped'
+    -> group  by year
+    -> having year > 2003;
+mysql> explain select year(orderdate)                  as year,        sum(quantityordered * priceeach) as total from   orders inner  join orderdetails using (ordernumber) where  status = 'Shipped' group  by year having year > 2003;
++----+-------------+--------------+------------+------+----------------+---------+---------+----------------------------------+------+----------+-----------------+
+| id | select_type | table        | partitions | type | possible_keys  | key     | key_len | ref                              | rows | filtered | Extra           |
++----+-------------+--------------+------------+------+----------------+---------+---------+----------------------------------+------+----------+-----------------+
+|  1 | SIMPLE      | orders       | NULL       | ref  | PRIMARY,index3 | index3  | 62      | const                            |  303 |   100.00 | Using temporary |
+|  1 | SIMPLE      | orderdetails | NULL       | ref  | PRIMARY        | PRIMARY | 4       | classicmodels.orders.orderNumber |    9 |   100.00 | NULL            |
++----+-------------+--------------+------------+------+----------------+---------+---------+----------------------------------+------+----------+-----------------+
+2 rows in set, 1 warning (0.00 sec)
+
+
+
+
+
+
+mysql> explain select customernumber, customername
+    -> from   customers
+    -> where  exists( select ordernumber, sum(priceeach * quantityordered)
+    ->                from        orderdetails
+    ->                inner  join orders using (ordernumber)
+    ->                where  customernumber = customers.customernumber
+    ->                group  by ordernumber
+    ->                having sum(priceeach * quantityordered) > 60000
+    ->              );
++----+--------------------+--------------+------------+------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
+| id | select_type        | table        | partitions | type | possible_keys          | key            | key_len | ref                                    | rows | filtered | Extra                        |
++----+--------------------+--------------+------------+------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
+|  1 | PRIMARY            | customers    | NULL       | ALL  | NULL                   | NULL           | NULL    | NULL                                   |  122 |   100.00 | Using where                  |
+|  2 | DEPENDENT SUBQUERY | orders       | NULL       | ref  | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.customers.customerNumber |    3 |   100.00 | Using index; Using temporary |
+|  2 | DEPENDENT SUBQUERY | orderdetails | NULL       | ref  | PRIMARY,productCode    | PRIMARY        | 4       | classicmodels.orders.orderNumber       |    9 |   100.00 | NULL                         |
++----+--------------------+--------------+------------+------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
+3 rows in set, 2 warnings (0.00 sec)
+
+ALTER TABLE `classicmodels`.`customers` 
+ADD INDEX `index4` (`customerNumber` ASC, `customerName` ASC) VISIBLE;
+;
+
+mysql> explain select customernumber, customername
+    -> from   customers
+    -> where  exists( select ordernumber, sum(priceeach * quantityordered)
+    ->                from        orderdetails
+    ->                inner  join orders using (ordernumber)
+    ->                where  customernumber = customers.customernumber
+    ->                group  by ordernumber
+    ->                having sum(priceeach * quantityordered) > 60000
+    ->              );
++----+--------------------+--------------+------------+-------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
+| id | select_type        | table        | partitions | type  | possible_keys          | key            | key_len | ref                                    | rows | filtered | Extra                        |
++----+--------------------+--------------+------------+-------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
+|  1 | PRIMARY            | customers    | NULL       | index | NULL                   | index4         | 206     | NULL                                   |  122 |   100.00 | Using where; Using index     |
+|  2 | DEPENDENT SUBQUERY | orders       | NULL       | ref   | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.customers.customerNumber |    3 |   100.00 | Using index; Using temporary |
+|  2 | DEPENDENT SUBQUERY | orderdetails | NULL       | ref   | PRIMARY,productCode    | PRIMARY        | 4       | classicmodels.orders.orderNumber       |    9 |   100.00 | NULL                         |
++----+--------------------+--------------+------------+-------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
+3 rows in set, 2 warnings (0.00 sec)

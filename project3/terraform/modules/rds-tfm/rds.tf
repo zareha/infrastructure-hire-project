@@ -22,7 +22,7 @@ module "rds" {
 
   iam_database_authentication_enabled = false
 
-  multi_az               = var.db_multi_az
+  multi_az               = false
   vpc_security_group_ids = [aws_security_group.rds.id]
 
   maintenance_window           = var.db_maintenance_window
@@ -30,7 +30,7 @@ module "rds" {
   backup_retention_period      = var.db_backup_retention_period
   performance_insights_enabled = var.db_performance_insights_enable
   snapshot_identifier          = var.db_snapshot_identifier
-
+  publicly_accessible = true
 
   # DB subnet group
   subnet_ids = var.db_subnets

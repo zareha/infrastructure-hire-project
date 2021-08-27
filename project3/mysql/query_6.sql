@@ -1,5 +1,5 @@
 
-select customernumber, customername
+explain select customernumber, customername
 from   customers
 where  exists( select ordernumber, sum(priceeach * quantityordered)
                from        orderdetails

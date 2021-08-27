@@ -1,5 +1,5 @@
 
-select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
+explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
 from   customers    as c
 join   orders       as o  using (customerNumber)
 join   orderdetails as oe using (orderNumber)

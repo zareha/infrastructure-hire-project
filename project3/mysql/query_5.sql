@@ -1,5 +1,5 @@
 
-select year(orderdate)                  as year,
+explain select year(orderdate)                  as year,
        sum(quantityordered * priceeach) as total
 from   orders
 inner  join orderdetails using (ordernumber)

@@ -11,7 +11,7 @@ db_parameters = [
   },
   {
     name  = "slow_query_log"
-    value = "0"
+    value = "1"
   },
   {
     name  = "innodb_buffer_pool_size"
@@ -20,10 +20,52 @@ db_parameters = [
   {
     name  = "innodb_log_buffer_size"
     value = "262144"
+    apply_method = "pending-reboot"
   },
   {
     name  = "innodb_log_file_size"
-    value = "2097152"
+    value = "134217728"
+    apply_method = "pending-reboot"
+  },
+    {
+    name = "performance_schema"
+    value = "1"
+    apply_method = "pending-reboot"
+  },
+  {
+    name = "long_query_time"
+    value = "0"
+  },
+  {
+    name = "skip_name_resolve"
+    value = "1"
+    apply_method = "pending-reboot"
+  },
+  {
+    name = "general_log"
+    value = "1"
+  },
+  {
+    name = "log_output"
+    value = "file"
+  },
+  {
+    name = "character-set-client-handshake"
+    value = "0"
+    apply_method = "pending-reboot"
+  },
+  {
+    name = "skip-character-set-client-handshake"
+    value = "1"
+    apply_method = "pending-reboot"
+  },
+  {
+    name="log_bin_trust_function_creators"
+    value="1"
+  },
+  {
+    name="min_examined_row_limit"
+    value="1"
   }
 ]
 
