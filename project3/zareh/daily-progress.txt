@@ -1115,7 +1115,7 @@ Error: Error modifying DB Parameter Group: InvalidParameterValue: Value: 2097152
 module.the_app_db.module.rds.module.db_instance.aws_db_instance.this[0]: Still creating... [20m20s elapsed]
 module.the_app_db.module.rds.module.db_instance.aws_db_instance.this[0]: Creation complete after 20m24s [id=project3-production-the-app-db-rds]
 
-Verified the results of terraform via AWS RDS Console
+* Verified the results of terraform via AWS RDS Console
 
 -------------------------------------------------------------------------------
 
@@ -1199,7 +1199,8 @@ port = 3306
 https://dev.mysql.com/doc/refman/8.0/en/mysql-config-editor.html
 
 * Verifying client connection to RDS instance
-zareh@ip-10-94-129-250:~$ mysqlWelcome to the MySQL monitor.  Commands end with ; or \g.
+zareh@ip-10-94-129-250:~$ mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
 Your MySQL connection id is 397
 Server version: 8.0.23 Source distribution
 
@@ -1769,3 +1770,94 @@ mysql> explain select customernumber, customername
 * Commited and pushed updates to github https://github.com/zareha/infrastructure-hire-project/
 * Emailed "Boyd Hemphill <boyd.hemphill@contrastsecurity.com>"
 -------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+--[ BUGS/SUGGESTIONS ]---------------------------------------------------------------------
+
+* Terraform
+  Version: ~> 0.13.2 required
+  ╷
+│ Error: Unsupported Terraform Core version
+│ 
+│   on version.tf line 2, in terraform:
+│    2:   required_version = "~> 0.13.2"
+│ 
+│ This configuration does not support Terraform version 1.0.5. To proceed, either choose another supported Terraform version or update this version constraint. Version constraints are normally set for
+│ good reason, so updating the constraint may lead to other errors or unexpected behavior.
+
+  Issue: The current terraform version possibly outdated
+  ------------------------------------------------------
+  The latest release is version 1.0.5, the project3 configuration requires ~> 0.13.2
+  v0.13.2 was released September 02, 2020
+  https://github.com/hashicorp/terraform/releases/tag/v0.13.2
+  
+  Suggestion: Update terraform configuration files
+  
+  =============================================================================
+
+* Terraform
+  Issue: innodb_log_file_size defined as 2097152 is too small, prevents terraform from completing
+  
+  The innodb_log_file_size terraform parameter in infrastructure-hire-project/project3/terraform/terraform.tfvars needs to be between
+  4194304-273804165120, RDS calculates this value based on the instance class defined as db_instance_class
+  
+    Error: Error modifying DB Parameter Group: InvalidParameterValue: Value: 2097152 is outside of range: 4194304-273804165120 for parameter: innodb_log_file_size
+        status code: 400, request id: f64a6204-07cb-45b5-ac69-e2e21ffe376d
+
+  on .terraform/modules/the_app_db.rds/modules/db_parameter_group/main.tf line 33, in resource "aws_db_parameter_group" "this":
+  33: resource "aws_db_parameter_group" "this" {
+  
+  Suggestion: This parameter determines the fixed size for MySQL’s redo logs. Tuning this value affects the crash recovery time and also overall system performance. 
+  The default value is 134,217,728 (about 128 MB).
+  
+  Solution: The value of innodb_log_file_size set to 134217728 in ~/dev/contrast-security/infrastructure-hire-project/project3/terraform/terraform.tfvars
+
+  =============================================================================
+
+* VPC:
+  Issue: The vpc is too complicated 
+  
+  The current terraform configuration for VPC is too complicated, it includes 2 VPCs, 15 subnets, 5 routing table, two network ACLS, 2 internet gateways and 3 security groups.
+  To solve any type of routing/networking error will require substantial time to debug and resolve.
+  
+  Suggestion: Reduce complexit, allow for quicker and easier debugging
+  
+  =============================================================================
+  
+* RDS: RDS feature publicly_available does not work, possible routing issue
+	Issue: When enabling the RDS feature 'Publicly Available' clients allowed through the security groups are unable to connect, possibly due to routing issue within the VPCs
+
+     Suggestion: Correct subnet routing
+     
+  =============================================================================
+
+* RDS: db.t3.medium is over provisioned 
+    Issue: The instance is over provisioned
+    
+    The test RDS instance defined in the terraform files is over provisoned, any tuning done to parameter groups
+     or schema changes are rendered pointless defeating the purpose of tuning.
+    
+    Suggestion: Review https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html and choose a less powerful instance,
+    consider .small or .tiny
+    
+  =============================================================================  
+
+* Database:
+    Issue: Increase the amount of rows/data held in the test schema
+    
+    The schema is too light on data, tools used to determine query performance are unable to provide detailed information
+    
+    Suggestion: Increase the amount of data provided
+    
+  =============================================================================
+  
+  
+      
+* Evaluate using memcached
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.MySQL.Options.memcached.html
