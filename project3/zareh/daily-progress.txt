@@ -1527,7 +1527,109 @@ query_7.sql0:1
 Total: 0:17
 
 * After running the run-all.sh summary report I've identified query_4.sql and query_6.sql as slowest
-* Query 4 
+
+
+* Query 1
+mysql> explain select * from employees order by lastName, firstName;
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
+| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra          |
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
+|  1 | SIMPLE      | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   23 |   100.00 | Using filesort |
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
+1 row in set, 1 warning (0.00 sec)
+
+ALTER TABLE `classicmodels`.`employees` 
+ADD INDEX `index4` (`lastName` ASC, `firstName` ASC) VISIBLE;
+ALTER TABLE `classicmodels`.`employees` ALTER INDEX `officeCode` INVISIBLE;
+
+mysql> explain select lastName, firstName  from employees order by lastName, firstName;
++----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+
+| id | select_type | table     | partitions | type  | possible_keys | key    | key_len | ref  | rows | filtered | Extra       |
++----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | employees | NULL       | index | NULL          | index4 | 404     | NULL |   23 |   100.00 | Using index |
++----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+;
+
+
+
+
+
+
+* Query 2
+mysql> explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
+    -> from   customers    as c
+    -> join   orders       as o  using (customerNumber)
+    -> join   orderdetails as oe using (orderNumber)
+    -> where  country = 'Norway'
+    -> and    quantityOrdered between 20 and 30;
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys          | key            | key_len | ref                            | rows | filtered | Extra       |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+|  1 | SIMPLE      | c     | NULL       | ALL  | PRIMARY                | NULL           | NULL    | NULL                           |  122 |    10.00 | Using where |
+|  1 | SIMPLE      | o     | NULL       | ref  | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.c.customerNumber |    3 |   100.00 | NULL        |
+|  1 | SIMPLE      | oe    | NULL       | ref  | PRIMARY                | PRIMARY        | 4       | classicmodels.o.orderNumber    |    9 |    11.11 | Using where |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+3 rows in set, 1 warning (0.00 sec)
+
+ALTER TABLE `classicmodels`.`customers` 
+ADD INDEX `index3` (`country` ASC) VISIBLE;
+;
+
+mysql> explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
+    -> from   customers    as c
+    -> join   orders       as o  using (customerNumber)
+    -> join   orderdetails as oe using (orderNumber)
+    -> where  country = 'Norway'
+    -> and    quantityOrdered between 20 and 30;
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys          | key            | key_len | ref                            | rows | filtered | Extra       |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+|  1 | SIMPLE      | c     | NULL       | ref  | PRIMARY,index3         | index3         | 202     | const                          |    1 |   100.00 | NULL        |
+|  1 | SIMPLE      | o     | NULL       | ref  | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.c.customerNumber |    3 |   100.00 | NULL        |
+|  1 | SIMPLE      | oe    | NULL       | ref  | PRIMARY                | PRIMARY        | 4       | classicmodels.o.orderNumber    |    9 |    11.11 | Using where |
++----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
+3 rows in set, 2 warnings (0.00 sec)
+
+
+
+
+* Query 4
+explain select employeeNumber, lastName, firstName, revenue
+from   employees as e
+join   (
+          select salesRepEmployeeNumber, c.customerNumber
+          from   customers as c
+          join   orders    as o on (c.customerNumber = o.customerNumber)
+          where  c.creditlimit > 50000
+       ) as cust_ord on (e.employeeNumber = cust_ord.salesRepEmployeeNumber)
+join   (
+          select o.ordernumber, customerNumber, od.productcode
+          from   orders       as o
+          join   orderdetails as od using (ordernumber)
+          where  o.status     like '%Shipped%'
+       ) as ords on (cust_ord.customerNumber = ords.customerNumber)
+join   (
+          select p.productCode, sum( od.priceeach - p.buyPrice) as revenue
+          from   products     as p
+          join   orderdetails as od using (productcode)
+          group  by 1
+          having revenue > 1500
+       ) as rev on (rev.productCode = ords.productCode)
+;
++----+-------------+------------+------------+--------+------------------------+----------------+---------+----------------------------------------+------+----------+-------------+
+| id | select_type | table      | partitions | type   | possible_keys          | key            | key_len | ref                                    | rows | filtered | Extra       |
++----+-------------+------------+------------+--------+------------------------+----------------+---------+----------------------------------------+------+----------+-------------+
+|  1 | PRIMARY     | o          | NULL       | ALL    | PRIMARY,customerNumber | NULL           | NULL    | NULL                                   |  326 |    11.11 | Using where |
+|  1 | PRIMARY     | c          | NULL       | eq_ref | PRIMARY                | PRIMARY        | 4       | classicmodels.o.customerNumber         |    1 |    33.33 | Using where |
+|  1 | PRIMARY     | e          | NULL       | eq_ref | PRIMARY                | PRIMARY        | 4       | classicmodels.c.salesRepEmployeeNumber |    1 |   100.00 | NULL        |
+|  1 | PRIMARY     | o          | NULL       | ref    | customerNumber         | customerNumber | 4       | classicmodels.o.customerNumber         |    3 |   100.00 | Using index |
+|  1 | PRIMARY     | od         | NULL       | ref    | PRIMARY,productCode    | PRIMARY        | 4       | classicmodels.o.orderNumber            |    9 |   100.00 | Using index |
+|  1 | PRIMARY     | <derived4> | NULL       | ref    | <auto_key0>            | <auto_key0>    | 62      | classicmodels.od.productCode           |   10 |   100.00 | NULL        |
+|  4 | DERIVED     | p          | NULL       | index  | PRIMARY                | PRIMARY        | 62      | NULL                                   |  110 |   100.00 | NULL        |
+|  4 | DERIVED     | od         | NULL       | ref    | productCode            | productCode    | 62      | classicmodels.p.productCode            |   27 |   100.00 | NULL        |
++----+-------------+------------+------------+--------+------------------------+----------------+---------+----------------------------------------+------+----------+-------------+
+8 rows in set, 1 warning (0.00 sec)
+
+* The first line indicates a full table scan, suspect the cause is subselect 2 'WHERE  o.status     LIKE '%Shipped%'
 
 SELECT SQL_NO_CACHE employeeNumber, lastName, firstName, revenue
 FROM   employees AS e
@@ -1578,15 +1680,11 @@ subselect 1 = 291 rows 0.078 sec
 subselect 2 = 2771 rows 0.172 sec
 subselect 3 = 17 rows 0.094 
 
- ALTER TABLE `classicmodels`.`orders` 
-ADD INDEX `index3` (`orderNumber` ASC, `status` ASC, `customerNumber` ASC) VISIBLE;
-ALTER TABLE `classicmodels`.`orders` ALTER INDEX `customerNumber` INVISIBLE;
-
-ALTER TABLE `classicmodels`.`orders` 
-DROP INDEX `index3` ;
-;
-
-* changed subselect 2 LIKE to = 'Shipped' based on data column status value
+* changed subselect 2 "LIKE '%Shipped%' to "= 'Shipped'" based on existing column data 'status'
+* Query now uses index3 previously created for query_2
+* query4 executed 100 times now runs 1 second faster 'in general', there are some 8 second ones that sneak in
+* further analysis using MySQL's execution plan we can deduce that our change did infact have an impact
+* See project3/zareh/query_4/explain2.png, we're now using index3 
 
 ./run-all.sh
 query_1.sql0:1
@@ -1620,73 +1718,7 @@ Total: 0:16
 
 
 
-
-
-
-mysql> explain select * from employees order by lastName, firstName;
-+----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
-| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra          |
-+----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
-|  1 | SIMPLE      | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   23 |   100.00 | Using filesort |
-+----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+----------------+
-1 row in set, 1 warning (0.00 sec)
-
-ALTER TABLE `classicmodels`.`employees` 
-ADD INDEX `index4` (`lastName` ASC, `firstName` ASC) VISIBLE;
-ALTER TABLE `classicmodels`.`employees` ALTER INDEX `officeCode` INVISIBLE;
-
-mysql> explain select lastName, firstName  from employees order by lastName, firstName;
-+----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+
-| id | select_type | table     | partitions | type  | possible_keys | key    | key_len | ref  | rows | filtered | Extra       |
-+----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+
-|  1 | SIMPLE      | employees | NULL       | index | NULL          | index4 | 404     | NULL |   23 |   100.00 | Using index |
-+----+-------------+-----------+------------+-------+---------------+--------+---------+------+------+----------+-------------+;
-
-
-
-
-
-
-* Add index for query_2.sql
-mysql> explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
-    -> from   customers    as c
-    -> join   orders       as o  using (customerNumber)
-    -> join   orderdetails as oe using (orderNumber)
-    -> where  country = 'Norway'
-    -> and    quantityOrdered between 20 and 30;
-+----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
-| id | select_type | table | partitions | type | possible_keys          | key            | key_len | ref                            | rows | filtered | Extra       |
-+----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
-|  1 | SIMPLE      | c     | NULL       | ALL  | PRIMARY                | NULL           | NULL    | NULL                           |  122 |    10.00 | Using where |
-|  1 | SIMPLE      | o     | NULL       | ref  | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.c.customerNumber |    3 |   100.00 | NULL        |
-|  1 | SIMPLE      | oe    | NULL       | ref  | PRIMARY                | PRIMARY        | 4       | classicmodels.o.orderNumber    |    9 |    11.11 | Using where |
-+----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
-3 rows in set, 1 warning (0.00 sec)
-
-ALTER TABLE `classicmodels`.`customers` 
-ADD INDEX `index3` (`country` ASC) VISIBLE;
-;
-
-mysql> explain select customerName, city, orderNumber, orderDate, productCode, quantityOrdered, priceEach
-    -> from   customers    as c
-    -> join   orders       as o  using (customerNumber)
-    -> join   orderdetails as oe using (orderNumber)
-    -> where  country = 'Norway'
-    -> and    quantityOrdered between 20 and 30;
-+----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
-| id | select_type | table | partitions | type | possible_keys          | key            | key_len | ref                            | rows | filtered | Extra       |
-+----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
-|  1 | SIMPLE      | c     | NULL       | ref  | PRIMARY,index3         | index3         | 202     | const                          |    1 |   100.00 | NULL        |
-|  1 | SIMPLE      | o     | NULL       | ref  | PRIMARY,customerNumber | customerNumber | 4       | classicmodels.c.customerNumber |    3 |   100.00 | NULL        |
-|  1 | SIMPLE      | oe    | NULL       | ref  | PRIMARY                | PRIMARY        | 4       | classicmodels.o.orderNumber    |    9 |    11.11 | Using where |
-+----+-------------+-------+------------+------+------------------------+----------------+---------+--------------------------------+------+----------+-------------+
-3 rows in set, 2 warnings (0.00 sec)
-
-
-
-
-
-* Add index for query_5.sql
+* Query 5
 mysql> explain select year(orderdate)                  as year,
     ->        sum(quantityordered * priceeach) as total
     -> from   orders
@@ -1725,8 +1757,7 @@ mysql> explain select year(orderdate)                  as year,        sum(quant
 
 
 
-
-* Add indexes for query_6.sql
+* Query 6 
 mysql> explain select customernumber, customername
     -> from   customers
     -> where  exists( select ordernumber, sum(priceeach * quantityordered)
@@ -1766,6 +1797,46 @@ mysql> explain select customernumber, customername
 |  2 | DEPENDENT SUBQUERY | orderdetails | NULL       | ref   | PRIMARY,productCode    | PRIMARY        | 4       | classicmodels.orders.orderNumber       |    9 |   100.00 | NULL                         |
 +----+--------------------+--------------+------------+-------+------------------------+----------------+---------+----------------------------------------+------+----------+------------------------------+
 3 rows in set, 2 warnings (0.00 sec)
+
+
+
+* query_7
+
+explain select customernumber,
+       round(sum(quantityordered * priceeach)) sales,
+       (case
+           when sum(quantityordered * priceeach) < 10000                  then 'Silver'
+           when sum(quantityordered * priceeach) between 10000 and 100000 then 'Gold'
+           when sum(quantityordered * priceeach) > 100000                 then 'Platinum'
+       end) customergroup
+from       orderdetails
+inner  join orders using (ordernumber)
+where  year(shippeddate) = 2003
+group  by customernumber;
++----+-------------+--------------+------------+------+------------------------+---------+---------+----------------------------------+------+----------+------------------------------+
+| id | select_type | table        | partitions | type | possible_keys          | key     | key_len | ref                              | rows | filtered | Extra                        |
++----+-------------+--------------+------------+------+------------------------+---------+---------+----------------------------------+------+----------+------------------------------+
+|  1 | SIMPLE      | orders       | NULL       | ALL  | PRIMARY,customerNumber | NULL    | NULL    | NULL                             |  326 |   100.00 | Using where; Using temporary |
+|  1 | SIMPLE      | orderdetails | NULL       | ref  | PRIMARY                | PRIMARY | 4       | classicmodels.orders.orderNumber |    9 |   100.00 | NULL                         |
++----+-------------+--------------+------------+------+------------------------+---------+---------+----------------------------------+------+----------+------------------------------+
+2 rows in set, 1 warning (0.00 sec)
+
+* Full table scan on line 1
+* We can create a composite index on table 'orders' using columns ordernumber, customernumber and shippeddate
+
++----+-------------+--------------+------------+-------+-------------------------------+----------------+---------+----------------------------------+------+----------+-------------+
+| id | select_type | table        | partitions | type  | possible_keys                 | key            | key_len | ref                              | rows | filtered | Extra       |
++----+-------------+--------------+------------+-------+-------------------------------+----------------+---------+----------------------------------+------+----------+-------------+
+|  1 | SIMPLE      | orders       | NULL       | index | PRIMARY,customerNumber,index4 | customerNumber | 4       | NULL                             |  326 |   100.00 | Using where |
+|  1 | SIMPLE      | orderdetails | NULL       | ref   | PRIMARY                       | PRIMARY        | 4       | classicmodels.orders.orderNumber |    9 |   100.00 | NULL        |
++----+-------------+--------------+------------+-------+-------------------------------+----------------+---------+----------------------------------+------+----------+-------------+
+2 rows in set, 1 warning (0.00 sec)
+
+ALTER TABLE `classicmodels`.`orders` 
+ADD INDEX `index4` (`orderNumber` ASC, `shippedDate` ASC, `customerNumber` ASC) VISIBLE;
+;
+
+* Now mysql does an index scan 
 
 * Commited and pushed updates to github https://github.com/zareha/infrastructure-hire-project/
 * Emailed "Boyd Hemphill <boyd.hemphill@contrastsecurity.com>"
