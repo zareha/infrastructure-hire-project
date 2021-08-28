@@ -1770,16 +1770,267 @@ mysql> explain select customernumber, customername
 * Commited and pushed updates to github https://github.com/zareha/infrastructure-hire-project/
 * Emailed "Boyd Hemphill <boyd.hemphill@contrastsecurity.com>"
 -------------------------------------------------------------------------------
+2021-08-27
+
+* Output of mysqltuner.pl 
+
+sudo ./mysqltuner.pl \
+	--host project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com \
+	--user admin \
+	--password ************ \
+	--forcemem 4096 \
+	--forceswap=8192 \
+	--verbose > mysqltuner-out.txt
+
+-------- Database Metrics --------------------------------------------------------------------------
+[--] There is 2 Database(s).
+[--] All User Databases:
+[--]  +-- TABLE : 8
+[--]  +-- ROWS  : 3864
+[--]  +-- DATA  : 384.0K(70.59%)
+[--]  +-- INDEX : 160.0K(29.41%)
+[--]  +-- SIZE  : 544.0K
+[--]  +-- COLLA : 1 (utf8_bin, NULL, utf8mb4_0900_ai_ci, utf8mb4_bin, utf8_general_ci, latin1_swedish_ci)
+[--]  +-- ENGIN : 1 (InnoDB, NULL, PERFORMANCE_SCHEMA, CSV)
+
+[--] Database: classicmodels
+[--]  +-- TABLE: 8
+[--]  +-- COLL : 1 (utf8mb4_0900_ai_ci)
+[--]  +-- ROWS : 3864
+[--]  +-- DATA : 384.0K(70.59%)
+[--]  +-- INDEX: 160.0K(29.41%)
+[--]  +-- TOTAL: 544.0K
+[--]  +-- ENGIN : 1 (InnoDB)
+[OK] 1 collation for classicmodels database.
+[OK] 1 engine for classicmodels database.
+[--] Charsets for classicmodels database table column: utf8mb4
+[OK] classicmodels table column(s) has same charset defined for all text like column(s).
+[--] Collations for classicmodels database table column: utf8mb4_0900_ai_ci
+[OK] classicmodels table column(s) has same collation defined for all text like column(s).
+
+-------- Indexes Metrics ---------------------------------------------------------------------------
+[--] Worst selectivity indexes:
+[--] Index: PRIMARY(productCode)
+[--]  +-- COLUMN      : classicmodels.products
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 0 distinct values
+[--]  +-- NB ROWS     : 110 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 0.00%
+[!!] PRIMARY(productCode) has a low selectivity
+[--] Index: productLine(productLine)
+[--]  +-- COLUMN      : classicmodels.products
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 0 distinct values
+[--]  +-- NB ROWS     : 110 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 0.00%
+[!!] productLine(productLine) has a low selectivity
+[--] Index: index3(status)
+[--]  +-- COLUMN      : classicmodels.orders
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 6 distinct values
+[--]  +-- NB ROWS     : 326 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 1.84%
+[!!] index3(status) has a low selectivity
+[--] Index: productCode(productCode)
+[--]  +-- COLUMN      : classicmodels.orderdetails
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 109 distinct values
+[--]  +-- NB ROWS     : 2996 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 3.64%
+[!!] productCode(productCode) has a low selectivity
+[--] Index: PRIMARY(orderNumber)
+[--]  +-- COLUMN      : classicmodels.orderdetails
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 2 column(s)
+[--]  +-- CARDINALITY : 326 distinct values
+[--]  +-- NB ROWS     : 2996 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 10.88%
+[!!] PRIMARY(orderNumber) has a low selectivity
+[--] Index: salesRepEmployeeNumber(salesRepEmployeeNumber)
+[--]  +-- COLUMN      : classicmodels.customers
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 16 distinct values
+[--]  +-- NB ROWS     : 122 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 13.11%
+[!!] salesRepEmployeeNumber(salesRepEmployeeNumber) has a low selectivity
+[--] Index: index3(country)
+[--]  +-- COLUMN      : classicmodels.customers
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 28 distinct values
+[--]  +-- NB ROWS     : 122 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 22.95%
+[!!] index3(country) has a low selectivity
+[--] Index: customerNumber(customerNumber)
+[--]  +-- COLUMN      : classicmodels.orders
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 98 distinct values
+[--]  +-- NB ROWS     : 326 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 30.06%
+[--] Index: officeCode(officeCode)
+[--]  +-- COLUMN      : classicmodels.employees
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 7 distinct values
+[--]  +-- NB ROWS     : 23 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 30.43%
+[--] Index: reportsTo(reportsTo)
+[--]  +-- COLUMN      : classicmodels.employees
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 7 distinct values
+[--]  +-- NB ROWS     : 23 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 30.43%
+[--] Unused indexes:
+[!!] Index: salesRepEmployeeNumber on classicmodels.customers is not used.
+[!!] Index: index3 on classicmodels.customers is not used.
+[!!] Index: index4 on classicmodels.customers is not used.
+[!!] Index: reportsTo on classicmodels.employees is not used.
+[!!] Index: officeCode on classicmodels.employees is not used.
+[!!] Index: productCode on classicmodels.orderdetails is not used.
+[!!] Index: productLine on classicmodels.products is not used.
+
+-------- Performance Metrics -----------------------------------------------------------------------
+[--] Up for: 22h 50m 27s (60K q [0.736 qps], 1K conn, TX: 5M, RX: 3M)
+[--] Reads / Writes: 99% / 1%
+[--] Binary logging is enabled (GTID MODE: OFF_PERMISSIVE)
+[--] Physical Memory     : 4.0G
+[--] Max MySQL memory    : 20.2G
+[--] Other process memory: 64.8M
+[--] Total buffers: 544.2M global + 65.5M per thread (308 max threads)
+[--] P_S Max memory usage: 72B
+[--] Galera GCache Max memory usage: 0B
+[--] Global Buffers
+[--]  +-- Key Buffer: 16.0M
+[--]  +-- Max Tmp Table: 16.0M
+[--] Per Thread Buffers
+[--]  +-- Read Buffer: 256.0K
+[--]  +-- Read RND Buffer: 512.0K
+[--]  +-- Sort Buffer: 256.0K
+[--]  +-- Thread stack: 256.0K
+[--]  +-- Join Buffer: 256.0K
+[--] Binlog Cache Buffers
+[--]  +-- Binlog Cache: 32.0K
+[OK] Maximum reached memory usage: 871.8M (21.28% of installed RAM)
+[!!] Maximum possible memory usage: 20.2G (505.82% of installed RAM)
+[!!] Overall possible memory usage with other process exceeded memory
+[!!] Slow queries: 96% (58K/60K)
+[OK] Highest usage of available connections: 1% (5/308)
+[OK] Aborted connections: 0.00%  (0/1081)
+[--] Query cache have been removed in MySQL 8
+[OK] Sorts requiring temporary tables: 0% (15 temp sorts / 3K sorts)
+[OK] No joins without indexes
+[OK] Temporary tables created on disk: 9% (429 on disk / 4K total)
+[OK] Thread cache hit rate: 99% (5 created / 1K connections)
+[OK] Table cache hit rate: 98% (67K hits / 68K requests)
+[OK] table_definition_cache(2000) is upper than number of tables(343)
+[OK] Open file limit used: 0% (4/65K)
+[OK] Table locks acquired immediately: 100% (1K immediate / 1K locks)
+[OK] Binlog cache memory access: 99.69% (325 Memory / 326 Total)
+
+-------- InnoDB Metrics ----------------------------------------------------------------------------
+[--] InnoDB is enabled.
+[--] InnoDB Buffers
+[--]  +-- InnoDB Buffer Pool: 512.0M
+[--]  +-- InnoDB Buffer Pool Instances: 1
+[--]  +-- InnoDB Buffer Pool Chunk Size: 128.0M
+[--]  +-- InnoDB Log File Size: 128.0M
+[--]  +-- InnoDB Log File In Group: 2
+[--]  +-- InnoDB Total Log File Size: 256.0M(50 % of buffer pool)
+[--]  +-- InnoDB Log Buffer: 256.0K
+[--]  +-- InnoDB Log Buffer Free: 30.4K
+[--]  +-- InnoDB Log Buffer Used: 32.0K
+[--] InnoDB Thread Concurrency: 0
+[OK] InnoDB File per table is activated
+[OK] InnoDB buffer pool / data size: 512.0M/560.0K
+[!!] Ratio InnoDB log file size / InnoDB Buffer pool size (50 %): 128.0M * 2/512.0M should be equal to 25%
+[OK] InnoDB buffer pool instances: 1
+[--] Number of InnoDB Buffer Pool Chunk : 4 for 1 Buffer Pool Instance(s)
+[OK] Innodb_buffer_pool_size aligned with Innodb_buffer_pool_chunk_size & Innodb_buffer_pool_instances
+[OK] InnoDB Read buffer efficiency: 99.08% (477378 hits/ 481792 total)
+[OK] InnoDB Write log efficiency: 91.16% (34612 hits/ 37967 total)
+[OK] InnoDB log waits: 0.00% (0 waits / 3355 writes)
+
+-------- Recommendations ---------------------------------------------------------------------------
+General recommendations:
+    setup swappiness lower or equals to 10
+    setup Max running number events greater than 1M
+    Remove unused indexes.
+    MySQL was started within the last 24 hours - recommendations may be inaccurate
+    Reduce your overall MySQL memory footprint for system stability
+    Dedicate this server to your database for highest performance.
+    Before changing innodb_log_file_size and/or innodb_log_files_in_group read this: https://bit.ly/2TcGgtU
+Variables to adjust:
+  *** MySQL's maximum memory usage is dangerously high ***
+  *** Add RAM before increasing MySQL buffer variables ***
+    vm.swappiness <= 10 (echo 10 > /proc/sys/vm/swappiness)
+    fs.aio-max-nr > 1M (echo 1048576 > /proc/sys/fs/aio-max-nr)
+    innodb_log_file_size should be (=64M) if possible, so InnoDB total log files size equals to 25% of buffer pool size.
+    
+* Some recomendations by mysqltuner.pl are unactionable, first 2 are meant for the instance's kernel
+* Lowered value of innodb_log_file_size from 134217728 to 67108864
+  {
+    name  = "innodb_log_file_size"
+    value = "67108864"
+    apply_method = "pending-reboot"
+  }
+  
+* Identified unused indexes, all are part of the default schemema - will keep
+[--] Unused indexes:
+[!!] Index: salesRepEmployeeNumber on classicmodels.customers is not used.
+[!!] Index: index3 on classicmodels.customers is not used.
+[!!] Index: index4 on classicmodels.customers is not used.
+[!!] Index: reportsTo on classicmodels.employees is not used.
+[!!] Index: officeCode on classicmodels.employees is not used.
+[!!] Index: productCode on classicmodels.orderdetails is not used.
+[!!] Index: productLine on classicmodels.products is not used.
+
+References
+https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-1-parameters-related-to-performance/
+https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-2-parameters-related-to-replication/
+https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-3-parameters-related-to-security-operational-manageability-and-connectivity-timeout/
 
 
+--[ ACTIONALBE ITEMS/BUGS/SUGGESTIONS ]---------------------------------------------------------------------
 
+* Instructions:
 
+  1) State which availability zone should be used, not all zones are created equal.
 
+  2) Describe how the user should connect to RDS instance, current terraform configs stand up an RDS instance with ~15 subnets and will now allow 
+  for remote connectivity even if allowed. Define which availability zone should be used.
 
+  3) Assign someone from the team as the primary source of contact.
+  
+  =============================================================================
 
-
---[ BUGS/SUGGESTIONS ]---------------------------------------------------------------------
-
+* AWS:
+  AWS IAM: Unable to deativate AWS API Key
+  Issue: The user account zareh.aratoon does not have permission to deactivate AWS IAM keys.
+         Being unable to disable AWS IAM keys is important to maintaining a secure AWS account in case API keys are leaked
+         Will detail impact during call.
+         See project3/zareh/bugs/iam-permission/iam-permission-missing.png
+         
+  Suggestion: Add full IAM control to test users
+  
+  =============================================================================
+  
 * Terraform
   Version: ~> 0.13.2 required
   ╷
@@ -1832,6 +2083,7 @@ mysql> explain select customernumber, customername
   
 * RDS: RDS feature publicly_available does not work, possible routing issue
 	Issue: When enabling the RDS feature 'Publicly Available' clients allowed through the security groups are unable to connect, possibly due to routing issue within the VPCs
+	       See project3/zareh/bugs/publickly-accessible/rds-mysql-modify-publickly-accessible.png
 
      Suggestion: Correct subnet routing
      
@@ -1856,8 +2108,6 @@ mysql> explain select customernumber, customername
     Suggestion: Increase the amount of data provided
     
   =============================================================================
-  
-  
       
 * Evaluate using memcached
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.MySQL.Options.memcached.html

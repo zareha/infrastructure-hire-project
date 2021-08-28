@@ -24,7 +24,7 @@ db_parameters = [
   },
   {
     name  = "innodb_log_file_size"
-    value = "134217728"
+    value = "67108864"
     apply_method = "pending-reboot"
   },
     {

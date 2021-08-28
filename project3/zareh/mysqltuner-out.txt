@@ -1,0 +1,1977 @@
+ >>  MySQLTuner 1.8.1 - Major Hayden <major@mhtx.net>
+ >>  Bug reports, feature requests, and downloads at http://mysqltuner.pl/
+ >>  Run with '--help' for additional options and output filtering
+[OK] You have the latest version of MySQLTuner(1.8.1)
+[--] Performing tests on project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com:3306
+[OK] Logged in using credentials passed on the command line
+[--] Assuming 4096 MB of physical memory
+[--] Assuming 8192 MB of swap space
+[OK] Currently running supported MySQL version 8.0.23
+ 
+-------- System Linux Recommendations --------------------------------------------------------------
+Look for related Linux system recommendations
+[--] Debian GNU/Linux 10 (buster)
+[--] Machine type          : Virtual machine
+[--] Internet              : Connected
+[--] Number of Core CPU : 1
+
+[--] Operating System Type : GNU/Linux
+[--] Kernel Release        : 4.19.0-14-cloud-amd64
+[--] Hostname              : ip-10-94-129-250
+[--] Network Cards         : 
+[--] 	eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9001
+[--] 	        inet 10.94.129.250  netmask 255.255.240.0  broadcast 10.94.143.255
+[--] 	--
+[--] 	lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+[--] 	        inet 127.0.0.1  netmask 255.0.0.0
+[--] Internal IP           : 10.94.129.250 
+[--] HTTP client found: /usr/bin/curl
+[--] External IP           :   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current,                                  Dload  Upload   Total   Spent    Left  Speed,   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    14  100    14    0     0    400      0 --:--:-- --:--:-- --:--:--   400, 18.209.245.173
+[--] Name Servers          : 10.94.0.2
+[--] Logged In users       : 
+[--] 	zareh    pts/1        2021-08-27 03:00 (35.129.70.161)
+[--] Ram Usages in Mb      : 
+[--] 	              total        used        free      shared  buff/cache   available
+[--] 	Mem:            983          78         200           8         705         735
+[--] 	Swap:             0           0           0
+[--] Load Average          : 
+[--] 	top - 02:22:41 up 2 days, 19:36,  1 user,  load average: 0.02, 0.02, 0.00
+[--] System Uptime         : 
+[--] 	 02:22:41 up 2 days, 19:36,  1 user,  load average: 0.02, 0.02, 0.00
+[--] User process except mysqld used 64M RAM.
+[--] Other user process except mysqld used less than 15% of total physical memory 1.58% (64M / 4G)
+[--] mount point / is using 7 % of total space
+[--] mount point /boot/efi is using 1 % of total space
+[--] mount point / is using 3 % of max allowed inodes
+[--] Information about kernel tuning:
+[--] 	fs.aio-max-nr = 65536
+[--] 	fs.aio-nr = 0
+[--] 	fs.file-max = 9223372036854775807
+[--] 	vm.swappiness = 60
+[!!] Swappiness is > 10, please consider having a value lower than 10
+[--] TCP slot entries is > 100.
+[!!] Max running total of the number of events is < 1M, please consider having a value greater than 1M
+ 
+-------- Log file Recommendations ------------------------------------------------------------------
+[!!] Log file /rdsdbdata/log/error/mysql-error.log doesn't exist
+ 
+-------- Storage Engine Statistics -----------------------------------------------------------------
+[--] Status: +ARCHIVE +BLACKHOLE +CSV -FEDERATED +InnoDB +MEMORY +MRG_MYISAM +MyISAM +PERFORMANCE_SCHEMA 
+[--] Data in InnoDB tables: 560.0K (Tables: 9)
+[OK] Total fragmented tables: 0
+ 
+-------- Analysis Performance Metrics --------------------------------------------------------------
+[--] innodb_stats_on_metadata: OFF
+[OK] No stat updates during querying INFORMATION_SCHEMA.
+ 
+-------- Database Metrics --------------------------------------------------------------------------
+[--] There is 2 Database(s).
+[--] All User Databases:
+[--]  +-- TABLE : 8
+[--]  +-- ROWS  : 3864
+[--]  +-- DATA  : 384.0K(70.59%)
+[--]  +-- INDEX : 160.0K(29.41%)
+[--]  +-- SIZE  : 544.0K
+[--]  +-- COLLA : 1 (utf8_bin, NULL, utf8mb4_0900_ai_ci, utf8mb4_bin, utf8_general_ci, latin1_swedish_ci)
+[--]  +-- ENGIN : 1 (InnoDB, NULL, PERFORMANCE_SCHEMA, CSV)
+
+[--] Database: classicmodels
+[--]  +-- TABLE: 8
+[--]  +-- COLL : 1 (utf8mb4_0900_ai_ci)
+[--]  +-- ROWS : 3864
+[--]  +-- DATA : 384.0K(70.59%)
+[--]  +-- INDEX: 160.0K(29.41%)
+[--]  +-- TOTAL: 544.0K
+[--]  +-- ENGIN : 1 (InnoDB)
+[OK] 1 collation for classicmodels database.
+[OK] 1 engine for classicmodels database.
+[--] Charsets for classicmodels database table column: utf8mb4
+[OK] classicmodels table column(s) has same charset defined for all text like column(s).
+[--] Collations for classicmodels database table column: utf8mb4_0900_ai_ci
+[OK] classicmodels table column(s) has same collation defined for all text like column(s).
+ 
+-------- Table Column Metrics ----------------------------------------------------------------------
+[--] MySQL and Percona version 8 and greater have remove PROCEDURE ANALYSE feature
+[--] Database: the_app_db
+[--] Database: classicmodels
+[--]  +-- TABLE: customers
+[--]      +-- Column customers.addressLine1:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column customers.addressLine2:
+[--]       Current Fieldtype: VARCHAR(50)
+[--]      +-- Column customers.city:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column customers.contactFirstName:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column customers.contactLastName:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column customers.country:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column customers.creditLimit:
+[--]       Current Fieldtype: DECIMAL(10,2)
+[--]      +-- Column customers.customerName:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column customers.customerNumber:
+[--]       Current Fieldtype: INT NOT NULL
+[--]      +-- Column customers.phone:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column customers.postalCode:
+[--]       Current Fieldtype: VARCHAR(15)
+[--]      +-- Column customers.salesRepEmployeeNumber:
+[--]       Current Fieldtype: INT
+[--]      +-- Column customers.state:
+[--]       Current Fieldtype: VARCHAR(50)
+[--]  +-- TABLE: employees
+[--]      +-- Column employees.email:
+[--]       Current Fieldtype: VARCHAR(100) NOT NULL
+[--]      +-- Column employees.employeeNumber:
+[--]       Current Fieldtype: INT NOT NULL
+[--]      +-- Column employees.extension:
+[--]       Current Fieldtype: VARCHAR(10) NOT NULL
+[--]      +-- Column employees.firstName:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column employees.jobTitle:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column employees.lastName:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column employees.officeCode:
+[--]       Current Fieldtype: VARCHAR(10) NOT NULL
+[--]      +-- Column employees.reportsTo:
+[--]       Current Fieldtype: INT
+[--]  +-- TABLE: offices
+[--]      +-- Column offices.addressLine1:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column offices.addressLine2:
+[--]       Current Fieldtype: VARCHAR(50)
+[--]      +-- Column offices.city:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column offices.country:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column offices.officeCode:
+[--]       Current Fieldtype: VARCHAR(10) NOT NULL
+[--]      +-- Column offices.phone:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column offices.postalCode:
+[--]       Current Fieldtype: VARCHAR(15) NOT NULL
+[--]      +-- Column offices.state:
+[--]       Current Fieldtype: VARCHAR(50)
+[--]      +-- Column offices.territory:
+[--]       Current Fieldtype: VARCHAR(10) NOT NULL
+[--]  +-- TABLE: orderdetails
+[--]      +-- Column orderdetails.orderLineNumber:
+[--]       Current Fieldtype: SMALLINT NOT NULL
+[--]      +-- Column orderdetails.orderNumber:
+[--]       Current Fieldtype: INT NOT NULL
+[--]      +-- Column orderdetails.priceEach:
+[--]       Current Fieldtype: DECIMAL(10,2) NOT NULL
+[--]      +-- Column orderdetails.productCode:
+[--]       Current Fieldtype: VARCHAR(15) NOT NULL
+[--]      +-- Column orderdetails.quantityOrdered:
+[--]       Current Fieldtype: INT NOT NULL
+[--]  +-- TABLE: orders
+[--]      +-- Column orders.comments:
+[--]       Current Fieldtype: TEXT
+[--]      +-- Column orders.customerNumber:
+[--]       Current Fieldtype: INT NOT NULL
+[--]      +-- Column orders.orderDate:
+[--]       Current Fieldtype: DATE NOT NULL
+[--]      +-- Column orders.orderNumber:
+[--]       Current Fieldtype: INT NOT NULL
+[--]      +-- Column orders.requiredDate:
+[--]       Current Fieldtype: DATE NOT NULL
+[--]      +-- Column orders.shippedDate:
+[--]       Current Fieldtype: DATE
+[--]      +-- Column orders.status:
+[--]       Current Fieldtype: VARCHAR(15) NOT NULL
+[--]  +-- TABLE: payments
+[--]      +-- Column payments.amount:
+[--]       Current Fieldtype: DECIMAL(10,2) NOT NULL
+[--]      +-- Column payments.checkNumber:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column payments.customerNumber:
+[--]       Current Fieldtype: INT NOT NULL
+[--]      +-- Column payments.paymentDate:
+[--]       Current Fieldtype: DATE NOT NULL
+[--]  +-- TABLE: productlines
+[--]      +-- Column productlines.htmlDescription:
+[--]       Current Fieldtype: MEDIUMTEXT
+[--]      +-- Column productlines.image:
+[--]       Current Fieldtype: MEDIUMBLOB
+[--]      +-- Column productlines.productLine:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column productlines.textDescription:
+[--]       Current Fieldtype: VARCHAR(4000)
+[--]  +-- TABLE: products
+[--]      +-- Column products.buyPrice:
+[--]       Current Fieldtype: DECIMAL(10,2) NOT NULL
+[--]      +-- Column products.MSRP:
+[--]       Current Fieldtype: DECIMAL(10,2) NOT NULL
+[--]      +-- Column products.productCode:
+[--]       Current Fieldtype: VARCHAR(15) NOT NULL
+[--]      +-- Column products.productDescription:
+[--]       Current Fieldtype: TEXT NOT NULL
+[--]      +-- Column products.productLine:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column products.productName:
+[--]       Current Fieldtype: VARCHAR(70) NOT NULL
+[--]      +-- Column products.productScale:
+[--]       Current Fieldtype: VARCHAR(10) NOT NULL
+[--]      +-- Column products.productVendor:
+[--]       Current Fieldtype: VARCHAR(50) NOT NULL
+[--]      +-- Column products.quantityInStock:
+[--]       Current Fieldtype: SMALLINT NOT NULL
+ 
+-------- Indexes Metrics ---------------------------------------------------------------------------
+[--] Worst selectivity indexes:
+[--] Index: PRIMARY(productCode)
+[--]  +-- COLUMN      : classicmodels.products
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 0 distinct values
+[--]  +-- NB ROWS     : 110 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 0.00%
+[!!] PRIMARY(productCode) has a low selectivity
+[--] Index: productLine(productLine)
+[--]  +-- COLUMN      : classicmodels.products
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 0 distinct values
+[--]  +-- NB ROWS     : 110 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 0.00%
+[!!] productLine(productLine) has a low selectivity
+[--] Index: index3(status)
+[--]  +-- COLUMN      : classicmodels.orders
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 6 distinct values
+[--]  +-- NB ROWS     : 326 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 1.84%
+[!!] index3(status) has a low selectivity
+[--] Index: productCode(productCode)
+[--]  +-- COLUMN      : classicmodels.orderdetails
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 109 distinct values
+[--]  +-- NB ROWS     : 2996 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 3.64%
+[!!] productCode(productCode) has a low selectivity
+[--] Index: PRIMARY(orderNumber)
+[--]  +-- COLUMN      : classicmodels.orderdetails
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 2 column(s)
+[--]  +-- CARDINALITY : 326 distinct values
+[--]  +-- NB ROWS     : 2996 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 10.88%
+[!!] PRIMARY(orderNumber) has a low selectivity
+[--] Index: salesRepEmployeeNumber(salesRepEmployeeNumber)
+[--]  +-- COLUMN      : classicmodels.customers
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 16 distinct values
+[--]  +-- NB ROWS     : 122 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 13.11%
+[!!] salesRepEmployeeNumber(salesRepEmployeeNumber) has a low selectivity
+[--] Index: index3(country)
+[--]  +-- COLUMN      : classicmodels.customers
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 28 distinct values
+[--]  +-- NB ROWS     : 122 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 22.95%
+[!!] index3(country) has a low selectivity
+[--] Index: customerNumber(customerNumber)
+[--]  +-- COLUMN      : classicmodels.orders
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 98 distinct values
+[--]  +-- NB ROWS     : 326 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 30.06%
+[--] Index: officeCode(officeCode)
+[--]  +-- COLUMN      : classicmodels.employees
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 7 distinct values
+[--]  +-- NB ROWS     : 23 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 30.43%
+[--] Index: reportsTo(reportsTo)
+[--]  +-- COLUMN      : classicmodels.employees
+[--]  +-- NB SEQS     : 1 sequence(s)
+[--]  +-- NB COLS     : 1 column(s)
+[--]  +-- CARDINALITY : 7 distinct values
+[--]  +-- NB ROWS     : 23 rows
+[--]  +-- TYPE        : BTREE
+[--]  +-- SELECTIVITY : 30.43%
+[--] Unused indexes:
+[!!] Index: salesRepEmployeeNumber on classicmodels.customers is not used.
+[!!] Index: index3 on classicmodels.customers is not used.
+[!!] Index: index4 on classicmodels.customers is not used.
+[!!] Index: reportsTo on classicmodels.employees is not used.
+[!!] Index: officeCode on classicmodels.employees is not used.
+[!!] Index: productCode on classicmodels.orderdetails is not used.
+[!!] Index: productLine on classicmodels.products is not used.
+ 
+-------- Security Recommendations ------------------------------------------------------------------
+[--] Skipped due to unsupported feature for MySQL 8
+ 
+-------- CVE Security Recommendations --------------------------------------------------------------
+[--] Skipped due to --cvefile option undefined
+ 
+-------- Performance Metrics -----------------------------------------------------------------------
+[--] Up for: 22h 50m 27s (60K q [0.736 qps], 1K conn, TX: 5M, RX: 3M)
+[--] Reads / Writes: 99% / 1%
+[--] Binary logging is enabled (GTID MODE: OFF_PERMISSIVE)
+[--] Physical Memory     : 4.0G
+[--] Max MySQL memory    : 20.2G
+[--] Other process memory: 64.8M
+[--] Total buffers: 544.2M global + 65.5M per thread (308 max threads)
+[--] P_S Max memory usage: 72B
+[--] Galera GCache Max memory usage: 0B
+[--] Global Buffers
+[--]  +-- Key Buffer: 16.0M
+[--]  +-- Max Tmp Table: 16.0M
+[--] Per Thread Buffers
+[--]  +-- Read Buffer: 256.0K
+[--]  +-- Read RND Buffer: 512.0K
+[--]  +-- Sort Buffer: 256.0K
+[--]  +-- Thread stack: 256.0K
+[--]  +-- Join Buffer: 256.0K
+[--] Binlog Cache Buffers
+[--]  +-- Binlog Cache: 32.0K
+[OK] Maximum reached memory usage: 871.8M (21.28% of installed RAM)
+[!!] Maximum possible memory usage: 20.2G (505.82% of installed RAM)
+[!!] Overall possible memory usage with other process exceeded memory
+[!!] Slow queries: 96% (58K/60K)
+[OK] Highest usage of available connections: 1% (5/308)
+[OK] Aborted connections: 0.00%  (0/1081)
+[--] Query cache have been removed in MySQL 8
+[OK] Sorts requiring temporary tables: 0% (15 temp sorts / 3K sorts)
+[OK] No joins without indexes
+[OK] Temporary tables created on disk: 9% (429 on disk / 4K total)
+[OK] Thread cache hit rate: 99% (5 created / 1K connections)
+[OK] Table cache hit rate: 98% (67K hits / 68K requests)
+[OK] table_definition_cache(2000) is upper than number of tables(343)
+[OK] Open file limit used: 0% (4/65K)
+[OK] Table locks acquired immediately: 100% (1K immediate / 1K locks)
+[OK] Binlog cache memory access: 99.69% (325 Memory / 326 Total)
+ 
+-------- Performance schema ------------------------------------------------------------------------
+[--] Memory used by P_S: 72B
+[--] Sys schema is installed.
+[--] Sys schema Version: 2.1.1
+ 
+-------- Performance schema: Top 5 user per connection ---------------------------------------------
+[--]  +-- 1: admin	976 conn(s)
+[--]  +-- 2: rdsadmin	265 conn(s)
+[--]  +-- 3: background	35 conn(s)
+[--]  +-- 4: event_scheduler	1 conn(s)
+ 
+-------- Performance schema: Top 5 user per statement ----------------------------------------------
+[--]  +-- 1: rdsadmin	57355 stmt(s)
+[--]  +-- 2: admin	9206 stmt(s)
+[--]  +-- 3: background	0 stmt(s)
+[--]  +-- 4: event_scheduler	0 stmt(s)
+ 
+-------- Performance schema: Top 5 user per statement latency --------------------------------------
+[--]  +-- 1: rdsadmin	2020477364.6761
+[--]  +-- 2: admin	542622644.5868
+[--]  +-- 3: background	0.0000
+[--]  +-- 4: event_scheduler	0.0000
+ 
+-------- Performance schema: Top 5 user per lock latency -------------------------------------------
+[--]  +-- 1: rdsadmin	11088375000000
+[--]  +-- 2: admin	533206000000
+[--]  +-- 3: background	0
+[--]  +-- 4: event_scheduler	0
+ 
+-------- Performance schema: Top 5 user per nb full scans ------------------------------------------
+[--]  +-- 1: rdsadmin	9318
+[--]  +-- 2: admin	552
+[--]  +-- 3: background	0
+[--]  +-- 4: event_scheduler	0
+ 
+-------- Performance schema: Top 5 user per rows sent ----------------------------------------------
+[--]  +-- 1: rdsadmin	64879
+[--]  +-- 2: admin	20561
+[--]  +-- 3: background	0
+[--]  +-- 4: event_scheduler	0
+ 
+-------- Performance schema: Top 5 user per rows modified ------------------------------------------
+[--]  +-- 1: admin	3874
+[--]  +-- 2: rdsadmin	536
+[--]  +-- 3: background	0
+[--]  +-- 4: event_scheduler	0
+ 
+-------- Performance schema: Top 5 user per io -----------------------------------------------------
+[--]  +-- 1: rdsadmin	131787
+[--]  +-- 2: background	16499
+[--]  +-- 3: admin	12707
+[--]  +-- 4: event_scheduler	0
+ 
+-------- Performance schema: Top 5 user per io latency ---------------------------------------------
+[--]  +-- 1: background	10864222064000
+[--]  +-- 2: rdsadmin	7036821572800
+[--]  +-- 3: admin	405575540000
+[--]  +-- 4: event_scheduler	0
+ 
+-------- Performance schema: Top 5 host per connection ---------------------------------------------
+[--]  +-- 1: 10.94.129.250	985 conn(s)
+[--]  +-- 2: localhost	266 conn(s)
+ 
+-------- Performance schema: Top 5 host per statement ----------------------------------------------
+[--]  +-- 1: localhost	114710 stmt(s)
+[--]  +-- 2: 10.94.129.250	9233 stmt(s)
+ 
+-------- Performance schema: Top 5 host per statement latency --------------------------------------
+[--]  +-- 1: localhost	2020477364.6761
+[--]  +-- 2: 10.94.129.250	546591895.1927
+ 
+-------- Performance schema: Top 5 host per lock latency -------------------------------------------
+[--]  +-- 1: localhost	11088375000000
+[--]  +-- 2: 10.94.129.250	536238000000
+[--]  +-- 3: background	0
+ 
+-------- Performance schema: Top 5 host per nb full scans ------------------------------------------
+[--]  +-- 1: localhost	9318
+[--]  +-- 2: 10.94.129.250	561
+[--]  +-- 3: background	0
+ 
+-------- Performance schema: Top 5 host per rows sent ----------------------------------------------
+[--]  +-- 1: localhost	64879
+[--]  +-- 2: 10.94.129.250	20598
+[--]  +-- 3: background	0
+ 
+-------- Performance schema: Top 5 host per rows modified ------------------------------------------
+[--]  +-- 1: 10.94.129.250	3874
+[--]  +-- 2: localhost	536
+[--]  +-- 3: background	0
+ 
+-------- Performance schema: Top 5 host per io -----------------------------------------------------
+[--]  +-- 1: localhost	263574
+[--]  +-- 2: 10.94.129.250	12770
+ 
+-------- Performance schema: Top 5 host per io latency ---------------------------------------------
+[--]  +-- 1: localhost	14073643145600
+[--]  +-- 2: 10.94.129.250	405888735200
+ 
+-------- Performance schema: Top IO type order by total io -----------------------------------------
+[--]  +-- 1: sql/query_log	64781 i/o
+[--]  +-- 2: sql/slow_log	61188 i/o
+[--]  +-- 3: sql/binlog_index	9081 i/o
+[--]  +-- 4: innodb/innodb_log_file	7613 i/o
+[--]  +-- 5: innodb/innodb_data_file	7372 i/o
+[--]  +-- 6: sql/binlog	5633 i/o
+[--]  +-- 7: innodb/innodb_temp_file	3961 i/o
+[--]  +-- 8: innodb/innodb_dblwr_file	995 i/o
+[--]  +-- 9: sql/io_cache	417 i/o
+[--]  +-- 10: sql/casetest	15 i/o
+[--]  +-- 11: sql/ERRMSG	5 i/o
+[--]  +-- 12: mysys/cnf	5 i/o
+[--]  +-- 13: sql/pid	3 i/o
+[--]  +-- 14: mysys/charset	3 i/o
+[--]  +-- 15: sql/misc	2 i/o
+ 
+-------- Performance schema: Top IO type order by total latency ------------------------------------
+[--]  +-- 1: innodb/innodb_log_file	7386257366400
+[--]  +-- 2: sql/slow_log	2745320900000
+[--]  +-- 3: sql/binlog	2285441877600
+[--]  +-- 4: innodb/innodb_data_file	2251487208000
+[--]  +-- 5: sql/query_log	1487606616000
+[--]  +-- 6: innodb/innodb_dblwr_file	1323968811200
+[--]  +-- 7: sql/binlog_index	685325447200
+[--]  +-- 8: innodb/innodb_temp_file	127826165600
+[--]  +-- 9: sql/io_cache	12292352000
+[--]  +-- 10: sql/casetest	1253156800
+[--]  +-- 11: sql/ERRMSG	157967200
+[--]  +-- 12: mysys/cnf	31500000
+[--]  +-- 13: sql/pid	24940000
+[--]  +-- 14: mysys/charset	17655200
+[--]  +-- 15: sql/misc	5941600
+ 
+-------- Performance schema: Top IO type order by max latency --------------------------------------
+[--]  +-- 1: innodb/innodb_dblwr_file	248923587200
+[--]  +-- 2: sql/query_log	48012633600
+[--]  +-- 3: sql/slow_log	45795704800
+[--]  +-- 4: innodb/innodb_log_file	34152244800
+[--]  +-- 5: innodb/innodb_data_file	21238205600
+[--]  +-- 6: sql/binlog	18729844000
+[--]  +-- 7: sql/binlog_index	13776585600
+[--]  +-- 8: innodb/innodb_temp_file	3157122400
+[--]  +-- 9: sql/casetest	1190144000
+[--]  +-- 10: sql/io_cache	158195200
+[--]  +-- 11: sql/ERRMSG	133379200
+[--]  +-- 12: sql/pid	17883200
+[--]  +-- 13: mysys/cnf	14799200
+[--]  +-- 14: mysys/charset	9576800
+[--]  +-- 15: sql/misc	3821600
+ 
+-------- Performance schema: Top Stages order by total io ------------------------------------------
+[--]  +-- 1: innodb/alter table (flush)	24 i/o
+[--]  +-- 2: innodb/alter table (end)	12 i/o
+[--]  +-- 3: innodb/alter table (log apply index)	12 i/o
+[--]  +-- 4: innodb/alter table (read PK and internal sort)	12 i/o
+[--]  +-- 5: innodb/buffer pool load	1 i/o
+ 
+-------- Performance schema: Top Stages order by total latency -------------------------------------
+[--]  +-- 1: innodb/alter table (end)	151728130000
+[--]  +-- 2: innodb/buffer pool load	60631876000
+[--]  +-- 3: innodb/alter table (flush)	53076813000
+[--]  +-- 4: innodb/alter table (read PK and internal sort)	2474996000
+[--]  +-- 5: innodb/alter table (log apply index)	167368000
+ 
+-------- Performance schema: Top Stages order by avg latency ---------------------------------------
+[--]  +-- 1: innodb/buffer pool load	60631876000
+[--]  +-- 2: innodb/alter table (end)	12644010000
+[--]  +-- 3: innodb/alter table (flush)	2211533000
+[--]  +-- 4: innodb/alter table (read PK and internal sort)	206249000
+[--]  +-- 5: innodb/alter table (log apply index)	13947000
+ 
+-------- Performance schema: Top 5 host per table scans --------------------------------------------
+[--]  +-- 1: localhost	18636
+[--]  +-- 2: 10.94.129.250	572
+ 
+-------- Performance schema: InnoDB Buffer Pool by schema ------------------------------------------
+[--]  +-- 1: mysql	5160960	2498524	315 page(s)
+[--]  +-- 2: classicmodels	671744	295210	41 page(s)
+[--]  +-- 3: InnoDB System	131072	12981	8 page(s)
+ 
+-------- Performance schema: 40 InnoDB Buffer Pool by table ----------------------------------------
+[--]  +-- 1: mysql	columns	1572864	1155529	96 page(s)
+[--]  +-- 2: mysql	tables	786432	550403	48 page(s)
+[--]  +-- 3: mysql	index_column_usage	262144	125445	16 page(s)
+[--]  +-- 4: classicmodels	orderdetails	245760	180708	15 page(s)
+[--]  +-- 5: mysql	routines	245760	102441	15 page(s)
+[--]  +-- 6: mysql	time_zone_transition_type	147456	120728	9 page(s)
+[--]  +-- 7: mysql	time_zone_transition	147456	125622	9 page(s)
+[--]  +-- 8: classicmodels	customers	114688	26215	7 page(s)
+[--]  +-- 9: mysql	triggers	114688	6903	7 page(s)
+[--]  +-- 10: mysql	time_zone_name	114688	64285	7 page(s)
+[--]  +-- 11: mysql	table_partitions	114688	0	7 page(s)
+[--]  +-- 12: mysql	indexes	98304	49689	6 page(s)
+[--]  +-- 13: classicmodels	orders	98304	36460	6 page(s)
+[--]  +-- 14: mysql	events	98304	724	6 page(s)
+[--]  +-- 15: classicmodels	products	81920	33398	5 page(s)
+[--]  +-- 16: mysql	collations	81920	29916	5 page(s)
+[--]  +-- 17: classicmodels	employees	81920	3667	5 page(s)
+[--]  +-- 18: mysql	column_type_elements	65536	34491	4 page(s)
+[--]  +-- 19: mysql	foreign_keys	65536	12279	4 page(s)
+[--]  +-- 20: mysql	character_sets	49152	4296	3 page(s)
+[--]  +-- 21: mysql	check_constraints	49152	0	3 page(s)
+[--]  +-- 22: mysql	schemata	49152	710	3 page(s)
+[--]  +-- 23: mysql	column_statistics	49152	0	3 page(s)
+[--]  +-- 24: mysql	time_zone	49152	18705	3 page(s)
+[--]  +-- 25: mysql	index_partitions	49152	0	3 page(s)
+[--]  +-- 26: mysql	foreign_key_column_usage	49152	5712	3 page(s)
+[--]  +-- 27: mysql	parameters	49152	12584	3 page(s)
+[--]  +-- 28: mysql	resource_groups	32768	2192	2 page(s)
+[--]  +-- 29: mysql	tables_priv	32768	1764	2 page(s)
+[--]  +-- 30: mysql	tablespace_files	32768	2211	2 page(s)
+[--]  +-- 31: mysql	db	32768	1496	2 page(s)
+[--]  +-- 32: mysql	catalogs	32768	56	2 page(s)
+[--]  +-- 33: mysql	view_routine_usage	32768	1626	2 page(s)
+[--]  +-- 34: mysql	procs_priv	32768	0	2 page(s)
+[--]  +-- 35: mysql	innodb_ddl_log	32768	0	2 page(s)
+[--]  +-- 36: mysql	proxies_priv	32768	1182	2 page(s)
+[--]  +-- 37: mysql	tablespaces	32768	4013	2 page(s)
+[--]  +-- 38: mysql	view_table_usage	32768	23974	2 page(s)
+[--]  +-- 39: mysql	global_grants	16384	13600	1 page(s)
+[--]  +-- 40: mysql	index_stats	16384	3087	1 page(s)
+ 
+-------- Performance schema: Process per time ------------------------------------------------------
+[--]  +-- 1: innodb/page_flush_coordinator_thread	NULL	82230
+[--]  +-- 2: sql/compress_gtid_table	Daemon	82229
+[--]  +-- 3: innodb/srv_master_thread	NULL	82229
+[--]  +-- 4: innodb/dict_stats_thread	NULL	82229
+[--]  +-- 5: innodb/fts_optimize_thread	NULL	82229
+[--]  +-- 6: innodb/srv_purge_thread	NULL	82229
+[--]  +-- 7: sql/main	NULL	82229
+[--]  +-- 8: sql/event_scheduler	Daemon	82229
+[--]  +-- 9: innodb/clone_gtid_thread	NULL	82229
+[--]  +-- 10: rdsadmin@localhost	Sleep	7
+[--]  +-- 11: admin@10.94.129.250	Query	0
+[--]  +-- 12: innodb/log_checkpointer_thread	NULL	NULL
+[--]  +-- 13: innodb/io_write_thread	NULL	NULL
+[--]  +-- 14: innodb/io_write_thread	NULL	NULL
+[--]  +-- 15: innodb/io_write_thread	NULL	NULL
+[--]  +-- 16: innodb/io_write_thread	NULL	NULL
+[--]  +-- 17: innodb/io_read_thread	NULL	NULL
+[--]  +-- 18: innodb/io_read_thread	NULL	NULL
+[--]  +-- 19: innodb/io_read_thread	NULL	NULL
+[--]  +-- 20: innodb/io_read_thread	NULL	NULL
+[--]  +-- 21: innodb/io_log_thread	NULL	NULL
+[--]  +-- 22: innodb/io_ibuf_thread	NULL	NULL
+[--]  +-- 23: innodb/log_flush_notifier_thread	NULL	NULL
+[--]  +-- 24: innodb/log_flusher_thread	NULL	NULL
+[--]  +-- 25: innodb/log_write_notifier_thread	NULL	NULL
+[--]  +-- 26: innodb/srv_lock_timeout_thread	NULL	NULL
+[--]  +-- 27: sql/signal_handler	NULL	NULL
+[--]  +-- 28: innodb/srv_purge_thread	NULL	NULL
+[--]  +-- 29: innodb/buf_dump_thread	NULL	NULL
+[--]  +-- 30: innodb/buf_resize_thread	NULL	NULL
+[--]  +-- 31: innodb/srv_monitor_thread	NULL	NULL
+[--]  +-- 32: innodb/log_writer_thread	NULL	NULL
+[--]  +-- 33: innodb/srv_error_monitor_thread	NULL	NULL
+ 
+-------- Performance schema: InnoDB Lock Waits -----------------------------------------------------
+[--] No information found or indicators deactivated.
+ 
+-------- Performance schema: Thread IO Latency -----------------------------------------------------
+[--]  +-- 1: rdsadmin@localhost	7033181870400	48012633600
+[--]  +-- 2: log_flusher_thread	5506397121600	34152244800
+[--]  +-- 3: log_checkpointer_thread	1833232442400	5505367200
+[--]  +-- 4: page_flush_coordinator_thread	1430384308000	248923587200
+[--]  +-- 5: io_write_thread	391539159200	4185575200
+[--]  +-- 6: io_write_thread	368888414400	21238205600
+[--]  +-- 7: io_write_thread	358947785600	7139219200
+[--]  +-- 8: io_write_thread	356430213600	12712954400
+[--]  +-- 9: buf_dump_thread	55024268000	7332104000
+[--]  +-- 10: log_writer_thread	44482876800	5636669600
+[--]  +-- 11: main	37817668800	2766628000
+[--]  +-- 12: clone_gtid_thread	1425288800	761762400
+[--]  +-- 13: dict_stats_thread	461356800	461356800
+[--]  +-- 14: srv_purge_thread	31448000	20645600
+[--]  +-- 15: admin@10.94.129.250	26077600	15904800
+ 
+-------- Performance schema: Top 15 Most latency statements ----------------------------------------
+[--]  +-- 1: DROP SCHEMA IF EXISTS `classicmodels`	83939511000
+[--]  +-- 2: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	83243481000
+[--]  +-- 3: INSERT INTO `orderdetails` VALUES (...) /* , ... */	80691828000
+[--]  +-- 4: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	78133974000
+[--]  +-- 5: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	74286593000
+[--]  +-- 6: SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	54081471000
+[--]  +-- 7: ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC , `contactFirstName` ASC ) VISIBLE	45813952000
+[--]  +-- 8: ALTER TABLE `classicmodels` . `orders` ADD INDEX `index3` ( `status` ASC ) VISIBLE	44162140000
+[--]  +-- 9: CREATE TABLE `employees` ( `employeeNumber` INTEGER NOT NULL , `lastName` VARCHARACTER (?) NOT NULL , `firstName` VARCHA	37425092000
+[--]  +-- 10: ALTER TABLE `classicmodels` . `customers` ALTER INDEX `salesRepEmployeeNumber` INVISIBLE	34594973000
+[--]  +-- 11: ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC ) VISIBLE	33967867000
+[--]  +-- 12: ALTER TABLE `classicmodels` . `customers` ADD INDEX `index4` ( `contactFirstName` ASC ) VISIBLE	32031197000
+[--]  +-- 13: CREATE TABLE `customers` ( `customerNumber` INTEGER NOT NULL , `customerName` VARCHARACTER (?) NOT NULL , `contactLastNa	30855956000
+[--]  +-- 14: SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	30225630000
+[--]  +-- 15: ALTER TABLE `classicmodels` . `employees` ADD INDEX `index5` ( `lastName` ASC ) VISIBLE	30013306000
+ 
+-------- Performance schema: Top 15 slower queries -------------------------------------------------
+[--]  +-- 1: SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	274 s
+[--]  +-- 2: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	9 s
+[--]  +-- 3: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	4 s
+[--]  +-- 4: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	4 s
+[--]  +-- 5: DROP SCHEMA IF EXISTS `classicmodels`	1 s
+[--]  +-- 6: CREATE TABLE `customers` ( `customerNumber` INTEGER NOT NULL , `customerName` VARCHARACTER (?) NOT NULL , `contactLastNa	1 s
+[--]  +-- 7: CREATE TABLE `employees` ( `employeeNumber` INTEGER NOT NULL , `lastName` VARCHARACTER (?) NOT NULL , `firstName` VARCHA	1 s
+[--]  +-- 8: INSERT INTO `orderdetails` VALUES (...) /* , ... */	1 s
+[--]  +-- 9: ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC , `contactFirstName` ASC ) VISIBLE	1 s
+[--]  +-- 10: ALTER TABLE `classicmodels` . `customers` ALTER INDEX `salesRepEmployeeNumber` INVISIBLE	1 s
+[--]  +-- 11: ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC ) VISIBLE	1 s
+[--]  +-- 12: ALTER TABLE `classicmodels` . `customers` ADD INDEX `index4` ( `contactFirstName` ASC ) VISIBLE	1 s
+[--]  +-- 13: ALTER TABLE `classicmodels` . `orders` ADD INDEX `index3` ( `status` ASC ) VISIBLE	1 s
+ 
+-------- Performance schema: Top 15 nb statement type ----------------------------------------------
+[--]  +-- 1: select	57688
+[--]  +-- 2: freturn	4734
+[--]  +-- 3: Quit	1271
+[--]  +-- 4: Ping	568
+[--]  +-- 5: show_variables	334
+[--]  +-- 6: insert	276
+[--]  +-- 7: flush	275
+[--]  +-- 8: purge_before_date	274
+[--]  +-- 9: commit	270
+[--]  +-- 10: Statistics	268
+[--]  +-- 11: Init DB	148
+[--]  +-- 12: set_option	114
+[--]  +-- 13: show_create_table	58
+[--]  +-- 14: show_triggers	58
+[--]  +-- 15: show_fields	52
+ 
+-------- Performance schema: Top 15 statement by total latency -------------------------------------
+[--]  +-- 1: select	94077950554000
+[--]  +-- 2: show_variables	14954173088000
+[--]  +-- 3: flush	7402734167000
+[--]  +-- 4: insert	1531497362000
+[--]  +-- 5: purge_before_date	1385736096000
+[--]  +-- 6: alter_table	616815348000
+[--]  +-- 7: create_table	224686639000
+[--]  +-- 8: error	164913579000
+[--]  +-- 9: show_table_status	135236226000
+[--]  +-- 10: show_keys	104892541000
+[--]  +-- 11: show_function_status	88605529000
+[--]  +-- 12: drop_db	83939511000
+[--]  +-- 13: show_procedure_status	74102475000
+[--]  +-- 14: Statistics	61298147000
+[--]  +-- 15: show_fields	55510912000
+ 
+-------- Performance schema: Top 15 statement by lock latency --------------------------------------
+[--]  +-- 1: select	10427006000000
+[--]  +-- 2: show_variables	979165000000
+[--]  +-- 3: show_procedure_status	50001000000
+[--]  +-- 4: show_keys	29919000000
+[--]  +-- 5: show_function_status	29101000000
+[--]  +-- 6: insert	29046000000
+[--]  +-- 7: show_triggers	22517000000
+[--]  +-- 8: show_fields	21960000000
+[--]  +-- 9: show_table_status	13716000000
+[--]  +-- 10: show_create_table	11422000000
+[--]  +-- 11: alter_table	5515000000
+[--]  +-- 12: show_databases	2862000000
+[--]  +-- 13: show_tables	2425000000
+[--]  +-- 14: show_status	1636000000
+[--]  +-- 15: create_table	1389000000
+ 
+-------- Performance schema: Top 15 statement by full scans ----------------------------------------
+[--]  +-- 1: select	9533
+[--]  +-- 2: show_variables	334
+[--]  +-- 3: show_databases	11
+[--]  +-- 4: show_status	10
+[--]  +-- 5: show_triggers	9
+[--]  +-- 6: show_storage_engines	4
+[--]  +-- 7: insert	0
+[--]  +-- 8: Ping	0
+[--]  +-- 9: show_master_status	0
+[--]  +-- 10: set_option	0
+[--]  +-- 11: flush	0
+[--]  +-- 12: commit	0
+[--]  +-- 13: show_warnings	0
+[--]  +-- 14: show_procedure_status	0
+[--]  +-- 15: show_function_status	0
+ 
+-------- Performance schema: Top 15 statement by rows sent -----------------------------------------
+[--]  +-- 1: select	76111
+[--]  +-- 2: show_variables	4595
+[--]  +-- 3: show_status	3198
+[--]  +-- 4: show_table_status	1056
+[--]  +-- 5: show_fields	452
+[--]  +-- 6: show_keys	189
+[--]  +-- 7: show_databases	66
+[--]  +-- 8: show_storage_engines	36
+[--]  +-- 9: show_tables	32
+[--]  +-- 10: show_procedure_status	23
+[--]  +-- 11: show_charsets	2
+[--]  +-- 12: insert	0
+[--]  +-- 13: show_master_status	0
+[--]  +-- 14: Ping	0
+[--]  +-- 15: show_warnings	0
+ 
+-------- Performance schema: Top 15 statement by rows modified -------------------------------------
+[--]  +-- 1: insert	4399
+[--]  +-- 2: drop_db	9
+[--]  +-- 3: delete	1
+[--]  +-- 4: create_db	1
+[--]  +-- 5: select	0
+[--]  +-- 6: show_variables	0
+[--]  +-- 7: show_master_status	0
+[--]  +-- 8: set_option	0
+[--]  +-- 9: unlock_tables	0
+[--]  +-- 10: flush	0
+[--]  +-- 11: commit	0
+[--]  +-- 12: Ping	0
+[--]  +-- 13: show_warnings	0
+[--]  +-- 14: show_procedure_status	0
+[--]  +-- 15: show_function_status	0
+ 
+-------- Performance schema: 15 sample queries using temp table ------------------------------------
+[--]  +-- 1: SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`
+[--]  +-- 2: SELECT `info` FROM `information_schema` . `processlist` WHERE SYSTEM_USER = ? AND HOST LIKE ?
+[--]  +-- 3: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 
+[--]  +-- 4: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 
+[--]  +-- 5: SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 
+[--]  +-- 6: SELECT IF ( ( `processlist` . `ID` IS NULL ) , `concat` ( `substring_index` ( `performance_schema` . `threads` . `NAME` 
+[--]  +-- 7: SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION
+[--]  +-- 8: SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO
+[--]  +-- 9: SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`
+[--]  +-- 10: SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema
+[--]  +-- 11: SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema
+[--]  +-- 12: SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 
+[--]  +-- 13: SELECT `cat` . `name` AS `TRIGGER_CATALOG` , `sch` . `name` AS `TRIGGER_SCHEMA` , `trg` . `name` AS `TRIGGER_NAME` , `tr
+[--]  +-- 14: SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch
+[--]  +-- 15: SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `
+ 
+-------- Performance schema: Unused indexes --------------------------------------------------------
+[--]  +-- 1: classicmodels	customers	salesRepEmployeeNumber
+[--]  +-- 2: classicmodels	customers	index3
+[--]  +-- 3: classicmodels	customers	index4
+[--]  +-- 4: classicmodels	employees	reportsTo
+[--]  +-- 5: classicmodels	employees	officeCode
+[--]  +-- 6: classicmodels	orderdetails	productCode
+[--]  +-- 7: classicmodels	products	productLine
+ 
+-------- Performance schema: Tables with full table scans ------------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	2996	65525923200
+[--]  +-- 2: classicmodels	payments	547	1131448800
+[--]  +-- 3: classicmodels	orders	326	297560800
+[--]  +-- 4: classicmodels	customers	122	163904000
+[--]  +-- 5: classicmodels	products	110	10970372000
+[--]  +-- 6: classicmodels	employees	69	118976000
+[--]  +-- 7: classicmodels	offices	7	63996000
+[--]  +-- 8: classicmodels	productlines	7	72368000
+ 
+-------- Performance schema: Latest FILE IO by latency ---------------------------------------------
+[--] No information found or indicators deactivated.
+ 
+-------- Performance schema: FILE by IO read bytes -------------------------------------------------
+[--]  +-- 1: /rdsdbdata/db/#innodb_temp/temp_9.ibt	61816832
+[--]  +-- 2: /rdsdbdata/db/#ib_16384_1.dblwr	9961472
+[--]  +-- 3: /rdsdbdata/db/undo_002	6438912
+[--]  +-- 4: /rdsdbdata/db/undo_001	6406144
+[--]  +-- 5: /rdsdbdata/db/mysql.ibd	5668864
+[--]  +-- 6: /rdsdbdata/db/#ib_16384_0.dblwr	1572864
+[--]  +-- 7: /rdsdbbin/mysql-8.0.23.R3/share/english/errmsg.sys	330250
+[--]  +-- 8: /rdsdbdata/db/innodb/ibdata1	212992
+[--]  +-- 9: /rdsdbdata/db/classicmodels/customers.ibd	114688
+[--]  +-- 10: /rdsdbdata/log/innodb/ib_logfile0	70656
+[--]  +-- 11: /rdsdbdata/db/classicmodels/employees.ibd	65536
+[--]  +-- 12: /rdsdbdata/db/mysql/rds_sysinfo.ibd	65536
+[--]  +-- 13: /rdsdbdata/db/mysql/rds_history.ibd	49152
+[--]  +-- 14: /rdsdbdata/db/mysql/rds_heartbeat2.ibd	49152
+[--]  +-- 15: /rdsdbdata/db/mysql/rds_replication_status.ibd	49152
+ 
+-------- Performance schema: FILE by IO written bytes ----------------------------------------------
+[--]  +-- 1: /rdsdbdata/db/#ib_16384_0.dblwr	66502656
+[--]  +-- 2: /rdsdbdata/db/mysql.ibd	19628032
+[--]  +-- 3: /rdsdbdata/db/undo_002	15499264
+[--]  +-- 4: /rdsdbdata/db/innodb/ibtmp1	14729216
+[--]  +-- 5: /rdsdbdata/log/slowquery/mysql-slowquery.log	14524028
+[--]  +-- 6: /rdsdbdata/db/undo_001	13811712
+[--]  +-- 7: /rdsdbdata/db/innodb/ibdata1	10534912
+[--]  +-- 8: /rdsdbdata/db/#innodb_temp/temp_10.ibt	7159808
+[--]  +-- 9: /rdsdbdata/log/general/mysql-general.log	5302897
+[--]  +-- 10: /rdsdbdata/db/#innodb_temp/temp_9.ibt	5062656
+[--]  +-- 11: /rdsdbdata/log/innodb/ib_logfile0	4777984
+[--]  +-- 12: /rdsdbdata/db/mysql/rds_heartbeat2.ibd	4374528
+[--]  +-- 13: /rdsdbdata/db/classicmodels/customers.ibd	1294336
+[--]  +-- 14: /rdsdbdata/db/classicmodels/employees.ibd	835584
+[--]  +-- 15: /rdsdbdata/db/classicmodels/orderdetails.ibd	458752
+ 
+-------- Performance schema: file per IO total latency ---------------------------------------------
+[--]  +-- 1: /rdsdbdata/log/innodb/ib_logfile0	7386247017600
+[--]  +-- 2: /rdsdbdata/log/slowquery/mysql-slowquery.log	2745848042400
+[--]  +-- 3: /rdsdbdata/log/general/mysql-general.log	1488175044800
+[--]  +-- 4: /rdsdbdata/db/#ib_16384_0.dblwr	1306898162400
+[--]  +-- 5: /rdsdbdata/db/innodb/ibdata1	943268656000
+[--]  +-- 6: /rdsdbdata/db/undo_002	395697478400
+[--]  +-- 7: /rdsdbdata/db/undo_001	347493264800
+[--]  +-- 8: /rdsdbdata/db/mysql.ibd	276716471200
+[--]  +-- 9: /rdsdbdata/db/#innodb_temp/temp_9.ibt	112586344800
+[--]  +-- 10: /rdsdbdata/db/mysql/rds_heartbeat2.ibd	52533974400
+[--]  +-- 11: /rdsdbdata/db/innodb/ibtmp1	51478360800
+[--]  +-- 12: /rdsdbdata/db/classicmodels/customers.ibd	43690177600
+[--]  +-- 13: /rdsdbdata/db/classicmodels/employees.ibd	31006021600
+[--]  +-- 14: /rdsdbdata/db/classicmodels/orderdetails.ibd	27730809600
+[--]  +-- 15: /rdsdbdata/db/#ib_16384_1.dblwr	17070648800
+[--]  +-- 16: /rdsdbdata/db/classicmodels/orders.ibd	15412677600
+[--]  +-- 17: /rdsdbdata/db/#innodb_temp/temp_10.ibt	11561081600
+[--]  +-- 18: /rdsdbdata/db/classicmodels/products.ibd	10120622400
+[--]  +-- 19: /rdsdbdata/db/classicmodels/offices.ibd	8435526400
+[--]  +-- 20: /rdsdbdata/log/binlog/mysql-bin-changelog.001213	7483086400
+ 
+-------- Performance schema: file per IO read latency ----------------------------------------------
+[--]  +-- 1: /rdsdbdata/db/mysql.ibd	168186281600
+[--]  +-- 2: /rdsdbdata/db/undo_001	157314644800
+[--]  +-- 3: /rdsdbdata/db/undo_002	153331741600
+[--]  +-- 4: /rdsdbdata/db/#innodb_temp/temp_9.ibt	35894348000
+[--]  +-- 5: /rdsdbdata/db/#ib_16384_1.dblwr	7856409600
+[--]  +-- 6: /rdsdbdata/db/innodb/ibdata1	4187200000
+[--]  +-- 7: /rdsdbdata/db/#ib_16384_0.dblwr	2977759200
+[--]  +-- 8: /rdsdbdata/db/mysql/rds_sysinfo.ibd	2265593600
+[--]  +-- 9: /rdsdbdata/db/mysql/rds_heartbeat2.ibd	2225118400
+[--]  +-- 10: /rdsdbdata/db/classicmodels/customers.ibd	2195588000
+[--]  +-- 11: /rdsdbdata/db/mysql/rds_replication_status.ibd	2109110400
+[--]  +-- 12: /rdsdbdata/db/mysql/rds_history.ibd	1962719200
+[--]  +-- 13: /rdsdbdata/db/mysql/rds_configuration.ibd	1327684800
+[--]  +-- 14: /rdsdbdata/db/classicmodels/employees.ibd	1290836800
+[--]  +-- 15: /rdsdbdata/db/classicmodels/orders.ibd	242717600
+[--]  +-- 16: /rdsdbbin/mysql-8.0.23.R3/share/english/errmsg.sys	148266400
+[--]  +-- 17: /rdsdbdata/log/innodb/ib_logfile0	43490400
+[--]  +-- 18: /rdsdbdata/db/auto.cnf	10544800
+[--]  +-- 19: /rdsdbbin/mysql-8.0.23.R3/share/charsets/Index.xml	9576800
+[--]  +-- 20: /rdsdbdata/log/binlog/mysql-bin-changelog.index	2291200
+ 
+-------- Performance schema: file per IO write latency ---------------------------------------------
+[--]  +-- 1: /rdsdbdata/log/slowquery/mysql-slowquery.log	1933149224800
+[--]  +-- 2: /rdsdbdata/db/#ib_16384_0.dblwr	1303904774400
+[--]  +-- 3: /rdsdbdata/log/general/mysql-general.log	1024089921600
+[--]  +-- 4: /rdsdbdata/log/innodb/ib_logfile0	62571939200
+[--]  +-- 5: /rdsdbdata/db/innodb/ibtmp1	50081490400
+[--]  +-- 6: /rdsdbdata/db/#innodb_temp/temp_9.ibt	41985047200
+[--]  +-- 7: /rdsdbdata/db/mysql.ibd	35562457600
+[--]  +-- 8: /rdsdbdata/db/undo_002	16013753600
+[--]  +-- 9: /rdsdbdata/db/innodb/ibdata1	15869643200
+[--]  +-- 10: /rdsdbdata/db/undo_001	14362642400
+[--]  +-- 11: /rdsdbdata/db/#innodb_temp/temp_10.ibt	10206121600
+[--]  +-- 12: /rdsdbdata/db/#ib_16384_1.dblwr	9198345600
+[--]  +-- 13: /rdsdbdata/db/classicmodels/customers.ibd	8109759200
+[--]  +-- 14: /rdsdbdata/db/classicmodels/employees.ibd	5332477600
+[--]  +-- 15: /rdsdbdata/db/classicmodels/orderdetails.ibd	4211989600
+[--]  +-- 16: /rdsdbdata/db/classicmodels/orders.ibd	3555104800
+[--]  +-- 17: /rdsdbdata/db/classicmodels/productlines.ibd	2871634400
+[--]  +-- 18: /rdsdbdata/db/mysql/rds_heartbeat2.ibd	2559577600
+[--]  +-- 19: /rdsdbdata/db/classicmodels/payments.ibd	2099543200
+[--]  +-- 20: /rdsdbdata/db/classicmodels/offices.ibd	2004601600
+ 
+-------- Performance schema: Event Wait by read bytes ----------------------------------------------
+[--]  +-- 1: innodb/innodb_temp_file	61816832
+[--]  +-- 2: innodb/innodb_data_file	19808256
+[--]  +-- 3: sql/io_cache	12902485
+[--]  +-- 4: innodb/innodb_dblwr_file	11534336
+[--]  +-- 5: sql/ERRMSG	330250
+[--]  +-- 6: sql/binlog_index	215845
+[--]  +-- 7: sql/binlog	173926
+[--]  +-- 8: innodb/innodb_log_file	70656
+[--]  +-- 9: mysys/charset	19495
+[--]  +-- 10: mysys/cnf	56
+[--]  +-- 11: sql/casetest	0
+[--]  +-- 12: sql/misc	0
+[--]  +-- 13: sql/pid	0
+[--]  +-- 14: sql/query_log	0
+[--]  +-- 15: sql/slow_log	0
+ 
+-------- Performance schema: Event Wait written bytes ----------------------------------------------
+[--]  +-- 1: innodb/innodb_data_file	82477056
+[--]  +-- 2: innodb/innodb_dblwr_file	66699264
+[--]  +-- 3: sql/slow_log	14528660
+[--]  +-- 4: innodb/innodb_temp_file	12484608
+[--]  +-- 5: sql/io_cache	12228548
+[--]  +-- 6: sql/query_log	5304790
+[--]  +-- 7: innodb/innodb_log_file	4777984
+[--]  +-- 8: sql/binlog	362758
+[--]  +-- 9: sql/pid	5
+[--]  +-- 10: sql/binlog_index	0
+[--]  +-- 11: sql/casetest	0
+[--]  +-- 12: sql/ERRMSG	0
+[--]  +-- 13: sql/misc	0
+[--]  +-- 14: mysys/charset	0
+[--]  +-- 15: mysys/cnf	0
+ 
+-------- Performance schema: event per wait total latency ------------------------------------------
+[--]  +-- 1: innodb/innodb_log_file	7386257366400
+[--]  +-- 2: sql/slow_log	2745977227200
+[--]  +-- 3: sql/binlog	2285441877600
+[--]  +-- 4: innodb/innodb_data_file	2251421196800
+[--]  +-- 5: sql/query_log	1488282692000
+[--]  +-- 6: innodb/innodb_dblwr_file	1323968811200
+[--]  +-- 7: sql/binlog_index	685325447200
+[--]  +-- 8: innodb/innodb_temp_file	142185260800
+[--]  +-- 9: sql/io_cache	13724784800
+[--]  +-- 10: sql/casetest	1253156800
+[--]  +-- 11: sql/ERRMSG	157967200
+[--]  +-- 12: mysys/cnf	31500000
+[--]  +-- 13: sql/pid	24940000
+[--]  +-- 14: mysys/charset	17655200
+[--]  +-- 15: sql/misc	5941600
+ 
+-------- Performance schema: event per wait read latency -------------------------------------------
+[--]  +-- 1: innodb/innodb_data_file	524352479200
+[--]  +-- 2: innodb/innodb_temp_file	35894348000
+[--]  +-- 3: innodb/innodb_dblwr_file	10834168800
+[--]  +-- 4: sql/io_cache	2306574400
+[--]  +-- 5: sql/binlog_index	2144366400
+[--]  +-- 6: sql/binlog	262807200
+[--]  +-- 7: sql/ERRMSG	148266400
+[--]  +-- 8: innodb/innodb_log_file	43490400
+[--]  +-- 9: mysys/cnf	10544800
+[--]  +-- 10: mysys/charset	9576800
+[--]  +-- 11: sql/casetest	0
+[--]  +-- 12: sql/misc	0
+[--]  +-- 13: sql/pid	0
+[--]  +-- 14: sql/query_log	0
+[--]  +-- 15: sql/slow_log	0
+ 
+-------- Performance schema: event per wait write latency ------------------------------------------
+[--]  +-- 1: sql/slow_log	1933276513600
+[--]  +-- 2: innodb/innodb_dblwr_file	1313103120000
+[--]  +-- 3: sql/query_log	1024193795200
+[--]  +-- 4: innodb/innodb_data_file	164516252000
+[--]  +-- 5: innodb/innodb_log_file	62571939200
+[--]  +-- 6: innodb/innodb_temp_file	58519070400
+[--]  +-- 7: sql/binlog	11794035200
+[--]  +-- 8: sql/io_cache	7188584800
+[--]  +-- 9: sql/pid	5887200
+[--]  +-- 10: sql/binlog_index	0
+[--]  +-- 11: sql/casetest	0
+[--]  +-- 12: sql/ERRMSG	0
+[--]  +-- 13: sql/misc	0
+[--]  +-- 14: mysys/charset	0
+[--]  +-- 15: mysys/cnf	0
+ 
+-------- Performance schema: TOP 15 most read indexes ----------------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	PRIMARY	17590
+[--]  +-- 2: classicmodels	orders	customerNumber	1792
+[--]  +-- 3: classicmodels	orders	index3	304
+[--]  +-- 4: classicmodels	employees	index4	47
+[--]  +-- 5: performance_schema	variables_by_thread	PRIMARY	0
+[--]  +-- 6: mysql	schemata	catalog_id	0
+[--]  +-- 7: mysql	schemata	default_collation_id	0
+[--]  +-- 8: mysql	tablespace_files	tablespace_id	0
+[--]  +-- 9: mysql	tablespace_files	file_name	0
+[--]  +-- 10: mysql	tablespaces	PRIMARY	0
+[--]  +-- 11: mysql	check_constraints	PRIMARY	0
+[--]  +-- 12: mysql	check_constraints	schema_id	0
+[--]  +-- 13: mysql	column_type_elements	PRIMARY	0
+[--]  +-- 14: mysql	columns	PRIMARY	0
+[--]  +-- 15: mysql	columns	table_id	0
+ 
+-------- Performance schema: TOP 15 most modified indexes ------------------------------------------
+[--]  +-- 1: mysql	schemata	PRIMARY	0
+[--]  +-- 2: mysql	schemata	catalog_id	0
+[--]  +-- 3: mysql	schemata	default_collation_id	0
+[--]  +-- 4: mysql	tablespace_files	tablespace_id	0
+[--]  +-- 5: mysql	tablespace_files	file_name	0
+[--]  +-- 6: mysql	tablespaces	PRIMARY	0
+[--]  +-- 7: mysql	tablespaces	name	0
+[--]  +-- 8: mysql	check_constraints	PRIMARY	0
+[--]  +-- 9: mysql	check_constraints	schema_id	0
+[--]  +-- 10: mysql	check_constraints	table_id	0
+[--]  +-- 11: mysql	column_type_elements	PRIMARY	0
+[--]  +-- 12: mysql	columns	PRIMARY	0
+[--]  +-- 13: mysql	columns	table_id	0
+[--]  +-- 14: mysql	columns	table_id_2	0
+[--]  +-- 15: mysql	columns	collation_id	0
+ 
+-------- Performance schema: TOP 15 high read latency index ----------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	PRIMARY	19752205600
+[--]  +-- 2: classicmodels	orders	customerNumber	1174230400
+[--]  +-- 3: classicmodels	orders	index3	386824800
+[--]  +-- 4: classicmodels	employees	index4	45572800
+[--]  +-- 5: performance_schema	variables_by_thread	PRIMARY	0
+[--]  +-- 6: mysql	schemata	catalog_id	0
+[--]  +-- 7: mysql	schemata	default_collation_id	0
+[--]  +-- 8: mysql	tablespace_files	tablespace_id	0
+[--]  +-- 9: mysql	tablespace_files	file_name	0
+[--]  +-- 10: mysql	tablespaces	PRIMARY	0
+[--]  +-- 11: mysql	check_constraints	PRIMARY	0
+[--]  +-- 12: mysql	check_constraints	schema_id	0
+[--]  +-- 13: mysql	column_type_elements	PRIMARY	0
+[--]  +-- 14: mysql	columns	PRIMARY	0
+[--]  +-- 15: mysql	columns	table_id	0
+ 
+-------- Performance schema: TOP 15 most modified indexes ------------------------------------------
+[--]  +-- 1: mysql	schemata	PRIMARY	0
+[--]  +-- 2: mysql	schemata	catalog_id	0
+[--]  +-- 3: mysql	schemata	default_collation_id	0
+[--]  +-- 4: mysql	tablespace_files	tablespace_id	0
+[--]  +-- 5: mysql	tablespace_files	file_name	0
+[--]  +-- 6: mysql	tablespaces	PRIMARY	0
+[--]  +-- 7: mysql	tablespaces	name	0
+[--]  +-- 8: mysql	check_constraints	PRIMARY	0
+[--]  +-- 9: mysql	check_constraints	schema_id	0
+[--]  +-- 10: mysql	check_constraints	table_id	0
+[--]  +-- 11: mysql	column_type_elements	PRIMARY	0
+[--]  +-- 12: mysql	columns	PRIMARY	0
+[--]  +-- 13: mysql	columns	table_id	0
+[--]  +-- 14: mysql	columns	table_id_2	0
+[--]  +-- 15: mysql	columns	collation_id	0
+ 
+-------- Performance schema: TOP 15 high update latency index --------------------------------------
+[--]  +-- 1: mysql	schemata	PRIMARY	0
+[--]  +-- 2: mysql	schemata	catalog_id	0
+[--]  +-- 3: mysql	schemata	default_collation_id	0
+[--]  +-- 4: mysql	tablespace_files	tablespace_id	0
+[--]  +-- 5: mysql	tablespace_files	file_name	0
+[--]  +-- 6: mysql	tablespaces	PRIMARY	0
+[--]  +-- 7: mysql	tablespaces	name	0
+[--]  +-- 8: mysql	check_constraints	PRIMARY	0
+[--]  +-- 9: mysql	check_constraints	schema_id	0
+[--]  +-- 10: mysql	check_constraints	table_id	0
+[--]  +-- 11: mysql	column_type_elements	PRIMARY	0
+[--]  +-- 12: mysql	columns	PRIMARY	0
+[--]  +-- 13: mysql	columns	table_id	0
+[--]  +-- 14: mysql	columns	table_id_2	0
+[--]  +-- 15: mysql	columns	collation_id	0
+ 
+-------- Performance schema: TOP 15 high delete latency index --------------------------------------
+[--]  +-- 1: mysql	schemata	PRIMARY	0
+[--]  +-- 2: mysql	schemata	catalog_id	0
+[--]  +-- 3: mysql	schemata	default_collation_id	0
+[--]  +-- 4: mysql	tablespace_files	tablespace_id	0
+[--]  +-- 5: mysql	tablespace_files	file_name	0
+[--]  +-- 6: mysql	tablespaces	PRIMARY	0
+[--]  +-- 7: mysql	tablespaces	name	0
+[--]  +-- 8: mysql	check_constraints	PRIMARY	0
+[--]  +-- 9: mysql	check_constraints	schema_id	0
+[--]  +-- 10: mysql	check_constraints	table_id	0
+[--]  +-- 11: mysql	column_type_elements	PRIMARY	0
+[--]  +-- 12: mysql	columns	PRIMARY	0
+[--]  +-- 13: mysql	columns	table_id	0
+[--]  +-- 14: mysql	columns	table_id_2	0
+[--]  +-- 15: mysql	columns	collation_id	0
+ 
+-------- Performance schema: TOP 15 most read tables -----------------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	20586
+[--]  +-- 2: classicmodels	orders	2422
+[--]  +-- 3: classicmodels	payments	547
+[--]  +-- 4: classicmodels	customers	122
+[--]  +-- 5: classicmodels	employees	116
+[--]  +-- 6: classicmodels	products	110
+[--]  +-- 7: classicmodels	productlines	7
+[--]  +-- 8: classicmodels	offices	7
+[--]  +-- 9: mysql	dd_properties	0
+[--]  +-- 10: mysql	schemata	0
+[--]  +-- 11: mysql	tablespace_files	0
+[--]  +-- 12: mysql	tablespaces	0
+[--]  +-- 13: mysql	check_constraints	0
+[--]  +-- 14: mysql	column_type_elements	0
+[--]  +-- 15: mysql	columns	0
+ 
+-------- Performance schema: TOP 15 most modified tables -------------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	2996
+[--]  +-- 2: classicmodels	payments	273
+[--]  +-- 3: classicmodels	products	110
+[--]  +-- 4: classicmodels	productlines	7
+[--]  +-- 5: classicmodels	offices	7
+[--]  +-- 6: classicmodels	orders	0
+[--]  +-- 7: classicmodels	employees	0
+[--]  +-- 8: classicmodels	customers	0
+[--]  +-- 9: mysql	dd_properties	0
+[--]  +-- 10: mysql	schemata	0
+[--]  +-- 11: mysql	tablespace_files	0
+[--]  +-- 12: mysql	tablespaces	0
+[--]  +-- 13: mysql	check_constraints	0
+[--]  +-- 14: mysql	column_type_elements	0
+[--]  +-- 15: mysql	columns	0
+ 
+-------- Performance schema: TOP 15 high read latency tables ---------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	21115648800
+[--]  +-- 2: classicmodels	orders	1858616000
+[--]  +-- 3: classicmodels	payments	201914400
+[--]  +-- 4: classicmodels	products	175260000
+[--]  +-- 5: classicmodels	employees	164548800
+[--]  +-- 6: classicmodels	customers	163904000
+[--]  +-- 7: classicmodels	offices	15798400
+[--]  +-- 8: classicmodels	productlines	14224800
+[--]  +-- 9: mysql	dd_properties	0
+[--]  +-- 10: mysql	schemata	0
+[--]  +-- 11: mysql	tablespace_files	0
+[--]  +-- 12: mysql	tablespaces	0
+[--]  +-- 13: mysql	check_constraints	0
+[--]  +-- 14: mysql	column_type_elements	0
+[--]  +-- 15: mysql	columns	0
+ 
+-------- Performance schema: TOP 15 high insert latency tables -------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	64162480000
+[--]  +-- 2: classicmodels	products	10795112000
+[--]  +-- 3: classicmodels	payments	929534400
+[--]  +-- 4: classicmodels	productlines	58143200
+[--]  +-- 5: classicmodels	offices	48197600
+[--]  +-- 6: classicmodels	orders	0
+[--]  +-- 7: classicmodels	employees	0
+[--]  +-- 8: classicmodels	customers	0
+[--]  +-- 9: mysql	dd_properties	0
+[--]  +-- 10: mysql	schemata	0
+[--]  +-- 11: mysql	tablespace_files	0
+[--]  +-- 12: mysql	tablespaces	0
+[--]  +-- 13: mysql	check_constraints	0
+[--]  +-- 14: mysql	column_type_elements	0
+[--]  +-- 15: mysql	columns	0
+ 
+-------- Performance schema: TOP 15 high update latency tables -------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	0
+[--]  +-- 2: classicmodels	products	0
+[--]  +-- 3: classicmodels	orders	0
+[--]  +-- 4: classicmodels	payments	0
+[--]  +-- 5: classicmodels	employees	0
+[--]  +-- 6: classicmodels	customers	0
+[--]  +-- 7: classicmodels	productlines	0
+[--]  +-- 8: classicmodels	offices	0
+[--]  +-- 9: mysql	dd_properties	0
+[--]  +-- 10: mysql	schemata	0
+[--]  +-- 11: mysql	tablespace_files	0
+[--]  +-- 12: mysql	tablespaces	0
+[--]  +-- 13: mysql	check_constraints	0
+[--]  +-- 14: mysql	column_type_elements	0
+[--]  +-- 15: mysql	columns	0
+ 
+-------- Performance schema: TOP 15 high delete latency tables -------------------------------------
+[--]  +-- 1: classicmodels	orderdetails	0
+[--]  +-- 2: classicmodels	products	0
+[--]  +-- 3: classicmodels	orders	0
+[--]  +-- 4: classicmodels	payments	0
+[--]  +-- 5: classicmodels	employees	0
+[--]  +-- 6: classicmodels	customers	0
+[--]  +-- 7: classicmodels	productlines	0
+[--]  +-- 8: classicmodels	offices	0
+[--]  +-- 9: mysql	dd_properties	0
+[--]  +-- 10: mysql	schemata	0
+[--]  +-- 11: mysql	tablespace_files	0
+[--]  +-- 12: mysql	tablespaces	0
+[--]  +-- 13: mysql	check_constraints	0
+[--]  +-- 14: mysql	column_type_elements	0
+[--]  +-- 15: mysql	columns	0
+ 
+-------- Performance schema: Redundant indexes -----------------------------------------------------
+[--]  +-- 1: classicmodels	customers	index4	customerNumber,customerName	1	PRIMARY	customerNumber	0	0	ALTER TABLE `classicmodels`.`customers` DROP INDEX `index4`
+ 
+-------- Performance schema: Table not using InnoDB buffer -----------------------------------------
+[--]  +-- 1: performance_schema	global_variables
+[--]  +-- 2: performance_schema	session_variables
+[--]  +-- 3: performance_schema	session_status
+[--]  +-- 4: performance_schema	events_statements_current
+[--]  +-- 5: performance_schema	threads
+[--]  +-- 6: performance_schema	events_stages_history_long
+[--]  +-- 7: performance_schema	events_waits_history_long
+[--]  +-- 8: performance_schema	global_status
+[--]  +-- 9: performance_schema	accounts
+[--]  +-- 10: performance_schema	binary_log_transaction_compression_stats
+[--]  +-- 11: performance_schema	cond_instances
+[--]  +-- 12: performance_schema	data_lock_waits
+[--]  +-- 13: performance_schema	data_locks
+[--]  +-- 14: performance_schema	error_log
+[--]  +-- 15: performance_schema	events_errors_summary_by_account_by_error
+[--]  +-- 16: performance_schema	events_errors_summary_by_host_by_error
+[--]  +-- 17: performance_schema	events_errors_summary_by_thread_by_error
+[--]  +-- 18: performance_schema	events_errors_summary_by_user_by_error
+[--]  +-- 19: performance_schema	events_errors_summary_global_by_error
+[--]  +-- 20: performance_schema	events_stages_current
+[--]  +-- 21: performance_schema	events_stages_history
+[--]  +-- 22: performance_schema	events_stages_summary_by_account_by_event_name
+[--]  +-- 23: performance_schema	events_stages_summary_by_host_by_event_name
+[--]  +-- 24: performance_schema	events_stages_summary_by_thread_by_event_name
+[--]  +-- 25: performance_schema	events_stages_summary_by_user_by_event_name
+[--]  +-- 26: performance_schema	events_stages_summary_global_by_event_name
+[--]  +-- 27: performance_schema	events_statements_histogram_by_digest
+[--]  +-- 28: performance_schema	events_statements_histogram_global
+[--]  +-- 29: performance_schema	events_statements_history
+[--]  +-- 30: performance_schema	events_statements_history_long
+[--]  +-- 31: performance_schema	events_statements_summary_by_account_by_event_name
+[--]  +-- 32: performance_schema	events_statements_summary_by_digest
+[--]  +-- 33: performance_schema	events_statements_summary_by_host_by_event_name
+[--]  +-- 34: performance_schema	events_statements_summary_by_program
+[--]  +-- 35: performance_schema	events_statements_summary_by_thread_by_event_name
+[--]  +-- 36: performance_schema	events_statements_summary_by_user_by_event_name
+[--]  +-- 37: performance_schema	events_statements_summary_global_by_event_name
+[--]  +-- 38: performance_schema	events_transactions_current
+[--]  +-- 39: performance_schema	events_transactions_history
+[--]  +-- 40: performance_schema	events_transactions_history_long
+[--]  +-- 41: performance_schema	events_transactions_summary_by_account_by_event_name
+[--]  +-- 42: performance_schema	events_transactions_summary_by_host_by_event_name
+[--]  +-- 43: performance_schema	events_transactions_summary_by_thread_by_event_name
+[--]  +-- 44: performance_schema	events_transactions_summary_by_user_by_event_name
+[--]  +-- 45: performance_schema	events_transactions_summary_global_by_event_name
+[--]  +-- 46: performance_schema	events_waits_current
+[--]  +-- 47: performance_schema	events_waits_history
+[--]  +-- 48: performance_schema	events_waits_summary_by_account_by_event_name
+[--]  +-- 49: performance_schema	events_waits_summary_by_host_by_event_name
+[--]  +-- 50: performance_schema	events_waits_summary_by_instance
+[--]  +-- 51: performance_schema	events_waits_summary_by_thread_by_event_name
+[--]  +-- 52: performance_schema	events_waits_summary_by_user_by_event_name
+[--]  +-- 53: performance_schema	events_waits_summary_global_by_event_name
+[--]  +-- 54: performance_schema	file_instances
+[--]  +-- 55: performance_schema	file_summary_by_event_name
+[--]  +-- 56: performance_schema	file_summary_by_instance
+[--]  +-- 57: performance_schema	host_cache
+[--]  +-- 58: performance_schema	hosts
+[--]  +-- 59: performance_schema	keyring_keys
+[--]  +-- 60: performance_schema	log_status
+[--]  +-- 61: performance_schema	memory_summary_by_account_by_event_name
+[--]  +-- 62: performance_schema	memory_summary_by_host_by_event_name
+[--]  +-- 63: performance_schema	memory_summary_by_thread_by_event_name
+[--]  +-- 64: performance_schema	memory_summary_by_user_by_event_name
+[--]  +-- 65: performance_schema	memory_summary_global_by_event_name
+[--]  +-- 66: performance_schema	metadata_locks
+[--]  +-- 67: performance_schema	mutex_instances
+[--]  +-- 68: performance_schema	objects_summary_global_by_type
+[--]  +-- 69: performance_schema	performance_timers
+[--]  +-- 70: performance_schema	persisted_variables
+[--]  +-- 71: performance_schema	prepared_statements_instances
+[--]  +-- 72: performance_schema	processlist
+[--]  +-- 73: performance_schema	replication_applier_configuration
+[--]  +-- 74: performance_schema	replication_applier_filters
+[--]  +-- 75: performance_schema	replication_applier_global_filters
+[--]  +-- 76: performance_schema	replication_applier_status
+[--]  +-- 77: performance_schema	replication_applier_status_by_coordinator
+[--]  +-- 78: performance_schema	replication_applier_status_by_worker
+[--]  +-- 79: performance_schema	replication_asynchronous_connection_failover
+[--]  +-- 80: performance_schema	replication_asynchronous_connection_failover_managed
+[--]  +-- 81: performance_schema	replication_connection_configuration
+[--]  +-- 82: performance_schema	replication_connection_status
+[--]  +-- 83: performance_schema	replication_group_member_stats
+[--]  +-- 84: performance_schema	replication_group_members
+[--]  +-- 85: performance_schema	rwlock_instances
+[--]  +-- 86: performance_schema	session_account_connect_attrs
+[--]  +-- 87: performance_schema	session_connect_attrs
+[--]  +-- 88: performance_schema	setup_actors
+[--]  +-- 89: performance_schema	setup_consumers
+[--]  +-- 90: performance_schema	setup_instruments
+[--]  +-- 91: performance_schema	setup_objects
+[--]  +-- 92: performance_schema	setup_threads
+[--]  +-- 93: performance_schema	socket_instances
+[--]  +-- 94: performance_schema	socket_summary_by_event_name
+[--]  +-- 95: performance_schema	socket_summary_by_instance
+[--]  +-- 96: performance_schema	status_by_account
+[--]  +-- 97: performance_schema	status_by_host
+[--]  +-- 98: performance_schema	status_by_thread
+[--]  +-- 99: performance_schema	status_by_user
+[--]  +-- 100: performance_schema	table_handles
+[--]  +-- 101: performance_schema	table_io_waits_summary_by_index_usage
+[--]  +-- 102: performance_schema	table_io_waits_summary_by_table
+[--]  +-- 103: performance_schema	table_lock_waits_summary_by_table
+[--]  +-- 104: performance_schema	tls_channel_status
+[--]  +-- 105: performance_schema	user_defined_functions
+[--]  +-- 106: performance_schema	user_variables_by_thread
+[--]  +-- 107: performance_schema	users
+[--]  +-- 108: performance_schema	variables_by_thread
+[--]  +-- 109: performance_schema	variables_info
+ 
+-------- Performance schema: Top 15 Tables using InnoDB buffer -------------------------------------
+[--]  +-- 1: mysql	columns	1572864
+[--]  +-- 2: mysql	tables	786432
+[--]  +-- 3: mysql	index_column_usage	262144
+[--]  +-- 4: classicmodels	orderdetails	245760
+[--]  +-- 5: mysql	routines	245760
+[--]  +-- 6: mysql	time_zone_transition	147456
+[--]  +-- 7: mysql	time_zone_transition_type	147456
+[--]  +-- 8: classicmodels	customers	114688
+[--]  +-- 9: mysql	time_zone_name	114688
+[--]  +-- 10: mysql	triggers	114688
+[--]  +-- 11: mysql	table_partitions	114688
+[--]  +-- 12: classicmodels	orders	98304
+[--]  +-- 13: mysql	events	98304
+[--]  +-- 14: mysql	indexes	98304
+[--]  +-- 15: classicmodels	products	81920
+ 
+-------- Performance schema: Top 15 Tables with InnoDB buffer free ---------------------------------
+[--]  +-- 1: mysql	columns	417335
+[--]  +-- 2: mysql	tables	236029
+[--]  +-- 3: mysql	routines	143319
+[--]  +-- 4: mysql	index_column_usage	136699
+[--]  +-- 5: mysql	table_partitions	114688
+[--]  +-- 6: mysql	triggers	107785
+[--]  +-- 7: mysql	events	97580
+[--]  +-- 8: classicmodels	customers	88473
+[--]  +-- 9: classicmodels	employees	78253
+[--]  +-- 10: classicmodels	orderdetails	65052
+[--]  +-- 11: classicmodels	orders	61844
+[--]  +-- 12: mysql	foreign_keys	53257
+[--]  +-- 13: mysql	collations	52004
+[--]  +-- 14: mysql	time_zone_name	50403
+[--]  +-- 15: mysql	column_statistics	49152
+ 
+-------- Performance schema: Top 15 Most executed queries ------------------------------------------
+[--]  +-- 1: NULL	SELECT ?	33349
+[--]  +-- 2: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	5826
+[--]  +-- 3: NULL	SELECT VALUE FROM `mysql` . `rds_heartbeat2`	5482
+[--]  +-- 4: NULL	SELECT @@GLOBAL . `read_only`	5482
+[--]  +-- 5: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION	1370
+[--]  +-- 6: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO	1370
+[--]  +-- 7: NULL	SELECT @@SESSION . `transaction_read_only`	1090
+[--]  +-- 8: NULL	SELECT @@`version_comment` LIMIT ?	1037
+[--]  +-- 9: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	512
+[--]  +-- 10: NULL	FLUSH LOGS	275
+[--]  +-- 11: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	274
+[--]  +-- 12: NULL	SELECT COUNT ( * ) FROM `performance_schema` . `global_variables` WHERE `variable_name` = ? AND `variable_value` != ?	274
+[--]  +-- 13: NULL	SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`	274
+[--]  +-- 14: NULL	SELECT NAME , VALUE FROM `mysql` . `rds_configuration`	274
+[--]  +-- 15: NULL	PURGE BINARY LOGS BEFORE ?	274
+ 
+-------- Performance schema: Latest SQL queries in errors or warnings ------------------------------
+[--]  +-- 1: SET `sql_mode` = ?	2021-08-27 03:32:24.675199
+[--]  +-- 2: SET NAMES `utf8`	2021-08-27 03:35:18.939189
+[--]  +-- 3: EXPLAIN FORMAT = JSON SELECT * FROM `employees` ORDER BY `lastName` , `firstName`	2021-08-27 03:52:35.367369
+[--]  +-- 4: EXPLAIN FORMAT = JSON SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` , `firstName`	2021-08-27 03:59:41.204172
+[--]  +-- 5: EXPLAIN SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` ASC , `firstName` ASC	2021-08-27 04:00:55.016330
+[--]  +-- 6: EXPLAIN FORMAT = JSON SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` ASC , `firstName` ASC	2021-08-27 04:00:55.195377
+[--]  +-- 7: EXPLAIN SELECT * FROM `employees` ORDER BY `lastName` , `firstName`	2021-08-27 04:01:24.729285
+[--]  +-- 8: EXPLAIN SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` , `firstName`	2021-08-27 04:01:38.205938
+[--]  +-- 9: EXPLAIN SELECT `customerName` , `city` , `orderNumber` , `orderDate` , `productCode` , `quantityOrdered` , `priceEach` F	2021-08-27 04:07:00.762308
+[--]  +-- 10: EXPLAIN FORMAT = JSON SELECT `customerName` , `city` , `orderNumber` , `orderDate` , `productCode` , `quantityOrdered` ,	2021-08-27 04:07:00.942233
+[--]  +-- 11: EXPLAIN SELECT SQL_NO_CACHE `customerName` , `city` , `orderNumber` , `orderDate` , `productCode` , `quantityOrdered` , 	2021-08-27 04:07:33.968565
+[--]  +-- 12: EXPLAIN SELECT `employeeNumber` , `lastName` , `firstName` FROM `employees` WHERE `employeeNumber` IN ( SELECT `employee	2021-08-27 04:08:47.339733
+[--]  +-- 13: EXPLAIN FORMAT = JSON SELECT `employeeNumber` , `lastName` , `firstName` FROM `employees` WHERE `employeeNumber` IN ( SE	2021-08-27 04:08:47.520115
+[--]  +-- 14: EXPLAIN FORMAT = JSON SELECT YEAR ( `orderdate` ) AS YEAR , SUM ( `quantityordered` * `priceeach` ) AS `total` FROM `ord	2021-08-27 04:13:01.271176
+[--]  +-- 15: EXPLAIN SELECT YEAR ( `orderdate` ) AS YEAR , SUM ( `quantityordered` * `priceeach` ) AS `total` FROM `orders` INNER JOI	2021-08-27 04:13:30.495920
+[--]  +-- 16: EXPLAIN SELECT `customernumber` , `customername` FROM `customers` WHERE EXISTS ( SELECT `ordernumber` , SUM ( `priceeach	2021-08-27 05:14:33.547861
+[--]  +-- 17: EXPLAIN FORMAT = JSON SELECT `customernumber` , `customername` FROM `customers` WHERE EXISTS ( SELECT `ordernumber` , SU	2021-08-27 05:14:33.725299
+[--]  +-- 18: SELECT SQL_NO_CACHE * FROM `customers`	2021-08-27 05:44:29.817709
+[--]  +-- 19: SELECT SQL_NO_CACHE * FROM `employees`	2021-08-27 05:44:29.826136
+[--]  +-- 20: SELECT SQL_NO_CACHE * FROM `offices`	2021-08-27 05:44:29.833648
+[--]  +-- 21: SELECT SQL_NO_CACHE * FROM `orderdetails`	2021-08-27 05:44:29.844359
+[--]  +-- 22: SELECT SQL_NO_CACHE * FROM `orders`	2021-08-27 05:44:29.852868
+[--]  +-- 23: SELECT SQL_NO_CACHE * FROM `payments`	2021-08-27 05:44:29.860512
+[--]  +-- 24: SELECT SQL_NO_CACHE * FROM `productlines`	2021-08-27 05:44:29.868069
+[--]  +-- 25: SELECT SQL_NO_CACHE * FROM `products`	2021-08-27 05:44:29.875526
+[--]  +-- 26: SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeCode` , `reportsTo` , `	2021-08-27 20:46:16.044845
+[--]  +-- 27: EXPLAIN SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeCode` , `report	2021-08-27 20:46:19.570266
+[--]  +-- 28: EXPLAIN FORMAT = JSON SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeC	2021-08-27 20:46:19.749688
+[--]  +-- 29: SHOW SLAVE STATUS	2021-08-28 02:22:40.750205
+[--]  +-- 30: SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-28 02:22:44.132710
+ 
+-------- Performance schema: Top 20 queries with full table scans ----------------------------------
+[--]  +-- 1: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	5826
+[--]  +-- 2: NULL	SELECT VALUE FROM `mysql` . `rds_heartbeat2`	5482
+[--]  +-- 3: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION	1370
+[--]  +-- 4: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO	1370
+[--]  +-- 5: NULL	SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`	274
+[--]  +-- 6: NULL	SELECT NAME , VALUE FROM `mysql` . `rds_configuration`	274
+[--]  +-- 7: NULL	SELECT `info` FROM `information_schema` . `processlist` WHERE SYSTEM_USER = ? AND HOST LIKE ?	137
+[--]  +-- 8: NULL	SELECT COUNT ( * ) FROM `mysql` . `user` WHERE `concat` ( TRIM ( SYSTEM_USER ) , ? , TRIM ( HOST ) ) NOT IN (...) AND ( 	137
+[--]  +-- 9: classicmodels	SELECT `cat` . `name` AS `TRIGGER_CATALOG` , `sch` . `name` AS `TRIGGER_SCHEMA` , `trg` . `name` AS `TRIGGER_NAME` , `tr	58
+[--]  +-- 10: classicmodels	SELECT `st` . * FROM `performance_schema` . `events_stages_history_long` `st` WHERE `st` . `nesting_event_id` = ?	30
+[--]  +-- 11: classicmodels	SELECT `st` . * FROM `performance_schema` . `events_waits_history_long` `st` WHERE `st` . `nesting_event_id` = ?	30
+[--]  +-- 12: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	24
+[--]  +-- 13: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	24
+[--]  +-- 14: sys	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `table_schema` , `performance	24
+[--]  +-- 15: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	24
+[--]  +-- 16: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	20
+[--]  +-- 17: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	16
+[--]  +-- 18: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	16
+[--]  +-- 19: sys	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	15
+[--]  +-- 20: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	15
+ 
+-------- Performance schema: Last 50 queries with full table scans ---------------------------------
+[--]  +-- 1: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.799095
+[--]  +-- 2: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.783762
+[--]  +-- 3: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.768041
+[--]  +-- 4: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:44.753408
+[--]  +-- 5: sys	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-28 02:22:44.463202
+[--]  +-- 6: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	2021-08-28 02:22:44.447643
+[--]  +-- 7: sys	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `table_schema` , `performance	2021-08-28 02:22:44.361107
+[--]  +-- 8: sys	SELECT `substring_index` ( `performance_schema` . `file_summary_by_event_name` . `EVENT_NAME` , ? , - (?) ) AS `event_na	2021-08-28 02:22:44.282481
+[--]  +-- 9: NULL	SELECT `substring_index` ( `performance_schema` . `file_summary_by_event_name` . `EVENT_NAME` , ? , - (?) ) AS `event_na	2021-08-28 02:22:44.244714
+[--]  +-- 10: sys	SELECT `performance_schema` . `file_summary_by_instance` . `FILE_NAME` AS `file` , `performance_schema` . `file_summary_	2021-08-28 02:22:44.220751
+[--]  +-- 11: NULL	SELECT `performance_schema` . `file_summary_by_instance` . `FILE_NAME` AS `file` , `performance_schema` . `file_summary_	2021-08-28 02:22:44.195696
+[--]  +-- 12: NULL	SELECT `performance_schema` . `file_summary_by_instance` . `FILE_NAME` AS `file` , `performance_schema` . `file_summary_	2021-08-28 02:22:44.183381
+[--]  +-- 13: sys	SELECT IF ( ( `processlist` . `ID` IS NULL ) , `concat` ( `substring_index` ( `performance_schema` . `threads` . `NAME` 	2021-08-28 02:22:44.158612
+[--]  +-- 14: NULL	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `object_schema` , `performanc	2021-08-28 02:22:44.145412
+[--]  +-- 15: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-28 02:22:44.132710
+[--]  +-- 16: sys	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.116766
+[--]  +-- 17: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	2021-08-28 02:22:44.103107
+[--]  +-- 18: NULL	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	2021-08-28 02:22:44.022671
+[--]  +-- 19: NULL	SELECT IF ( ( `performance_schema` . `threads` . `PROCESSLIST_ID` IS NULL ) , `substring_index` ( `performance_schema` .	2021-08-28 02:22:43.965785
+[--]  +-- 20: NULL	SELECT `r` . `trx_wait_started` AS `wait_started` , `timediff` ( NOW ( ) , `r` . `trx_wait_started` ) AS `wait_age` , TI	2021-08-28 02:22:43.950035
+[--]  +-- 21: NULL	SELECT `t` . `THREAD_ID` AS `thread_id` , IF ( ( `t` . `NAME` = ? ) , `concat` ( `t` . `PROCESSLIST_USER` , ? , CONVERT 	2021-08-28 02:22:43.936433
+[--]  +-- 22: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:43.898304
+[--]  +-- 23: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:43.807837
+[--]  +-- 24: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	2021-08-28 02:22:43.725748
+[--]  +-- 25: sys	SELECT IF ( ( `performance_schema` . `events_stages_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance	2021-08-28 02:22:43.707292
+[--]  +-- 26: sys	SELECT IF ( ( `performance_schema` . `events_waits_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_	2021-08-28 02:22:43.669032
+[--]  +-- 27: NULL	SELECT IF ( ( `performance_schema` . `events_waits_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_	2021-08-28 02:22:43.655385
+[--]  +-- 28: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	2021-08-28 02:22:43.593366
+[--]  +-- 29: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	2021-08-28 02:22:43.483491
+[--]  +-- 30: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	2021-08-28 02:22:43.444129
+[--]  +-- 31: NULL	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	2021-08-28 02:22:43.316770
+[--]  +-- 32: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	2021-08-28 02:22:43.293156
+[--]  +-- 33: NULL	SELECT `CONCAT` ( `CONCAT` ( `object_schema` , ? ) , `object_name` ) AS ? , `index_name` FROM `performance_schema` . `ta	2021-08-28 02:22:43.083267
+[--]  +-- 34: NULL	SELECT ENGINE , `SUPPORT` FROM `information_schema` . `ENGINES` ORDER BY ENGINE ASC	2021-08-28 02:22:41.297808
+[--]  +-- 35: NULL	SELECT VALUE FROM `mysql` . `rds_heartbeat2`	2021-08-28 02:22:36.693218
+[--]  +-- 36: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO	2021-08-28 02:22:00.103299
+[--]  +-- 37: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION	2021-08-28 02:22:00.086832
+[--]  +-- 38: NULL	SELECT `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` AS `event` , `performance_schem	2021-08-28 02:20:52.250168
+[--]  +-- 39: NULL	SELECT `substring_index` ( `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` , ?, ... ) 	2021-08-28 02:20:52.234663
+[--]  +-- 40: sys	SELECT `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` AS `event` , `performance_schem	2021-08-28 02:20:52.218727
+[--]  +-- 41: sys	SELECT `substring_index` ( `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` , ?, ... ) 	2021-08-28 02:20:52.202151
+[--]  +-- 42: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:20:52.137754
+[--]  +-- 43: sys	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:20:52.098686
+[--]  +-- 44: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:20:52.071550
+[--]  +-- 45: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	2021-08-28 02:20:51.973986
+[--]  +-- 46: NULL	SELECT NAME , VALUE FROM `mysql` . `rds_configuration`	2021-08-28 02:20:25.006587
+[--]  +-- 47: NULL	SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`	2021-08-28 02:13:36.915447
+[--]  +-- 48: NULL	SELECT COUNT ( * ) FROM `mysql` . `user` WHERE `concat` ( TRIM ( SYSTEM_USER ) , ? , TRIM ( HOST ) ) NOT IN (...) AND ( 	2021-08-28 02:13:36.898517
+[--]  +-- 49: NULL	SELECT `info` FROM `information_schema` . `processlist` WHERE SYSTEM_USER = ? AND HOST LIKE ?	2021-08-28 02:13:36.887587
+[--]  +-- 50: classicmodels	EXPLAIN FORMAT = JSON SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeC	2021-08-27 20:46:19.749688
+ 
+-------- Performance schema: TOP 15 reader queries (95% percentile) --------------------------------
+[--]  +-- 1: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	556
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	160
+[--]  +-- 3: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	12
+[--]  +-- 4: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	0
+[--]  +-- 5: NULL	DROP SCHEMA IF EXISTS `classicmodels`	0
+[--]  +-- 6: classicmodels	CREATE TABLE `customers` ( `customerNumber` INTEGER NOT NULL , `customerName` VARCHARACTER (?) NOT NULL , `contactLastNa	0
+[--]  +-- 7: classicmodels	CREATE TABLE `employees` ( `employeeNumber` INTEGER NOT NULL , `lastName` VARCHARACTER (?) NOT NULL , `firstName` VARCHA	0
+[--]  +-- 8: classicmodels	INSERT INTO `orderdetails` VALUES (...) /* , ... */	0
+[--]  +-- 9: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC , `contactFirstName` ASC ) VISIBLE	0
+[--]  +-- 10: classicmodels	ALTER TABLE `classicmodels` . `customers` ALTER INDEX `salesRepEmployeeNumber` INVISIBLE	0
+[--]  +-- 11: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC ) VISIBLE	0
+[--]  +-- 12: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index4` ( `contactFirstName` ASC ) VISIBLE	0
+[--]  +-- 13: classicmodels	ALTER TABLE `classicmodels` . `orders` ADD INDEX `index3` ( `status` ASC ) VISIBLE	0
+ 
+-------- Performance schema: TOP 15 most row look queries (95% percentile) -------------------------
+[--]  +-- 1: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1092
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	476
+[--]  +-- 3: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	24
+[--]  +-- 4: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	0
+[--]  +-- 5: NULL	DROP SCHEMA IF EXISTS `classicmodels`	0
+[--]  +-- 6: classicmodels	CREATE TABLE `customers` ( `customerNumber` INTEGER NOT NULL , `customerName` VARCHARACTER (?) NOT NULL , `contactLastNa	0
+[--]  +-- 7: classicmodels	CREATE TABLE `employees` ( `employeeNumber` INTEGER NOT NULL , `lastName` VARCHARACTER (?) NOT NULL , `firstName` VARCHA	0
+[--]  +-- 8: classicmodels	INSERT INTO `orderdetails` VALUES (...) /* , ... */	0
+[--]  +-- 9: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC , `contactFirstName` ASC ) VISIBLE	0
+[--]  +-- 10: classicmodels	ALTER TABLE `classicmodels` . `customers` ALTER INDEX `salesRepEmployeeNumber` INVISIBLE	0
+[--]  +-- 11: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC ) VISIBLE	0
+[--]  +-- 12: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index4` ( `contactFirstName` ASC ) VISIBLE	0
+[--]  +-- 13: classicmodels	ALTER TABLE `classicmodels` . `orders` ADD INDEX `index3` ( `status` ASC ) VISIBLE	0
+ 
+-------- Performance schema: TOP 15 total latency queries (95% percentile) -------------------------
+[--]  +-- 1: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	14818323056000
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1002025248000
+[--]  +-- 3: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	312535898000
+[--]  +-- 4: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	297146375000
+[--]  +-- 5: NULL	DROP SCHEMA IF EXISTS `classicmodels`	83939511000
+[--]  +-- 6: classicmodels	INSERT INTO `orderdetails` VALUES (...) /* , ... */	80691828000
+[--]  +-- 7: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC , `contactFirstName` ASC ) VISIBLE	45813952000
+[--]  +-- 8: classicmodels	ALTER TABLE `classicmodels` . `orders` ADD INDEX `index3` ( `status` ASC ) VISIBLE	44162140000
+[--]  +-- 9: classicmodels	CREATE TABLE `employees` ( `employeeNumber` INTEGER NOT NULL , `lastName` VARCHARACTER (?) NOT NULL , `firstName` VARCHA	37425092000
+[--]  +-- 10: classicmodels	ALTER TABLE `classicmodels` . `customers` ALTER INDEX `salesRepEmployeeNumber` INVISIBLE	34594973000
+[--]  +-- 11: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC ) VISIBLE	33967867000
+[--]  +-- 12: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index4` ( `contactFirstName` ASC ) VISIBLE	32031197000
+[--]  +-- 13: classicmodels	CREATE TABLE `customers` ( `customerNumber` INTEGER NOT NULL , `customerName` VARCHARACTER (?) NOT NULL , `contactLastNa	30855956000
+ 
+-------- Performance schema: TOP 15 max latency queries (95% percentile) ---------------------------
+[--]  +-- 1: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	444113970000
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	94859337000
+[--]  +-- 3: NULL	DROP SCHEMA IF EXISTS `classicmodels`	83939511000
+[--]  +-- 4: classicmodels	INSERT INTO `orderdetails` VALUES (...) /* , ... */	80691828000
+[--]  +-- 5: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	79263953000
+[--]  +-- 6: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	76574269000
+[--]  +-- 7: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC , `contactFirstName` ASC ) VISIBLE	45813952000
+[--]  +-- 8: classicmodels	ALTER TABLE `classicmodels` . `orders` ADD INDEX `index3` ( `status` ASC ) VISIBLE	44162140000
+[--]  +-- 9: classicmodels	CREATE TABLE `employees` ( `employeeNumber` INTEGER NOT NULL , `lastName` VARCHARACTER (?) NOT NULL , `firstName` VARCHA	37425092000
+[--]  +-- 10: classicmodels	ALTER TABLE `classicmodels` . `customers` ALTER INDEX `salesRepEmployeeNumber` INVISIBLE	34594973000
+[--]  +-- 11: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC ) VISIBLE	33967867000
+[--]  +-- 12: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index4` ( `contactFirstName` ASC ) VISIBLE	32031197000
+[--]  +-- 13: classicmodels	CREATE TABLE `customers` ( `customerNumber` INTEGER NOT NULL , `customerName` VARCHARACTER (?) NOT NULL , `contactLastNa	30855956000
+ 
+-------- Performance schema: TOP 15 average latency queries (95% percentile) -----------------------
+[--]  +-- 1: NULL	DROP SCHEMA IF EXISTS `classicmodels`	83939511000
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	83502104000
+[--]  +-- 3: classicmodels	INSERT INTO `orderdetails` VALUES (...) /* , ... */	80691828000
+[--]  +-- 4: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	78133974000
+[--]  +-- 5: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	74286593000
+[--]  +-- 6: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	54081471000
+[--]  +-- 7: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC , `contactFirstName` ASC ) VISIBLE	45813952000
+[--]  +-- 8: classicmodels	ALTER TABLE `classicmodels` . `orders` ADD INDEX `index3` ( `status` ASC ) VISIBLE	44162140000
+[--]  +-- 9: classicmodels	CREATE TABLE `employees` ( `employeeNumber` INTEGER NOT NULL , `lastName` VARCHARACTER (?) NOT NULL , `firstName` VARCHA	37425092000
+[--]  +-- 10: classicmodels	ALTER TABLE `classicmodels` . `customers` ALTER INDEX `salesRepEmployeeNumber` INVISIBLE	34594973000
+[--]  +-- 11: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index3` ( `contactLastName` ASC ) VISIBLE	33967867000
+[--]  +-- 12: classicmodels	ALTER TABLE `classicmodels` . `customers` ADD INDEX `index4` ( `contactFirstName` ASC ) VISIBLE	32031197000
+[--]  +-- 13: classicmodels	CREATE TABLE `customers` ( `customerNumber` INTEGER NOT NULL , `customerName` VARCHARACTER (?) NOT NULL , `contactLastNa	30855956000
+ 
+-------- Performance schema: Top 20 queries with sort ----------------------------------------------
+[--]  +-- 1: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	5826
+[--]  +-- 2: NULL	SELECT `rtn` . `name` AS `SPECIFIC_NAME` , `cat` . `name` AS `ROUTINE_CATALOG` , `sch` . `name` AS `ROUTINE_SCHEMA` , `r	183
+[--]  +-- 3: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	54
+[--]  +-- 4: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	50
+[--]  +-- 5: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	24
+[--]  +-- 6: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	24
+[--]  +-- 7: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	24
+[--]  +-- 8: sys	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `table_schema` , `performance	24
+[--]  +-- 9: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	20
+[--]  +-- 10: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	20
+[--]  +-- 11: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	16
+[--]  +-- 12: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	16
+[--]  +-- 13: sys	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	15
+[--]  +-- 14: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	13
+[--]  +-- 15: sys	SELECT IF ( ( `performance_schema` . `events_stages_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance	12
+[--]  +-- 16: sys	SELECT `substring_index` ( `performance_schema` . `file_summary_by_event_name` . `EVENT_NAME` , ? , - (?) ) AS `event_na	12
+[--]  +-- 17: NULL	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	12
+[--]  +-- 18: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	12
+[--]  +-- 19: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	9
+[--]  +-- 20: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	9
+ 
+-------- Performance schema: Last 50 queries with sort ---------------------------------------------
+[--]  +-- 1: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:45.052833
+[--]  +-- 2: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	2021-08-28 02:22:45.036090
+[--]  +-- 3: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.813746
+[--]  +-- 4: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.783762
+[--]  +-- 5: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.768041
+[--]  +-- 6: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:44.753408
+[--]  +-- 7: sys	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-28 02:22:44.463202
+[--]  +-- 8: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	2021-08-28 02:22:44.447643
+[--]  +-- 9: sys	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `table_schema` , `performance	2021-08-28 02:22:44.361107
+[--]  +-- 10: sys	SELECT `substring_index` ( `performance_schema` . `file_summary_by_event_name` . `EVENT_NAME` , ? , - (?) ) AS `event_na	2021-08-28 02:22:44.282481
+[--]  +-- 11: NULL	SELECT `substring_index` ( `performance_schema` . `file_summary_by_event_name` . `EVENT_NAME` , ? , - (?) ) AS `event_na	2021-08-28 02:22:44.244714
+[--]  +-- 12: sys	SELECT `performance_schema` . `file_summary_by_instance` . `FILE_NAME` AS `file` , `performance_schema` . `file_summary_	2021-08-28 02:22:44.220751
+[--]  +-- 13: NULL	SELECT `performance_schema` . `file_summary_by_instance` . `FILE_NAME` AS `file` , `performance_schema` . `file_summary_	2021-08-28 02:22:44.195696
+[--]  +-- 14: NULL	SELECT `performance_schema` . `file_summary_by_instance` . `FILE_NAME` AS `file` , `performance_schema` . `file_summary_	2021-08-28 02:22:44.183381
+[--]  +-- 15: NULL	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `object_schema` , `performanc	2021-08-28 02:22:44.145412
+[--]  +-- 16: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-28 02:22:44.132710
+[--]  +-- 17: sys	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:22:44.116766
+[--]  +-- 18: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	2021-08-28 02:22:44.103107
+[--]  +-- 19: NULL	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	2021-08-28 02:22:44.022671
+[--]  +-- 20: NULL	SELECT IF ( ( `performance_schema` . `threads` . `PROCESSLIST_ID` IS NULL ) , `substring_index` ( `performance_schema` .	2021-08-28 02:22:43.965785
+[--]  +-- 21: NULL	SELECT `t` . `THREAD_ID` AS `thread_id` , IF ( ( `t` . `NAME` = ? ) , `concat` ( `t` . `PROCESSLIST_USER` , ? , CONVERT 	2021-08-28 02:22:43.936433
+[--]  +-- 22: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:43.898304
+[--]  +-- 23: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:43.807837
+[--]  +-- 24: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	2021-08-28 02:22:43.725748
+[--]  +-- 25: sys	SELECT IF ( ( `performance_schema` . `events_stages_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance	2021-08-28 02:22:43.707292
+[--]  +-- 26: sys	SELECT IF ( ( `performance_schema` . `events_waits_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_	2021-08-28 02:22:43.669032
+[--]  +-- 27: NULL	SELECT IF ( ( `performance_schema` . `events_waits_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_	2021-08-28 02:22:43.655385
+[--]  +-- 28: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	2021-08-28 02:22:43.593366
+[--]  +-- 29: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	2021-08-28 02:22:43.483491
+[--]  +-- 30: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	2021-08-28 02:22:43.444129
+[--]  +-- 31: NULL	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	2021-08-28 02:22:43.316770
+[--]  +-- 32: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	2021-08-28 02:22:43.293156
+[--]  +-- 33: NULL	SELECT `CONCAT` ( `CONCAT` ( `object_schema` , ? ) , `object_name` ) AS ? , `index_name` FROM `performance_schema` . `ta	2021-08-28 02:22:43.083267
+[--]  +-- 34: NULL	SELECT ENGINE , `SUPPORT` FROM `information_schema` . `ENGINES` ORDER BY ENGINE ASC	2021-08-28 02:22:41.297808
+[--]  +-- 35: NULL	SELECT `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` AS `event` , `performance_schem	2021-08-28 02:20:52.250168
+[--]  +-- 36: NULL	SELECT `substring_index` ( `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` , ?, ... ) 	2021-08-28 02:20:52.234663
+[--]  +-- 37: sys	SELECT `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` AS `event` , `performance_schem	2021-08-28 02:20:52.218727
+[--]  +-- 38: sys	SELECT `substring_index` ( `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` , ?, ... ) 	2021-08-28 02:20:52.202151
+[--]  +-- 39: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:20:52.137754
+[--]  +-- 40: sys	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	2021-08-28 02:20:52.098686
+[--]  +-- 41: NULL	SELECT `rtn` . `name` AS `SPECIFIC_NAME` , `cat` . `name` AS `ROUTINE_CATALOG` , `sch` . `name` AS `ROUTINE_SCHEMA` , `r	2021-08-28 02:13:36.900441
+[--]  +-- 42: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-27 20:46:16.688824
+[--]  +-- 43: classicmodels	SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeCode` , `reportsTo` , `	2021-08-27 20:46:16.044845
+[--]  +-- 44: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	2021-08-27 05:44:29.874977
+[--]  +-- 45: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	2021-08-27 05:44:29.871923
+[--]  +-- 46: classicmodels	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	2021-08-27 04:04:23.305691
+[--]  +-- 47: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` ASC , `firstName` ASC LIMIT ?, ...	2021-08-27 04:00:52.104148
+[--]  +-- 48: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	2021-08-27 03:59:38.177959
+[--]  +-- 49: classicmodels	SELECT * FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	2021-08-27 03:54:17.433092
+[--]  +-- 50: classicmodels	SELECT `cat` . `name` AS `CONSTRAINT_CATALOG` , `sch` . `name` AS `CONSTRAINT_SCHEMA` , `constraints` . `CONSTRAINT_NAME	2021-08-27 03:50:13.802591
+ 
+-------- Performance schema: TOP 15 row sorting queries with sort ----------------------------------
+[--]  +-- 1: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	6408
+[--]  +-- 2: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	4584
+[--]  +-- 3: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1928
+[--]  +-- 4: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1476
+[--]  +-- 5: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	1084
+[--]  +-- 6: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	510
+[--]  +-- 7: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	480
+[--]  +-- 8: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	452
+[--]  +-- 9: NULL	SELECT `t` . `THREAD_ID` AS `thread_id` , IF ( ( `t` . `NAME` = ? ) , `concat` ( `t` . `PROCESSLIST_USER` , ? , CONVERT 	396
+[--]  +-- 10: sys	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `table_schema` , `performance	360
+[--]  +-- 11: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	360
+[--]  +-- 12: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	336
+[--]  +-- 13: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	319
+[--]  +-- 14: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	280
+[--]  +-- 15: NULL	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	254
+ 
+-------- Performance schema: TOP 15 total latency queries with sort --------------------------------
+[--]  +-- 1: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	7341516473000
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1002025248000
+[--]  +-- 3: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	610987772000
+[--]  +-- 4: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	312535898000
+[--]  +-- 5: NULL	SELECT `rtn` . `name` AS `SPECIFIC_NAME` , `cat` . `name` AS `ROUTINE_CATALOG` , `sch` . `name` AS `ROUTINE_SCHEMA` , `r	308436337000
+[--]  +-- 6: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	297146375000
+[--]  +-- 7: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	176962215000
+[--]  +-- 8: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	168393832000
+[--]  +-- 9: NULL	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	115343852000
+[--]  +-- 10: NULL	SELECT `t` . `THREAD_ID` AS `thread_id` , IF ( ( `t` . `NAME` = ? ) , `concat` ( `t` . `PROCESSLIST_USER` , ? , CONVERT 	107391241000
+[--]  +-- 11: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	104892541000
+[--]  +-- 12: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	64438826000
+[--]  +-- 13: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	62223409000
+[--]  +-- 14: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	57504765000
+[--]  +-- 15: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	45725305000
+ 
+-------- Performance schema: TOP 15 merge queries with sort ----------------------------------------
+[--]  +-- 1: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	12
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	4
+[--]  +-- 3: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	4
+[--]  +-- 4: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	0
+[--]  +-- 5: NULL	SELECT `rtn` . `name` AS `SPECIFIC_NAME` , `cat` . `name` AS `ROUTINE_CATALOG` , `sch` . `name` AS `ROUTINE_SCHEMA` , `r	0
+[--]  +-- 6: classicmodels	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	0
+[--]  +-- 7: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	0
+[--]  +-- 8: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	0
+[--]  +-- 9: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	0
+[--]  +-- 10: classicmodels	SELECT * FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	0
+[--]  +-- 11: classicmodels	SELECT `cat` . `name` AS `CONSTRAINT_CATALOG` , `sch` . `name` AS `CONSTRAINT_SCHEMA` , `constraints` . `CONSTRAINT_NAME	0
+[--]  +-- 12: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	0
+[--]  +-- 13: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` ASC , `firstName` ASC LIMIT ?, ...	0
+[--]  +-- 14: classicmodels	SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeCode` , `reportsTo` , `	0
+[--]  +-- 15: NULL	SELECT ENGINE , `SUPPORT` FROM `information_schema` . `ENGINES` ORDER BY ENGINE ASC	0
+ 
+-------- Performance schema: TOP 15 average sort merges queries with sort --------------------------
+[--]  +-- 1: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1
+[--]  +-- 3: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1
+[--]  +-- 4: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	0
+[--]  +-- 5: NULL	SELECT `rtn` . `name` AS `SPECIFIC_NAME` , `cat` . `name` AS `ROUTINE_CATALOG` , `sch` . `name` AS `ROUTINE_SCHEMA` , `r	0
+[--]  +-- 6: classicmodels	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	0
+[--]  +-- 7: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	0
+[--]  +-- 8: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	0
+[--]  +-- 9: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	0
+[--]  +-- 10: classicmodels	SELECT * FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	0
+[--]  +-- 11: classicmodels	SELECT `cat` . `name` AS `CONSTRAINT_CATALOG` , `sch` . `name` AS `CONSTRAINT_SCHEMA` , `constraints` . `CONSTRAINT_NAME	0
+[--]  +-- 12: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	0
+[--]  +-- 13: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` ASC , `firstName` ASC LIMIT ?, ...	0
+[--]  +-- 14: classicmodels	SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeCode` , `reportsTo` , `	0
+[--]  +-- 15: NULL	SELECT ENGINE , `SUPPORT` FROM `information_schema` . `ENGINES` ORDER BY ENGINE ASC	0
+ 
+-------- Performance schema: TOP 15 scans queries with sort ----------------------------------------
+[--]  +-- 1: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	120
+[--]  +-- 2: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	120
+[--]  +-- 3: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	52
+[--]  +-- 4: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	50
+[--]  +-- 5: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	48
+[--]  +-- 6: NULL	SELECT `rtn` . `name` AS `SPECIFIC_NAME` , `cat` . `name` AS `ROUTINE_CATALOG` , `sch` . `name` AS `ROUTINE_SCHEMA` , `r	46
+[--]  +-- 7: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	44
+[--]  +-- 8: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	40
+[--]  +-- 9: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	32
+[--]  +-- 10: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	32
+[--]  +-- 11: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	32
+[--]  +-- 12: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	24
+[--]  +-- 13: sys	SELECT `performance_schema` . `table_io_waits_summary_by_index_usage` . `OBJECT_SCHEMA` AS `table_schema` , `performance	24
+[--]  +-- 14: sys	SELECT `performance_schema` . `events_statements_summary_by_digest` . `DIGEST_TEXT` AS `query` , `performance_schema` . 	18
+[--]  +-- 15: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	12
+ 
+-------- Performance schema: TOP 15 range queries with sort ----------------------------------------
+[--]  +-- 1: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	0
+[--]  +-- 2: NULL	SELECT `rtn` . `name` AS `SPECIFIC_NAME` , `cat` . `name` AS `ROUTINE_CATALOG` , `sch` . `name` AS `ROUTINE_SCHEMA` , `r	0
+[--]  +-- 3: classicmodels	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	0
+[--]  +-- 4: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	0
+[--]  +-- 5: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	0
+[--]  +-- 6: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	0
+[--]  +-- 7: classicmodels	SELECT * FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	0
+[--]  +-- 8: classicmodels	SELECT `cat` . `name` AS `CONSTRAINT_CATALOG` , `sch` . `name` AS `CONSTRAINT_SCHEMA` , `constraints` . `CONSTRAINT_NAME	0
+[--]  +-- 9: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` , `firstName` LIMIT ?, ...	0
+[--]  +-- 10: classicmodels	SELECT `lastName` , `firstName` FROM `employees` ORDER BY `lastName` ASC , `firstName` ASC LIMIT ?, ...	0
+[--]  +-- 11: classicmodels	SELECT SQL_NO_CACHE `employeeNumber` , `lastName` , `firstName` , `extension` , `email` , `officeCode` , `reportsTo` , `	0
+[--]  +-- 12: NULL	SELECT ENGINE , `SUPPORT` FROM `information_schema` . `ENGINES` ORDER BY ENGINE ASC	0
+[--]  +-- 13: NULL	SELECT `cat` . `name` AS `CATALOG_NAME` , `sch` . `name` AS `SCHEMA_NAME` , `cs` . `name` AS `DEFAULT_CHARACTER_SET_NAME	0
+[--]  +-- 14: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	0
+[--]  +-- 15: NULL	SELECT `CONCAT` ( `CONCAT` ( `object_schema` , ? ) , `object_name` ) AS ? , `index_name` FROM `performance_schema` . `ta	0
+ 
+-------- Performance schema: Top 20 queries with temp table ----------------------------------------
+[--]  +-- 1: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	5826
+[--]  +-- 2: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION	1370
+[--]  +-- 3: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO	1370
+[--]  +-- 4: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	512
+[--]  +-- 5: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	274
+[--]  +-- 6: NULL	SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`	274
+[--]  +-- 7: NULL	SELECT `info` FROM `information_schema` . `processlist` WHERE SYSTEM_USER = ? AND HOST LIKE ?	137
+[--]  +-- 8: classicmodels	SELECT `cat` . `name` AS `TRIGGER_CATALOG` , `sch` . `name` AS `TRIGGER_SCHEMA` , `trg` . `name` AS `TRIGGER_NAME` , `tr	58
+[--]  +-- 9: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	54
+[--]  +-- 10: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	50
+[--]  +-- 11: classicmodels	SHOW SESSION VARIABLES LIKE ? (unknown) `performance_schema` . `session_variables` . `VARIABLE_NAME`	49
+[--]  +-- 12: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	24
+[--]  +-- 13: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	24
+[--]  +-- 14: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	24
+[--]  +-- 15: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	20
+[--]  +-- 16: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	20
+[--]  +-- 17: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	16
+[--]  +-- 18: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	16
+[--]  +-- 19: sys	SELECT IF ( ( `performance_schema` . `events_stages_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance	12
+[--]  +-- 20: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	12
+ 
+-------- Performance schema: Last 50 queries with temp table ---------------------------------------
+[--]  +-- 1: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	2021-08-28 02:22:45.036090
+[--]  +-- 2: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:44.753408
+[--]  +-- 3: sys	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-28 02:22:44.463202
+[--]  +-- 4: sys	SELECT `extract_schema_from_file_name` ( `performance_schema` . `file_summary_by_instance` . `FILE_NAME` ) AS `table_sch	2021-08-28 02:22:44.447643
+[--]  +-- 5: sys	SELECT IF ( ( `processlist` . `ID` IS NULL ) , `concat` ( `substring_index` ( `performance_schema` . `threads` . `NAME` 	2021-08-28 02:22:44.158612
+[--]  +-- 6: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-28 02:22:44.132710
+[--]  +-- 7: sys	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	2021-08-28 02:22:44.103107
+[--]  +-- 8: NULL	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	2021-08-28 02:22:44.022671
+[--]  +-- 9: NULL	SELECT IF ( ( `performance_schema` . `threads` . `PROCESSLIST_ID` IS NULL ) , `substring_index` ( `performance_schema` .	2021-08-28 02:22:43.965785
+[--]  +-- 10: NULL	SELECT `r` . `trx_wait_started` AS `wait_started` , `timediff` ( NOW ( ) , `r` . `trx_wait_started` ) AS `wait_age` , TI	2021-08-28 02:22:43.950035
+[--]  +-- 11: NULL	SELECT `t` . `THREAD_ID` AS `thread_id` , IF ( ( `t` . `NAME` = ? ) , `concat` ( `t` . `PROCESSLIST_USER` , ? , CONVERT 	2021-08-28 02:22:43.936433
+[--]  +-- 12: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:43.898304
+[--]  +-- 13: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	2021-08-28 02:22:43.807837
+[--]  +-- 14: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	2021-08-28 02:22:43.725748
+[--]  +-- 15: sys	SELECT IF ( ( `performance_schema` . `events_stages_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance	2021-08-28 02:22:43.707292
+[--]  +-- 16: sys	SELECT IF ( ( `performance_schema` . `events_waits_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_	2021-08-28 02:22:43.669032
+[--]  +-- 17: NULL	SELECT IF ( ( `performance_schema` . `events_waits_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_	2021-08-28 02:22:43.655385
+[--]  +-- 18: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `perform	2021-08-28 02:22:43.593366
+[--]  +-- 19: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	2021-08-28 02:22:43.483491
+[--]  +-- 20: NULL	SELECT IF ( ( `performance_schema` . `events_statements_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `perform	2021-08-28 02:22:43.444129
+[--]  +-- 21: NULL	SELECT ? AS `sys_version` , `version` ( ) AS `mysql_version`	2021-08-28 02:22:43.327672
+[--]  +-- 22: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	2021-08-28 02:22:43.293156
+[--]  +-- 23: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	2021-08-28 02:22:43.054035
+[--]  +-- 24: NULL	SELECT ENGINE , `SUPPORT` FROM `information_schema` . `ENGINES` ORDER BY ENGINE ASC	2021-08-28 02:22:41.297808
+[--]  +-- 25: NULL	SHOW ENGINES	2021-08-28 02:22:40.722865
+[--]  +-- 26: NULL	SHOW GLOBAL STATUS	2021-08-28 02:22:40.708417
+[--]  +-- 27: NULL	SHOW STATUS	2021-08-28 02:22:40.695674
+[--]  +-- 28: NULL	SHOW GLOBAL VARIABLES	2021-08-28 02:22:40.679408
+[--]  +-- 29: NULL	SHOW VARIABLES	2021-08-28 02:22:40.665036
+[--]  +-- 30: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO	2021-08-28 02:22:00.103299
+[--]  +-- 31: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION	2021-08-28 02:22:00.086832
+[--]  +-- 32: NULL	SELECT `substring_index` ( `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` , ?, ... ) 	2021-08-28 02:20:52.234663
+[--]  +-- 33: sys	SELECT `substring_index` ( `performance_schema` . `events_waits_summary_global_by_event_name` . `EVENT_NAME` , ?, ... ) 	2021-08-28 02:20:52.202151
+[--]  +-- 34: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	2021-08-28 02:20:00.098310
+[--]  +-- 35: NULL	SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`	2021-08-28 02:13:36.915447
+[--]  +-- 36: NULL	SELECT `info` FROM `information_schema` . `processlist` WHERE SYSTEM_USER = ? AND HOST LIKE ?	2021-08-28 02:13:36.887587
+[--]  +-- 37: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	2021-08-27 20:46:16.688824
+[--]  +-- 38: classicmodels	SELECT `cat` . `name` AS `TRIGGER_CATALOG` , `sch` . `name` AS `TRIGGER_SCHEMA` , `trg` . `name` AS `TRIGGER_NAME` , `tr	2021-08-27 05:44:29.877592
+[--]  +-- 39: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	2021-08-27 05:44:29.874977
+[--]  +-- 40: NULL	SHOW VARIABLES LIKE ? (unknown) `performance_schema` . `session_variables` . `VARIABLE_NAME`	2021-08-27 05:44:29.809653
+[--]  +-- 41: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `part` . 	2021-08-27 05:44:29.807561
+[--]  +-- 42: classicmodels	SHOW SESSION VARIABLES LIKE ? (unknown) `performance_schema` . `session_variables` . `VARIABLE_NAME`	2021-08-27 05:20:09.947841
+[--]  +-- 43: classicmodels	SELECT `customernumber` , `customername` FROM `customers` WHERE EXISTS ( SELECT `ordernumber` , SUM ( `priceeach` * `qua	2021-08-27 05:14:30.552929
+[--]  +-- 44: classicmodels	SELECT YEAR ( `orderdate` ) AS YEAR , SUM ( `quantityordered` * `priceeach` ) AS `total` FROM `orders` INNER JOIN `order	2021-08-27 04:12:59.087958
+[--]  +-- 45: classicmodels	EXPLAIN FORMAT = JSON SELECT `employeeNumber` , `lastName` , `firstName` FROM `employees` WHERE `employeeNumber` IN ( SE	2021-08-27 04:08:47.520115
+[--]  +-- 46: classicmodels	EXPLAIN SELECT `employeeNumber` , `lastName` , `firstName` FROM `employees` WHERE `employeeNumber` IN ( SELECT `employee	2021-08-27 04:08:47.339733
+[--]  +-- 47: classicmodels	SELECT `employeeNumber` , `lastName` , `firstName` FROM `employees` WHERE `employeeNumber` IN ( SELECT `employeeNumber` 	2021-08-27 04:08:43.739999
+[--]  +-- 48: classicmodels	SELECT `cat` . `name` AS `CONSTRAINT_CATALOG` , `sch` . `name` AS `CONSTRAINT_SCHEMA` , `constraints` . `CONSTRAINT_NAME	2021-08-27 03:50:13.802591
+[--]  +-- 49: classicmodels	SELECT `get_dd_tablespace_private_data` ( `ts` . `se_private_data` , ? ) AS `SPACE` , `ts_files` . `file_name` AS `PATH`	2021-08-27 03:50:12.839298
+[--]  +-- 50: NULL	SHOW SESSION STATUS LIKE ? (unknown) `performance_schema` . `session_status` . `VARIABLE_NAME`	2021-08-27 03:35:19.386342
+ 
+-------- Performance schema: TOP 15 total latency queries with temp table --------------------------
+[--]  +-- 1: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION	18106830359000
+[--]  +-- 2: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	14818323056000
+[--]  +-- 3: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO	8776626597000
+[--]  +-- 4: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	7341516473000
+[--]  +-- 5: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	1002025248000
+[--]  +-- 6: sys	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	610987772000
+[--]  +-- 7: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	374785308000
+[--]  +-- 8: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	312535898000
+[--]  +-- 9: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	297146375000
+[--]  +-- 10: NULL	SELECT `info` FROM `information_schema` . `processlist` WHERE SYSTEM_USER = ? AND HOST LIKE ?	229171933000
+[--]  +-- 11: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_user_by_event_name` . `USER` IS NULL ) , ? , `performance_schema	176962215000
+[--]  +-- 12: NULL	SELECT IF ( ( `performance_schema` . `memory_summary_by_host_by_event_name` . `HOST` IS NULL ) , ? , `performance_schema	168393832000
+[--]  +-- 13: NULL	SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`	118669487000
+[--]  +-- 14: NULL	SELECT COUNT (?) AS `cnt` , `round` ( ( `performance_schema` . `events_statements_summary_by_digest` . `AVG_TIMER_WAIT` 	115343852000
+[--]  +-- 15: classicmodels	SHOW SESSION VARIABLES LIKE ? (unknown) `performance_schema` . `session_variables` . `VARIABLE_NAME`	107875602000
+ 
+-------- Performance schema: TOP 15 queries with temp table to disk --------------------------------
+[--]  +-- 1: NULL	SELECT `lower` ( `plugin_name` ) FROM `information_schema` . `plugins`	274
+[--]  +-- 2: NULL	SELECT `info` FROM `information_schema` . `processlist` WHERE SYSTEM_USER = ? AND HOST LIKE ?	137
+[--]  +-- 3: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	12
+[--]  +-- 4: sys	SELECT IF ( ( `processlist` . `ID` IS NULL ) , `concat` ( `substring_index` ( `performance_schema` . `threads` . `NAME` 	4
+[--]  +-- 5: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	4
+[--]  +-- 6: NULL	SELECT IF ( ( `locate` ( ? , `ibp` . `TABLE_NAME` ) = ? ) , ? , REPLACE ( `substring_index` ( `ibp` . `TABLE_NAME` , ?, 	4
+[--]  +-- 7: NULL	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , `tbl` . `	0
+[--]  +-- 8: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_history` WHERE ACTION = ? GROUP BY `action_timestamp` , `called_by_user` , ACTION	0
+[--]  +-- 9: NULL	SELECT COUNT ( * ) FROM `mysql` . `rds_replication_status` WHERE MASTER_HOST IS NOT NULL AND MASTER_PORT IS NOT NULL GRO	0
+[--]  +-- 10: NULL	SHOW GLOBAL VARIABLES LIKE ? (unknown) `performance_schema` . `global_variables` . `VARIABLE_NAME`	0
+[--]  +-- 11: NULL	SHOW SESSION VARIABLES LIKE ? (unknown) `performance_schema` . `session_variables` . `VARIABLE_NAME`	0
+[--]  +-- 12: NULL	SHOW SESSION STATUS LIKE ? (unknown) `performance_schema` . `session_status` . `VARIABLE_NAME`	0
+[--]  +-- 13: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , ( `col` .	0
+[--]  +-- 14: classicmodels	SELECT `cat` . `name` AS `TABLE_CATALOG` , `sch` . `name` AS `TABLE_SCHEMA` , `tbl` . `name` AS `TABLE_NAME` , IF ( ( ( 	0
+[--]  +-- 15: classicmodels	SELECT `cat` . `name` AS `TRIGGER_CATALOG` , `sch` . `name` AS `TRIGGER_SCHEMA` , `trg` . `name` AS `TRIGGER_NAME` , `tr	0
+ 
+-------- Performance schema: TOP 15 class events by number -----------------------------------------
+[--]  +-- 1: wait/io/file	163622
+[--]  +-- 2: wait/io/table	27310
+[--]  +-- 3: wait/lock/table	198
+[--]  +-- 4: wait/lock/metadata	1
+ 
+-------- Performance schema: TOP 30 events by number -----------------------------------------------
+[--]  +-- 1: wait/io/file/sql/query_log	65155
+[--]  +-- 2: wait/io/file/sql/slow_log	61488
+[--]  +-- 3: wait/io/table/sql/handler	27310
+[--]  +-- 4: wait/io/file/sql/binlog_index	9081
+[--]  +-- 5: wait/io/file/innodb/innodb_log_file	7613
+[--]  +-- 6: wait/io/file/innodb/innodb_data_file	7362
+[--]  +-- 7: wait/io/file/innodb/innodb_temp_file	5726
+[--]  +-- 8: wait/io/file/sql/binlog	5633
+[--]  +-- 9: wait/io/file/innodb/innodb_dblwr_file	995
+[--]  +-- 10: wait/io/file/sql/io_cache	547
+[--]  +-- 11: wait/lock/table/sql/handler	198
+[--]  +-- 12: wait/io/file/sql/casetest	15
+[--]  +-- 13: wait/io/file/sql/ERRMSG	5
+[--]  +-- 14: wait/io/file/mysys/cnf	5
+[--]  +-- 15: wait/io/file/mysys/charset	3
+[--]  +-- 16: wait/io/file/sql/pid	3
+[--]  +-- 17: wait/io/file/sql/misc	2
+[--]  +-- 18: wait/lock/metadata/sql/mdl	1
+ 
+-------- Performance schema: TOP 15 class events by total latency ----------------------------------
+[--]  +-- 1: wait/io/file	18357597229600
+[--]  +-- 2: wait/io/table	99703382400
+[--]  +-- 3: wait/lock/metadata	10636305600
+[--]  +-- 4: wait/lock/table	214833600
+ 
+-------- Performance schema: TOP 30 events by total latency ----------------------------------------
+[--]  +-- 1: wait/io/file/innodb/innodb_log_file	7386257366400
+[--]  +-- 2: wait/io/file/sql/slow_log	2746869384000
+[--]  +-- 3: wait/io/file/sql/binlog	2285441877600
+[--]  +-- 4: wait/io/file/innodb/innodb_data_file	2251421196800
+[--]  +-- 5: wait/io/file/sql/query_log	1489606244000
+[--]  +-- 6: wait/io/file/innodb/innodb_dblwr_file	1323968811200
+[--]  +-- 7: wait/io/file/sql/binlog_index	685325447200
+[--]  +-- 8: wait/io/file/innodb/innodb_temp_file	170873891200
+[--]  +-- 9: wait/io/table/sql/handler	99703382400
+[--]  +-- 10: wait/io/file/sql/io_cache	16376135200
+[--]  +-- 11: wait/lock/metadata/sql/mdl	10636305600
+[--]  +-- 12: wait/io/file/sql/casetest	1253156800
+[--]  +-- 13: wait/lock/table/sql/handler	214833600
+[--]  +-- 14: wait/io/file/sql/ERRMSG	157967200
+[--]  +-- 15: wait/io/file/mysys/cnf	31500000
+[--]  +-- 16: wait/io/file/sql/pid	24940000
+[--]  +-- 17: wait/io/file/mysys/charset	17655200
+[--]  +-- 18: wait/io/file/sql/misc	5941600
+ 
+-------- Performance schema: TOP 15 class events by max latency ------------------------------------
+[--]  +-- 1: wait/io/file	248923587200
+[--]  +-- 2: wait/lock/metadata	10636305600
+[--]  +-- 3: wait/io/table	8402360800
+[--]  +-- 4: wait/lock/table	2439200
+ 
+-------- Performance schema: TOP 30 events by max latency ------------------------------------------
+[--]  +-- 1: wait/io/file/innodb/innodb_dblwr_file	248923587200
+[--]  +-- 2: wait/io/file/sql/query_log	48012633600
+[--]  +-- 3: wait/io/file/sql/slow_log	45795704800
+[--]  +-- 4: wait/io/file/innodb/innodb_log_file	34152244800
+[--]  +-- 5: wait/io/file/innodb/innodb_data_file	21238205600
+[--]  +-- 6: wait/io/file/sql/binlog	18729844000
+[--]  +-- 7: wait/io/file/sql/binlog_index	13776585600
+[--]  +-- 8: wait/lock/metadata/sql/mdl	10636305600
+[--]  +-- 9: wait/io/table/sql/handler	8402360800
+[--]  +-- 10: wait/io/file/innodb/innodb_temp_file	3157122400
+[--]  +-- 11: wait/io/file/sql/casetest	1190144000
+[--]  +-- 12: wait/io/file/sql/io_cache	165784800
+[--]  +-- 13: wait/io/file/sql/ERRMSG	133379200
+[--]  +-- 14: wait/io/file/sql/pid	17883200
+[--]  +-- 15: wait/io/file/mysys/cnf	14799200
+[--]  +-- 16: wait/io/file/mysys/charset	9576800
+[--]  +-- 17: wait/io/file/sql/misc	3821600
+[--]  +-- 18: wait/lock/table/sql/handler	2439200
+ 
+-------- ThreadPool Metrics ------------------------------------------------------------------------
+[--] ThreadPool stat is disabled.
+ 
+-------- MyISAM Metrics ----------------------------------------------------------------------------
+[--] MyISAM Metrics are disabled on last MySQL versions.
+ 
+-------- InnoDB Metrics ----------------------------------------------------------------------------
+[--] InnoDB is enabled.
+[--] InnoDB Buffers
+[--]  +-- InnoDB Buffer Pool: 512.0M
+[--]  +-- InnoDB Buffer Pool Instances: 1
+[--]  +-- InnoDB Buffer Pool Chunk Size: 128.0M
+[--]  +-- InnoDB Log File Size: 128.0M
+[--]  +-- InnoDB Log File In Group: 2
+[--]  +-- InnoDB Total Log File Size: 256.0M(50 % of buffer pool)
+[--]  +-- InnoDB Log Buffer: 256.0K
+[--]  +-- InnoDB Log Buffer Free: 30.4K
+[--]  +-- InnoDB Log Buffer Used: 32.0K
+[--] InnoDB Thread Concurrency: 0
+[OK] InnoDB File per table is activated
+[OK] InnoDB buffer pool / data size: 512.0M/560.0K
+[!!] Ratio InnoDB log file size / InnoDB Buffer pool size (50 %): 128.0M * 2/512.0M should be equal to 25%
+[OK] InnoDB buffer pool instances: 1
+[--] Number of InnoDB Buffer Pool Chunk : 4 for 1 Buffer Pool Instance(s)
+[OK] Innodb_buffer_pool_size aligned with Innodb_buffer_pool_chunk_size & Innodb_buffer_pool_instances
+[OK] InnoDB Read buffer efficiency: 99.08% (477378 hits/ 481792 total)
+[OK] InnoDB Write log efficiency: 91.16% (34612 hits/ 37967 total)
+[OK] InnoDB log waits: 0.00% (0 waits / 3355 writes)
+ 
+-------- Aria Metrics ------------------------------------------------------------------------------
+[--] Aria Storage Engine not available.
+ 
+-------- TokuDB Metrics ----------------------------------------------------------------------------
+[--] TokuDB is disabled.
+ 
+-------- XtraDB Metrics ----------------------------------------------------------------------------
+[--] XtraDB is disabled.
+ 
+-------- Galera Metrics ----------------------------------------------------------------------------
+[--] Galera is disabled.
+ 
+-------- Replication Metrics -----------------------------------------------------------------------
+[--] Galera Synchronous replication: NO
+[--] No replication slave(s) for this server.
+[--] Binlog format: MIXED
+[--] XA support enabled: ON
+[--] Semi synchronous replication Master: Not Activated
+[--] Semi synchronous replication Slave: Not Activated
+[--] This is a standalone server
+ 
+-------- Recommendations ---------------------------------------------------------------------------
+General recommendations:
+    setup swappiness lower or equals to 10
+    setup Max running number events greater than 1M
+    Remove unused indexes.
+    MySQL was started within the last 24 hours - recommendations may be inaccurate
+    Reduce your overall MySQL memory footprint for system stability
+    Dedicate this server to your database for highest performance.
+    Before changing innodb_log_file_size and/or innodb_log_files_in_group read this: https://bit.ly/2TcGgtU
+Variables to adjust:
+  *** MySQL's maximum memory usage is dangerously high ***
+  *** Add RAM before increasing MySQL buffer variables ***
+    vm.swappiness <= 10 (echo 10 > /proc/sys/vm/swappiness)
+    fs.aio-max-nr > 1M (echo 1048576 > /proc/sys/fs/aio-max-nr)
+    innodb_log_file_size should be (=64M) if possible, so InnoDB total log files size equals to 25% of buffer pool size.
