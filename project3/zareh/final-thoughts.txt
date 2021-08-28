@@ -1,0 +1,40 @@
+Final Thoughts
+
+My approach to this project was to build an AWS environment using Terraform which facilitates benchmarking queries using RDS MySQL. 
+To accomplish this task I would use the following tools:
+  1) MySQL's explain SQL statement
+  2) Myysql Workbenche's Execution Plan feature for creating visual diagrams
+  3) Percona's toolkit tool pt-query-digest for breaking down query stats
+
+The explain and execution plan tools only required a connection to the mysql instance, so not a lot of configuration was required
+besides Terraform's execution. for pt-query-digest a few RDS Parameter Group settings were required to capture the necessary 
+information via logging to the mysql-slowquery.log facility.
+
+My approach to benchmarking the queries was to write individual scripts which executed the queires over 100 times to stablish a
+baseline for comparison using pt-query-digest. In addition to the indivdual query scripts a general overall script was required
+to measure all the queries to identify and compare the performance of all the queries (project3/zareh/sceripts/run-all.sh). 
+
+Once the slowest queries were identified I began looking at the structure of the queries and began reducing the complexity
+of the queries to the best of my abilites. This approach was great at identifying the cause/reason for the poor performance
+of the queries. I was somewhat succesful at offering suggestions for query_4.sql and query_6.sql but I would need to spend
+at least a few more days by approaching the solutions. 
+
+I was better at identifying and adding indexes based on explain and Execution Plan. I believe part of the reaason was the 
+simplicity of the queries and also being to translate the results of the tools used to actual actionable items. I was able to 
+do this for query_1.sql, query_2.sql, query_5.sql and query_6.sql
+
+The only suggestion I had for query_7.sql is chaning the 'like '%Shipped%' to '= 'Shipped' by looking at the data, as like with
+wildcards are more expensive than an equal to.
+
+One issue I ran into was not having enough rows/data to work with in conjuction with an over provisioned instance type, it 
+more often than not mask the performance issues of the queries. An idea I had was to reduce the instance type to db.t3.tiny.
+An explanation for what the purpose of the queries are, a simple explanation of: I want a report on X Y Z, show us your approch.
+Not having this made me hesitant to change the SQL queries.
+
+Overall I found working on project3 very exciting and fun. I wish I had more time to spend on query7 and query4. I have a
+few refernces for tuning them, but at this time I'm out of time for the project and need to turn it in and wait for feedback.
+
+I've left a few bugs/actionable items list above and look forward to reviewing everything on our meeting.
+
+--
+Zareh Aratoon
