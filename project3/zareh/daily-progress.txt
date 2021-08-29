@@ -1682,9 +1682,6 @@ subselect 3 = 17 rows 0.094
 
 * changed subselect 2 "LIKE '%Shipped%' to "= 'Shipped'" based on existing column data 'status'
 * Query now uses index3 previously created for query_2
-* query4 executed 100 times now runs 1 second faster 'in general', there are some 8 second ones that sneak in
-* further analysis using MySQL's execution plan we can deduce that our change did infact have an impact
-* See project3/zareh/query_4/explain2.png, we're now using index3 
 
 ./run-all.sh
 query_1.sql0:1
@@ -1716,7 +1713,11 @@ query_6.sql0:3
 query_7.sql0:1
 Total: 0:16
 
+* query4 executed 100 times now runs 1 second faster 'in general', there are some 8 second ones that sneak in
+* further analysis using MySQL's execution plan we can deduce that our change did infact have an impact
+* See project3/zareh/query_4/explain2.png, we're now using index3 
 
+https://mariadb.com/kb/en/building-the-best-index-for-a-given-select/#joins
 
 * Query 5
 mysql> explain select year(orderdate)                  as year,
@@ -2076,6 +2077,11 @@ References
 https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-1-parameters-related-to-performance/
 https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-2-parameters-related-to-replication/
 https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-3-parameters-related-to-security-operational-manageability-and-connectivity-timeout/
+https://mariadb.com/kb/en/building-the-best-index-for-a-given-select/
+https://mariadb.com/kb/en/slow-query-log-overview/
+https://dev.mysql.com/doc/workbench/en/wb-performance-explain.html
+
+
 
 
 --[ ACTIONALBE ITEMS/BUGS/SUGGESTIONS ]---------------------------------------------------------------------
