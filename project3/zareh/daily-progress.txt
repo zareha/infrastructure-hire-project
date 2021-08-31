@@ -2228,3 +2228,51 @@ Overall I found working on project3 very exciting and fun. I wish I had more tim
 few refernces for tuning them, but at this time I'm out of time for the project and need to turn it in and wait for feedback.
 
 I've left a few bugs/actionable items list above and look forward to reviewing everything on our meeting.
+
+-------------------------------------------------------------------------------
+
+ADDITIONAL ITEMS
+
+These are items I've came up with after project turn in.
+
+* Using pt-online-schema-change to add indexes, example of command for query_1
+
+pt-online-schema-change \
+D=classicmodels,t=products,h=project3-production-the-app-db-rds.cirwkqjrdnez.us-east-1.rds.amazonaws.com,u=admin --execute \
+--alter="'add index ix_cdate (lastName ASC, firstName ASC) " --alter-foreign-keys-method="auto" --ask-pass --set-vars=foreign_key_checks=0
+
+* Ideas for future project3 type tests 
+
+Cause table locks and have the candidate kill the thread, the candidiate will need to demonstrate the use of the stored procedures mysql.rds_kill and mysql.rds_kill_query, the native KILL command and use of mysqladmin will not work as the mysql user does not have permissions.
+
+* Show all locked tables, perhaps through the use of different tools such as innotop
+
+* Add RDS proxy to terraform
+
+* Add a secondary RDS instance and failover from primary to secondary instance
+
+* Use RDS proxy to establish connection
+
+( Idea, use RDS proxy or any proxy (mysql router or nginx) to direct reads, writes etc.. based on latency, avaialbility )
+
+How to monitor RDS proxy?
+
+RDS proxy can be monitored by using Amazon CloudWatch. CloudWatch is well integrated with RDS proxy and provides useful metrics that can be used to understanding the performance and behavior of the proxy.
+
+Some key metrics to keep an eye are:
+
+    DatabaseConnections: Number of database connections to the backend database
+    DatabaseConnectionsCurrentlyBorrowed: Number of connections currently being used by your application. Important to set an alarm on this metric.
+    DatabaseConnectionsCurrentlySessionPinned: Number of connections in the pinned state. This number should ideally be as low as possible to maximize RDS proxy performance.
+
+
+What are the limitations?
+
+Some key limitations for RDS proxy are:
+
+    RDS proxy must be in the same VPC as the database instance. The proxy cannot be publicly accessible even if the database instance is.
+    RDS proxy cannot be used with a self-managed EC2-instance based database.
+    RDS proxy cannot be used for Aurora Serverless yet
+    A proxy can only be associated with 1 Database instance
+
+( Use of router mesh)
